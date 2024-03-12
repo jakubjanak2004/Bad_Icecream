@@ -4,44 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/Ice_Block.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/snowflake_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/BoardElement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/IsOn2DimensionalBoard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/CleverMonster.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/Monster.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/StupidMonster.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/VisitedNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Frame/GameFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Frame/WelcomePage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Level.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_6.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_7.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_8.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_6.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_7.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Logic/IceManipulator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Logic/ShortestPath.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
+    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="Added 2">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +155,25 @@
       <workItem from="1710245205279" duration="2642000" />
       <workItem from="1710263360742" duration="4000" />
       <workItem from="1710263368677" duration="1000" />
+      <workItem from="1710273461678" duration="410000" />
     </task>
+    <task id="LOCAL-00001" summary="Added">
+      <option name="closed" value="true" />
+      <created>1710273561072</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710273561073</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added 2">
+      <option name="closed" value="true" />
+      <created>1710273581788</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1710273581788</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,6 +181,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Added" />
+    <MESSAGE value="Added 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

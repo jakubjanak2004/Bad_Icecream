@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="Added 2">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="level 0 updated" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -158,7 +156,7 @@
       <workItem from="1710245205279" duration="2642000" />
       <workItem from="1710263360742" duration="4000" />
       <workItem from="1710263368677" duration="1000" />
-      <workItem from="1710273461678" duration="410000" />
+      <workItem from="1710273461678" duration="711000" />
     </task>
     <task id="LOCAL-00001" summary="Added">
       <option name="closed" value="true" />
@@ -176,7 +174,31 @@
       <option name="project" value="LOCAL" />
       <updated>1710273581788</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Readme updated">
+      <option name="closed" value="true" />
+      <created>1710273891653</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1710273891653</updated>
+    </task>
+    <task id="LOCAL-00004" summary="readme updated">
+      <option name="closed" value="true" />
+      <created>1710274038896</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710274038896</updated>
+    </task>
+    <task id="LOCAL-00005" summary="level 0 updated">
+      <option name="closed" value="true" />
+      <created>1710274170813</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1710274170813</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,7 +208,10 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Added" />
     <MESSAGE value="Added 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added 2" />
+    <MESSAGE value="Readme updated" />
+    <MESSAGE value="readme updated" />
+    <MESSAGE value="level 0 updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="level 0 updated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

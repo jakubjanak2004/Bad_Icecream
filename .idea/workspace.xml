@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="weekend update of my project, strong monster debugged and chest containing fruit included inside of the project">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/MetalTile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/key.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Key.java" afterDir="false" />
+    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="chest and key added to the game">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +168,7 @@
       <workItem from="1711102560614" duration="420000" />
       <workItem from="1711124860646" duration="6946000" />
       <workItem from="1711210780863" duration="586000" />
-      <workItem from="1711287602856" duration="4826000" />
+      <workItem from="1711287602856" duration="9017000" />
     </task>
     <task id="LOCAL-00001" summary="Added">
       <option name="closed" value="true" />
@@ -237,7 +234,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711290816770</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="chest and key added to the game">
+      <option name="closed" value="true" />
+      <created>1711292545811</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1711292545811</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,7 +257,8 @@
     <MESSAGE value="update" />
     <MESSAGE value="readme updated" />
     <MESSAGE value="weekend update of my project, strong monster debugged and chest containing fruit included inside of the project" />
-    <option name="LAST_COMMIT_MESSAGE" value="weekend update of my project, strong monster debugged and chest containing fruit included inside of the project" />
+    <MESSAGE value="chest and key added to the game" />
+    <option name="LAST_COMMIT_MESSAGE" value="chest and key added to the game" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

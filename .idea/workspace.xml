@@ -4,7 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="update" />
+    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="readme updated">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/Fruit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/Orange.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Chest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/StrongMonster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/isPaintable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/ItemOnBoardTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/BoardElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/BoardElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/Monster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_4.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_5.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_6.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_7.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_8.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Logic/IceManipulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logic/IceManipulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Logic/ShortestPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logic/ShortestPath.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,8 +38,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -72,7 +98,7 @@
       <module name="BadIcecream" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="BoardElements.Monsters.*" />
+          <option name="PATTERN" value="BoardElements.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -157,6 +183,13 @@
       <workItem from="1710263360742" duration="4000" />
       <workItem from="1710263368677" duration="1000" />
       <workItem from="1710273461678" duration="742000" />
+      <workItem from="1710274360499" duration="39000" />
+      <workItem from="1710516196665" duration="160000" />
+      <workItem from="1711102357332" duration="179000" />
+      <workItem from="1711102560614" duration="420000" />
+      <workItem from="1711124860646" duration="6946000" />
+      <workItem from="1711210780863" duration="586000" />
+      <workItem from="1711287602856" duration="3021000" />
     </task>
     <task id="LOCAL-00001" summary="Added">
       <option name="closed" value="true" />
@@ -206,7 +239,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710274185124</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="readme updated">
+      <option name="closed" value="true" />
+      <created>1710274390731</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1710274390731</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,10 +258,10 @@
     <MESSAGE value="Added" />
     <MESSAGE value="Added 2" />
     <MESSAGE value="Readme updated" />
-    <MESSAGE value="readme updated" />
     <MESSAGE value="level 0 updated" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="readme updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="readme updated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

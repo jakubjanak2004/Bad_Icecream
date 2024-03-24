@@ -1,8 +1,10 @@
 package Frame;
 
+import BoardElements.Chest;
 import BoardElements.Fruit;
 import BoardElements.Monsters.CleverMonster;
 import BoardElements.Monsters.Monster;
+import BoardElements.Monsters.StrongMonster;
 import BoardElements.Monsters.StupidMonster;
 import BoardElements.Player;
 import LevelManagement.LevelManager;
@@ -12,12 +14,16 @@ import Logic.ShortestPath;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameLabel extends JPanel {
     private final Player PLAYER;
@@ -54,7 +60,7 @@ public class GameLabel extends JPanel {
         this.refreshTimerTask = new TimerTask() {
             @Override
             public void run() {
-                 repaint();
+                repaint();
             }
         };
         refreshTimer.schedule(refreshTimerTask, 0, REFRESH_IN_MILLISECONDS);
@@ -67,7 +73,7 @@ public class GameLabel extends JPanel {
                     if (PLAYER.getXPosition() >= numOfFields - 1) {
                         return;
                     }
-                    if (boardArray[PLAYER.getXPosition() + 1][PLAYER.getYPosition()] == 1) {
+                    if (!isVisitable(PLAYER.getXPosition() + 1, PLAYER.getYPosition())) {
                         return;
                     }
                     PLAYER.moveOnx(1);
@@ -79,7 +85,7 @@ public class GameLabel extends JPanel {
                     if (PLAYER.getXPosition() <= 0) {
                         return;
                     }
-                    if (boardArray[PLAYER.getXPosition() - 1][PLAYER.getYPosition()] == 1) {
+                    if (!isVisitable(PLAYER.getXPosition() - 1, PLAYER.getYPosition())) {
                         return;
                     }
                     PLAYER.moveOnx(-1);
@@ -91,7 +97,7 @@ public class GameLabel extends JPanel {
                     if (PLAYER.getYPosition() <= 0) {
                         return;
                     }
-                    if (boardArray[PLAYER.getXPosition()][PLAYER.getYPosition() - 1] == 1) {
+                    if (!isVisitable(PLAYER.getXPosition(), PLAYER.getYPosition() - 1)) {
                         return;
                     }
                     PLAYER.moveOny(-1);
@@ -103,7 +109,7 @@ public class GameLabel extends JPanel {
                     if (PLAYER.getYPosition() >= numOfFields - 1) {
                         return;
                     }
-                    if (boardArray[PLAYER.getXPosition()][PLAYER.getYPosition() + 1] == 1) {
+                    if (!isVisitable(PLAYER.getXPosition(), PLAYER.getYPosition() + 1)) {
                         return;
                     }
                     PLAYER.moveOny(1);
@@ -189,14 +195,12 @@ public class GameLabel extends JPanel {
             }
         }
 
-        g2.setColor(PLAYER.getColor());
-        g2.fillOval(PLAYER.getXPosition() * step + widthPadding, PLAYER.getYPosition() * step + heightPadding, step, step);
+        PLAYER.paint(g2, step, widthPadding, heightPadding);
 
         boolean isMoreFruit = false;
         for (Fruit f : FRUIT) {
             if (f.isTaken()) continue;
-            g2.setColor(f.getColor());
-            g2.fillOval(f.getXPosition() * step + widthPadding + step / 4, f.getYPosition() * step + heightPadding + step / 4, step / 2, step / 2);
+            f.paint(g2, step, widthPadding, heightPadding);
             isMoreFruit = true;
         }
         if (!isMoreFruit) {
@@ -205,8 +209,7 @@ public class GameLabel extends JPanel {
         }
 
         for (Monster m : MONSTERS) {
-            g2.setColor(m.getColor());
-            g2.fillOval(m.getXPosition() * step + widthPadding, m.getYPosition() * step + heightPadding, step, step);
+            m.paint(g2, step, widthPadding, heightPadding);
         }
 
         for (int row = 0; row < boardArray.length; row++) {
@@ -225,6 +228,11 @@ public class GameLabel extends JPanel {
                     double h = 52.0 * ((double) step / 36.0);
                     y -= (int) (h - step);
                     g2.drawImage(img, x, y, (int) (double) step, (int) h, null);
+
+                    // drawing the solid blocks than cannot be unfreeze or freeze
+                } else if (boardArray[row][column] == 2) {
+                    g2.setColor(Color.BLUE);
+                    g2.fillRect(row * step + widthPadding, column * step + heightPadding, step, step);
                 }
             }
         }
@@ -272,12 +280,16 @@ public class GameLabel extends JPanel {
                 if (boardArray[i][j] == -1) {
                     PLAYER.setXPosition(i);
                     PLAYER.setYPosition(j);
-                } else if (boardArray[i][j] == 2) {
-                    MONSTERS.add(new StupidMonster(i, j, 0));
                 } else if (boardArray[i][j] == 3) {
-                    MONSTERS.add(new CleverMonster(i, j, 0));
+                    MONSTERS.add(new StupidMonster(i, j, 0));
                 } else if (boardArray[i][j] == 4) {
+                    MONSTERS.add(new CleverMonster(i, j, 0));
+                } else if (boardArray[i][j] == 5) {
+                    MONSTERS.add(new StrongMonster(i, j, 0));
+                } else if (boardArray[i][j] == 6) {
                     FRUIT.add(new Fruit(i, j));
+                } else if (boardArray[i][j] == 7) {
+                    FRUIT.add(new Chest(i, j));
                 } else {
                     continue;
                 }
@@ -292,10 +304,10 @@ public class GameLabel extends JPanel {
                 for (int i = 0; i < MONSTERS.size(); i++) {
                     Monster monster = MONSTERS.get(i);
 
-                    boolean canUp = monster.getYPosition() > 0 && boardArray[monster.getXPosition()][monster.getYPosition() - 1] != 1;
-                    boolean canRight = monster.getXPosition() < numOfFields - 1 && boardArray[monster.getXPosition() + 1][monster.getYPosition()] != 1;
-                    boolean canDown = monster.getYPosition() < numOfFields - 1 && boardArray[monster.getXPosition()][monster.getYPosition() + 1] != 1;
-                    boolean canLeft = monster.getXPosition() > 0 && boardArray[monster.getXPosition() - 1][monster.getYPosition()] != 1;
+                    boolean canUp = monster.getYPosition() > 0 && isVisitable(monster.getXPosition(), monster.getYPosition() - 1);
+                    boolean canRight = monster.getXPosition() < numOfFields - 1 && isVisitable(monster.getXPosition() + 1, monster.getYPosition());
+                    boolean canDown = monster.getYPosition() < numOfFields - 1 && isVisitable(monster.getXPosition(), monster.getYPosition() + 1);
+                    boolean canLeft = monster.getXPosition() > 0 && isVisitable(monster.getXPosition() - 1, monster.getYPosition());
 
                     for (int j = 0; j < i; j++) {
                         Monster loopMonster = MONSTERS.get(j);
@@ -314,7 +326,7 @@ public class GameLabel extends JPanel {
                         monster.move(canUp, canRight, canDown, canLeft, 0);
                     } else if (monster.getMonsterType() == Monster.Type.CLEVER) {
 
-                        String shortestPath = ShortestPath.getShortestPathStart(monster.getXPosition(), monster.getYPosition(), PLAYER.getXPosition(),
+                        String shortestPath = ShortestPath.getShortestMazePathStart(monster.getXPosition(), monster.getYPosition(), PLAYER.getXPosition(),
                                 PLAYER.getYPosition(), "", 's', boardArray, numOfFields);
 
                         if (!shortestPath.isEmpty()) {
@@ -322,18 +334,38 @@ public class GameLabel extends JPanel {
                         } else {
                             monster.move(canUp, canRight, canDown, canLeft, 0);
                         }
+
+                    } else if (monster.getMonsterType() == Monster.Type.STRONG) {
+                        String shortestPath = ShortestPath.getShortestMazePathStart(monster.getXPosition(), monster.getYPosition(), PLAYER.getXPosition(),
+                                PLAYER.getYPosition(), "", 's', boardArray, numOfFields);
+
+                        if (!shortestPath.isEmpty()) {
+                            monster.moveTo(shortestPath.charAt(0));
+                        } else {
+                            String path = ShortestPath.getShortestPathStart(monster.getXPosition(), monster.getYPosition(), PLAYER.getXPosition(),
+                                    PLAYER.getYPosition());
+
+                            if (path.charAt(0) == 'u' && boardArray[monster.getXPosition()][monster.getYPosition() - 1] == 1) {
+                                boardArray[monster.getXPosition()][monster.getYPosition() - 1] = 0;
+                                continue;
+                            } else if (path.charAt(0) == 'r' && boardArray[monster.getXPosition() + 1][monster.getYPosition()] == 1) {
+                                boardArray[monster.getXPosition() + 1][monster.getYPosition()] = 0;
+                                continue;
+                            } else if (path.charAt(0) == 'd' && boardArray[monster.getXPosition()][monster.getYPosition() + 1] == 1) {
+                                boardArray[monster.getXPosition()][monster.getYPosition() + 1] = 0;
+                                continue;
+                            } else if (path.charAt(0) == 'l' && boardArray[monster.getXPosition() - 1][monster.getYPosition()] == 1) {
+                                boardArray[monster.getXPosition() - 1][monster.getYPosition()] = 0;
+                                continue;
+                            }
+
+                            monster.moveTo(path.charAt(0));
+                        }
                     }
                 }
             }
         };
         monsterTimer.schedule(monsterTimerTask, 250, 500);
-    }
-
-    private void printTextWithTime(String s) {
-        Date date = new Date();
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(date);
-        System.out.println(s + " " + calendar.get(Calendar.HOUR) + " " + calendar.get(Calendar.MINUTE) + " " + calendar.get(Calendar.SECOND));
     }
 
     private void menuPage(Graphics2D g2d) {
@@ -475,5 +507,14 @@ public class GameLabel extends JPanel {
 
     public Player getPLAYER() {
         return PLAYER;
+    }
+
+    public boolean isVisitable(int x, int y){
+        if (boardArray[x][y] == 1){
+            return false;
+        }else if (boardArray[x][y] == 2){
+            return false;
+        }
+        return true;
     }
 }

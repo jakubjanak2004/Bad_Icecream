@@ -90,7 +90,7 @@ public class IceManipulator{
         }
     }
     private boolean checkIceLoop(int x, int y, int settingInt){
-        if (gLabel.getBoardArray()[x][y] == settingInt) {
+        if (gLabel.getBoardArray()[x][y] == settingInt || gLabel.getBoardArray()[x][y] == 2) {
             return false;
         }
         for (Monster m : gLabel.getMONSTERS()) {

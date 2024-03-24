@@ -2,11 +2,15 @@ package BoardElements;
 
 import java.awt.*;
 
-public class BoardElement implements IsOn2DimensionalBoard {
+public class BoardElement implements IsOn2DimensionalBoard, isPaintable {
     protected int xPosition;
     protected int yPosition;
     protected int rot;
     protected Color color;
+
+    public Color getColor() {
+        return color;
+    }
 
     public int getXPosition() {
         return xPosition;
@@ -30,6 +34,11 @@ public class BoardElement implements IsOn2DimensionalBoard {
 
     public void setRot(int rot) {
         this.rot = rot;
+    }
+
+    public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+        g.setColor(getColor());
+        g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
     }
 
     public BoardElement(int xPosition, int yPosition){

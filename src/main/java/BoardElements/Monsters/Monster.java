@@ -7,7 +7,8 @@ import java.awt.*;
 public class Monster extends BoardElement {
     public enum Type {
         STUPID,
-        CLEVER
+        CLEVER,
+        STRONG
     }
     protected Type monsterType;
     protected Color color;

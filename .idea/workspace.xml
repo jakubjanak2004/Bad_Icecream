@@ -4,31 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="readme updated">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/Fruit.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/Orange.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Chest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/StrongMonster.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/isPaintable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/ItemOnBoardTypes.java" afterDir="false" />
+    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="weekend update of my project, strong monster debugged and chest containing fruit included inside of the project">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/MetalTile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/key.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Key.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/BoardElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/BoardElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Monsters/Monster.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_3.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_4.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_5.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_6.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_7.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_8.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_5.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Logic/IceManipulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logic/IceManipulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Logic/ShortestPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logic/ShortestPath.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,8 +21,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -189,7 +171,7 @@
       <workItem from="1711102560614" duration="420000" />
       <workItem from="1711124860646" duration="6946000" />
       <workItem from="1711210780863" duration="586000" />
-      <workItem from="1711287602856" duration="3021000" />
+      <workItem from="1711287602856" duration="4826000" />
     </task>
     <task id="LOCAL-00001" summary="Added">
       <option name="closed" value="true" />
@@ -247,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710274390731</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="weekend update of my project, strong monster debugged and chest containing fruit included inside of the project">
+      <option name="closed" value="true" />
+      <created>1711290816770</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1711290816770</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,7 +251,8 @@
     <MESSAGE value="level 0 updated" />
     <MESSAGE value="update" />
     <MESSAGE value="readme updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="readme updated" />
+    <MESSAGE value="weekend update of my project, strong monster debugged and chest containing fruit included inside of the project" />
+    <option name="LAST_COMMIT_MESSAGE" value="weekend update of my project, strong monster debugged and chest containing fruit included inside of the project" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

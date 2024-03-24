@@ -2,6 +2,7 @@ package Frame;
 
 import BoardElements.Chest;
 import BoardElements.Fruit;
+import BoardElements.Key;
 import BoardElements.Monsters.CleverMonster;
 import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.StrongMonster;
@@ -195,8 +196,6 @@ public class GameLabel extends JPanel {
             }
         }
 
-        PLAYER.paint(g2, step, widthPadding, heightPadding);
-
         boolean isMoreFruit = false;
         for (Fruit f : FRUIT) {
             if (f.isTaken()) continue;
@@ -207,6 +206,8 @@ public class GameLabel extends JPanel {
             wasLevelWon = true;
             gameOver();
         }
+
+        PLAYER.paint(g2, step, widthPadding, heightPadding);
 
         for (Monster m : MONSTERS) {
             m.paint(g2, step, widthPadding, heightPadding);
@@ -229,10 +230,20 @@ public class GameLabel extends JPanel {
                     y -= (int) (h - step);
                     g2.drawImage(img, x, y, (int) (double) step, (int) h, null);
 
-                    // drawing the solid blocks than cannot be unfreeze or freeze
                 } else if (boardArray[row][column] == 2) {
-                    g2.setColor(Color.BLUE);
-                    g2.fillRect(row * step + widthPadding, column * step + heightPadding, step, step);
+
+                    // Metal Tile size: 36 * 36
+                    int x = row * step + widthPadding;
+                    int y = column * step + heightPadding;
+
+                    BufferedImage img = null;
+                    try {
+                        img = ImageIO.read(new File("/Users/jakubjanak/Desktop/SIT/S2/PJV/BadIcecream/src/main/java/Assets/MetalTile.png"));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    g2.drawImage(img, x, y, step, step, null);
                 }
             }
         }
@@ -255,7 +266,20 @@ public class GameLabel extends JPanel {
     private void checkFruitTaken() {
         for (Fruit f : FRUIT) {
             if (f.getXPosition() == PLAYER.getXPosition() && f.getYPosition() == PLAYER.getYPosition()) {
-                f.setTaken(true);
+                boolean canBeOpened = true;
+                if (f.getClass() == Chest.class) {
+                    for (Fruit key : FRUIT){
+                        if (key.getClass() == Key.class){
+                            if (!key.isTaken()){
+                                canBeOpened = false;
+                            }
+                        }
+                    }
+                }
+                if (canBeOpened){
+                    f.setTaken(true);
+                }
+
             }
         }
     }
@@ -290,6 +314,8 @@ public class GameLabel extends JPanel {
                     FRUIT.add(new Fruit(i, j));
                 } else if (boardArray[i][j] == 7) {
                     FRUIT.add(new Chest(i, j));
+                } else if (boardArray[i][j] == 8) {
+                    FRUIT.add(new Key(i, j));
                 } else {
                     continue;
                 }
@@ -509,10 +535,10 @@ public class GameLabel extends JPanel {
         return PLAYER;
     }
 
-    public boolean isVisitable(int x, int y){
-        if (boardArray[x][y] == 1){
+    public boolean isVisitable(int x, int y) {
+        if (boardArray[x][y] == 1) {
             return false;
-        }else if (boardArray[x][y] == 2){
+        } else if (boardArray[x][y] == 2) {
             return false;
         }
         return true;

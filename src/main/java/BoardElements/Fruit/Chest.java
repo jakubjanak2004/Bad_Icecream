@@ -1,4 +1,6 @@
-package BoardElements;
+package BoardElements.Fruit;
+
+import BoardElements.Fruit.Fruit;
 
 import java.awt.*;
 

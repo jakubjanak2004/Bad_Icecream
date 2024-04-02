@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="readme - user documentation updated, but the photos are still missing">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Assets/Ice_Block_dest.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Blocks/IceBlock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Blocks/SolidBlock.java" afterDir="false" />
+    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="main functionalities of the game were added, from now I am only refactoring the game, therefore making the code looks better, not adding new functionalities">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/Chest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit/Chest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit/Fruit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/BoardElements/Key.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BoardElements/Fruit/Key.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/Levels/level_2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Logic/IceManipulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logic/IceManipulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Logic/ShortestPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Logic/ShortestPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_2.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,7 +171,8 @@
       <workItem from="1711297046865" duration="8870000" />
       <workItem from="1711360122216" duration="13402000" />
       <workItem from="1711383225347" duration="1299000" />
-      <workItem from="1711457588637" duration="340000" />
+      <workItem from="1711457588637" duration="398000" />
+      <workItem from="1711559666029" duration="2091000" />
     </task>
     <task id="LOCAL-00001" summary="Added">
       <option name="closed" value="true" />
@@ -263,7 +254,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711296953018</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="main functionalities of the game were added, from now I am only refactoring the game, therefore making the code looks better, not adding new functionalities">
+      <option name="closed" value="true" />
+      <created>1711457971454</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1711457971454</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,7 +279,8 @@
     <MESSAGE value="weekend update of my project, strong monster debugged and chest containing fruit included inside of the project" />
     <MESSAGE value="chest and key added to the game" />
     <MESSAGE value="readme - user documentation updated, but the photos are still missing" />
-    <option name="LAST_COMMIT_MESSAGE" value="readme - user documentation updated, but the photos are still missing" />
+    <MESSAGE value="main functionalities of the game were added, from now I am only refactoring the game, therefore making the code looks better, not adding new functionalities" />
+    <option name="LAST_COMMIT_MESSAGE" value="main functionalities of the game were added, from now I am only refactoring the game, therefore making the code looks better, not adding new functionalities" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

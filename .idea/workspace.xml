@@ -4,9 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="main functionalities of the game were added, from now I am only refactoring the game, therefore making the code looks better, not adding new functionalities">
+    <list default="true" id="941376e6-a141-4d03-b360-b4806f0a41fb" name="Changes" comment="csv updated">
+      <change afterPath="$PROJECT_DIR$/doc_assets/chested_fruit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/clever_monster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/fruit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/game.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/game_over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/level_won.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/object_model" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/object_model.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/strong_monster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/stupid_monster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc_assets/welcome_page.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frame/GameLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Frame/WelcomePage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Frame/WelcomePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/ItemOnBoardTypes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_0.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LevelManagement/LevelsScore/level_1.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +84,8 @@
       <recent name="$PROJECT_DIR$/src/main/java/LevelManagement/Levels" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/doc_assets" />
+      <recent name="$PROJECT_DIR$/doc_images" />
       <recent name="$PROJECT_DIR$/src/main/java/Assets" />
     </key>
   </component>
@@ -173,6 +192,9 @@
       <workItem from="1711383225347" duration="1299000" />
       <workItem from="1711457588637" duration="398000" />
       <workItem from="1711559666029" duration="2091000" />
+      <workItem from="1712073350868" duration="402000" />
+      <workItem from="1712079516658" duration="3882000" />
+      <workItem from="1712083413712" duration="3110000" />
     </task>
     <task id="LOCAL-00001" summary="Added">
       <option name="closed" value="true" />
@@ -262,11 +284,30 @@
       <option name="project" value="LOCAL" />
       <updated>1711457971454</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="csv updated">
+      <option name="closed" value="true" />
+      <created>1712073366768</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1712073366768</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -280,7 +321,8 @@
     <MESSAGE value="chest and key added to the game" />
     <MESSAGE value="readme - user documentation updated, but the photos are still missing" />
     <MESSAGE value="main functionalities of the game were added, from now I am only refactoring the game, therefore making the code looks better, not adding new functionalities" />
-    <option name="LAST_COMMIT_MESSAGE" value="main functionalities of the game were added, from now I am only refactoring the game, therefore making the code looks better, not adding new functionalities" />
+    <MESSAGE value="csv updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="csv updated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

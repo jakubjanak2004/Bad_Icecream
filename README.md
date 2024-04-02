@@ -5,6 +5,14 @@ The idea of this game is very similar to the Bad Ice Cream that can be found on 
 or other online games websites. There are multiple versions of the original Bad Ice
 Cream Game. I am inspired by the first edition which I played at my high school.  
 
+# UML - Software Object Model
+
+![UML](doc_assets/object_model.png)
+
+Above you can see the object model written in an UML format. This diagram represents the
+analytical object model with all the classes and their relationships. Some methods or
+state atributes are not included as they are redundant redundant to be specified here.
+
 # User Documentation
 The github readme page serves as a User documentation(programmer documentation is 
 also included). If you want to use my game and wanna know how to play it
@@ -13,12 +21,9 @@ what buttons to press to move or to freeze(unfreeze) the blocks in the game.
 I will also explain what find of monsters are you going to meet in the game and
 how to survive and not get killed.
 
-## UML - Software Object Model
-----------> UML Diagram HERE <----------
-
 ## How to start the game
 
-----------> Final Photo of the Welcome Page <----------
+![Welcome Widnow Page](doc_assets/welcome_page.png)
 
 When you open the game you will see the welcome window page, in this page 
 there is an animation of snowflakes falling as well as the Bad Ice cream headline.
@@ -29,7 +34,7 @@ transfers you to the game menu with all the levels of the game. Once pressed you
 as the welcome page is there to welcome you. 
 
 ## Menu Page
-----------> Final Photo of the menu page <----------
+![Menu Page](doc_assets/menu.png)
 
 When you press the Start Game button on the Welcome page you are moved to the manu page.
 This page is here for you to pick the levels you wanna play or to see which levels are already passed or not yet passed.
@@ -40,7 +45,7 @@ Levels are white balls with number of level inside of them, representing their c
 You can click on the level and the game will be running.
 
 ## Game
-----------> Final Photo of a game here <----------
+![Game](doc_assets/game.png)
 
 Once the level button is pressed the game is on and running. You will be moving
 by with the arrows on your keyboard. You can also freeze or unfreeze the game tiles.
@@ -57,7 +62,7 @@ Fruit can be collected by stepping on the same tile as the fruit is on, or in th
 chested fruit you have to collect the keys as first.  
 
 #### Fruit
-----------> Final Fruit Photo <----------
+![Fruit](doc_assets/fruit.png)
 
 Regular fruit is rendered as an orange with white background. This fruit can be
 collected by stepping on the same tile as it is located on. When you as a player step on the same
@@ -65,7 +70,7 @@ tile the fruit will be collected automatically, all fruit will have to be collec
 in order to win the level.
 
 #### Chested Fruit
-----------> Final Chested fruit photo <----------
+![Chested Fruit](doc_assets/chested_fruit.png)
 
 Chested is a special type of fruit, and the fruit is hidden inside of the locked 
 chest. In order to open the chest you have to collect all the keys in the level.
@@ -73,20 +78,20 @@ When you have not collecting all of the keys you will just come thrue the chest 
 but when you have collected the keys you can just step on the tile with the chest and the fruit will be collected automatically.  
 
 ### Monsters - The Enemies
-----------> Final photo of the monsters <----------
 
 Monsters are moving freely thru the map. If they are one tile away from the player the player is dead.
 When the player dies the game over page is displayed(more on that later). There are three main
 types of monsters(Stupid, Clever and Strong). They are moving every second.
 
 #### Stupid Monster
-----------> Final Stupid monster photo here <----------
+![Stupid monster](doc_assets/stupid_monster.png)
 
 Stupid monster is the easiest to deal with but still is dangerous. It is going straight
 and when cannot move forward anymore will turn clockwise. 
 
 #### Clever Monster
-----------> Final Clever monster photo <----------
+![Clever Monster](doc_assets/clever_monster.png)
+
 
 Clever monster is trying to find the shortest path to the player and if the path exists
 the monster is moving along this path, trying to kill the player.  
@@ -94,7 +99,7 @@ However if the shortest path does not exist the monster is moving the same way
 as the stupid monster.
 
 #### Strong monster
-----------> Final Strong monster photo <----------
+![Strong Monster](doc_assets/strong_monster.png)
 
 Strong monster is the type of monster that is so strong the no matter what it finds the 
 path to the player. If the shortest path exists the monster will be moving
@@ -103,8 +108,8 @@ However if the shortest path does not exist the strong monster will use its
 power and break thru the ice to get and kill the player. Therefore this type of
 monster can unfreeze the ice but not in a queue as the player but one by one.
 
-### Game Won Page
-----------> Final Game Won Page <----------
+### Level Won Page
+![Level Won Page](doc_assets/level_won.png)
 
 If you collect all fruit and you are not killed by the monster you win the level.
 You are also redirected to the Game Won Page where the game tells you 
@@ -117,7 +122,7 @@ resets to not completed. When you win the state is only then changed to won. If 
 turn off the level the state will be preserved.
 
 ### Game Over Page
-----------> Final Game Over Page Here <----------
+![Game Over Page](doc_assets/game_over.png)
 
 When you lose you are redirected to game over page. The design of this page is similar
 to the game won but the headline is different, stating Game Over. The return

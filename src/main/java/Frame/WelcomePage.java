@@ -20,7 +20,7 @@ public class WelcomePage extends JFrame {
     private TimerTask refreshTimerTask;
 
     public WelcomePage(int dimension) {
-        this.setTitle("Bad Ice cream Game");
+        this.setTitle("Bad Ice cream Welcome Page");
         this.setSize(dimension, dimension);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);

@@ -196,6 +196,9 @@ public class GameLabel extends JPanel {
     }
 
     private void paintGame(Graphics2D g2) {
+
+//        System.out.println(PLAYER.getXPosition());
+
         int height = this.getHeight();
         int width = this.getWidth();
         int widthPadding = 0;
@@ -468,7 +471,9 @@ public class GameLabel extends JPanel {
         this.monsterTimerTask = new TimerTask() {
             @Override
             public void run() {
+
                 for (int i = 0; i < MONSTERS.size(); i++) {
+
                     Monster monster = MONSTERS.get(i);
 
                     boolean canUp = monster.getYPosition() > 0 && isVisitable(monster.getXPosition(), monster.getYPosition() - 1);

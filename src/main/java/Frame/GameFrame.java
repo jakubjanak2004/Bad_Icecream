@@ -1,5 +1,7 @@
 package Frame;
 
+import Logic.GameController;
+
 import javax.swing.*;
 
 public class GameFrame extends JFrame {
@@ -9,8 +11,8 @@ public class GameFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        GameLabel gameLabel = new GameLabel();
-        this.add(gameLabel);
+        GameController gameController = new GameController();
+        this.add(gameController.getGameView());
 
         this.setVisible(true);
     }

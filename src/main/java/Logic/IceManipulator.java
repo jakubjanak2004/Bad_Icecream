@@ -4,13 +4,12 @@ import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
 import BoardElements.Fruit.Fruit;
 import BoardElements.Monsters.Monster;
-import Frame.GameLabel;
 
 public class IceManipulator {
-    private final GameLabel gLabel;
+    private final GameController gLabel;
     private boolean isManipulating = false;
 
-    public IceManipulator(GameLabel gLabel) {
+    public IceManipulator(GameController gLabel) {
         this.gLabel = gLabel;
     }
 

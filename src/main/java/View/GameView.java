@@ -1,4 +1,4 @@
-package Frame;
+package View;
 
 import BoardElements.Fruit.Fruit;
 import BoardElements.Monsters.Monster;
@@ -14,9 +14,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameView extends JLabel {
-    private final int REFRESH_IN_MILLISECONDS = 50;
+    private final int REFRESH_IN_MILLISECONDS = 25;
     private int mousePressedX = -1;
     private int mousePressedY = -1;
+    private boolean painting = false;
     private GameController gameController;
 
     // timer related fields
@@ -25,7 +26,7 @@ public class GameView extends JLabel {
 
     public GameView(GameController gameController) {
 
-        this.setFocusable(true);
+         this.setFocusable(true);
 
         this.gameController = gameController;
 
@@ -46,6 +47,7 @@ public class GameView extends JLabel {
         gameRefreshTimerSetMethod();
     }
 
+    // handler related methods
     private void userPressedHandler(MouseEvent e) {
         if (!gameController.isMenuOpened()) return;
         mousePressedX = e.getX();
@@ -58,15 +60,19 @@ public class GameView extends JLabel {
         this.refreshTimerTask = new TimerTask() {
             @Override
             public void run() {
+                if (painting) return;
                 repaint();
             }
         };
         refreshTimer.schedule(refreshTimerTask, 0, REFRESH_IN_MILLISECONDS);
     }
 
+
+
     // paint methods
     @Override
     protected void paintComponent(Graphics g) {
+        painting = true;
         if (gameController.isGameOn()) paintGame((Graphics2D) g);
         else {
             if (gameController.isMenuOpened()) {
@@ -75,6 +81,7 @@ public class GameView extends JLabel {
                 stoppedGamePage((Graphics2D) g);
             }
         }
+        painting = false;
     }
 
     private void paintGame(Graphics2D g2) {
@@ -107,10 +114,6 @@ public class GameView extends JLabel {
         paintMonsters(g2, step, widthPadding, heightPadding);
 
         paintGameBlocks(g2, step, widthPadding, heightPadding);
-
-        gameController.checkDeath();
-
-        gameController.checkFruitTaken();
     }
 
     private void paintGameBlocks(Graphics2D g2, int step, int widthPadding, int heightPadding) {
@@ -130,15 +133,9 @@ public class GameView extends JLabel {
     }
 
     private void paintFruit(Graphics2D g2, int step, int widthPadding, int heightPadding) {
-        boolean isMoreFruit = false;
         for (Fruit f : gameController.getFRUIT()) {
             if (f.isTaken()) continue;
             f.paint(g2, step, widthPadding, heightPadding);
-            isMoreFruit = true;
-        }
-        if (!isMoreFruit) {
-            gameController.setWasLevelWon(true);
-            gameController.gameOver();
         }
     }
 

@@ -1,7 +1,7 @@
 package main;
 
-import Frame.GameFrame;
-import Frame.WelcomePage;
+import View.GameFrame;
+import View.WelcomePage;
 
 public class Main {
     static int DIMENSION = 1000;

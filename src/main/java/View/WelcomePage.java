@@ -1,4 +1,4 @@
-package Frame;
+package View;
 
 import main.Main;
 

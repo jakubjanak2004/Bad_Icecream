@@ -1,4 +1,4 @@
-package Frame;
+package View;
 
 import Logic.GameController;
 
@@ -12,7 +12,7 @@ public class GameFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
         GameController gameController = new GameController();
-        this.add(gameController.getGameView());
+        this.add(gameController.getGAME_VIEW());
 
         this.setVisible(true);
     }

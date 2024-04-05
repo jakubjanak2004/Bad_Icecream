@@ -11,7 +11,7 @@ import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.StrongMonster;
 import BoardElements.Monsters.StupidMonster;
 import BoardElements.Player;
-import Frame.GameView;
+import View.GameView;
 import LevelManagement.LevelManager;
 
 import java.awt.event.KeyEvent;
@@ -21,13 +21,15 @@ import java.util.TimerTask;
 
 public class GameController {
 
+    // final fields
+    private final GameView GAME_VIEW;
     private final Player PLAYER;
     private final LevelManager LEVEL_MANAGER = new LevelManager();
     private final IceManipulator ICE_MANIPULATOR = new IceManipulator(this);
     private final ArrayList<Monster> MONSTERS = new ArrayList<>();
     private final ArrayList<Fruit> FRUIT = new ArrayList<>();
-    // final fields
-    private GameView gameView;
+    private final int GAME_LOOP_REFRESH = 50;
+
     // boolean fields
     private boolean isGameOn = false;
     private boolean isMenuOpened = true;
@@ -40,7 +42,10 @@ public class GameController {
     // Timer related fields
     private Timer monsterTimer;
     private TimerTask monsterTimerTask;
+    private Timer gameLoopTimer;
+    private TimerTask gameLoopTimerTask;
 
+    // Objects Array
     private BoardElement[][] boardArrayObject;
 
     // Constructor
@@ -49,11 +54,31 @@ public class GameController {
 
         this.PLAYER = new Player(0, 0, 0);
 
-        gameView = new GameView(this);
+        GAME_VIEW = new GameView(this);
+
+        setGameLoopTimer();
+    }
+
+    // timer related methods
+    public void setGameLoopTimer() {
+        this.gameLoopTimer = new Timer();
+        this.gameLoopTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (!isGameOn) return;
+
+                checkDeath();
+                checkFruitTaken();
+
+                checkAllFruitGone();
+            }
+        };
+        gameLoopTimer.schedule(gameLoopTimerTask, 0, GAME_LOOP_REFRESH);
     }
 
     // handler method
     public void userClickHandler(KeyEvent e) {
+
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && isGameOn) {
             PLAYER.setRot(1);
             if (PLAYER.getXPosition() >= numOfFields - 1) {
@@ -114,7 +139,7 @@ public class GameController {
     }
 
     // game logic
-    public void checkDeath() {
+    private void checkDeath() {
         for (Monster m : MONSTERS) {
             if (Math.abs(m.getXPosition() - PLAYER.getXPosition()) <= 1 && m.getYPosition() == PLAYER.getYPosition()) {
                 gameOver();
@@ -124,7 +149,7 @@ public class GameController {
         }
     }
 
-    public void checkFruitTaken() {
+    private void checkFruitTaken() {
         for (Fruit f : FRUIT) {
             if (f.getXPosition() == PLAYER.getXPosition() && f.getYPosition() == PLAYER.getYPosition()) {
                 boolean canBeOpened = true;
@@ -145,7 +170,7 @@ public class GameController {
         }
     }
 
-    public void startGame() {
+    private void startGame() {
 
         FRUIT.clear();
         MONSTERS.clear();
@@ -256,7 +281,7 @@ public class GameController {
         monsterTimer.schedule(monsterTimerTask, 250, 500);
     }
 
-    public void gameOver() {
+    private void gameOver() {
         isGameOn = false;
         isMenuOpened = false;
         monsterTimer.cancel();
@@ -265,9 +290,6 @@ public class GameController {
         if (wasLevelWon) {
             LEVEL_MANAGER.setScoreOfLevel(levelNum, true);
         }
-
-//        Graphics2D g2d = (Graphics2D) getGraphics();
-//        stoppedGamePage(g2d);
     }
 
     public boolean isVisitable(int x, int y) {
@@ -293,9 +315,22 @@ public class GameController {
         }
     }
 
+    private void checkAllFruitGone() {
+        boolean isMoreFruit = false;
+        for (Fruit f : FRUIT) {
+            if (f.isTaken()) continue;
+            isMoreFruit = true;
+        }
+        if (!isMoreFruit) {
+            wasLevelWon = true;
+            gameOver();
+        }
+    }
+
+
     // Getters and Setters
-    public GameView getGameView() {
-        return gameView;
+    public GameView getGAME_VIEW() {
+        return GAME_VIEW;
     }
 
     public void setMenuButtonClickedOn(int counter) {
@@ -320,10 +355,6 @@ public class GameController {
 
     public boolean isWasLevelWon() {
         return wasLevelWon;
-    }
-
-    public void setWasLevelWon(boolean wasLevelWon) {
-        this.wasLevelWon = wasLevelWon;
     }
 
     public ArrayList<Monster> getMONSTERS() {

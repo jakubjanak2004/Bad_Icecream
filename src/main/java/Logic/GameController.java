@@ -18,8 +18,13 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.*;
+import java.util.logging.Logger;
 
 public class GameController {
+
+    // logging, does not work now
+    private static final Logger logger = Logger.getLogger(GameController.class.getName());
 
     // final fields
     private final GameView GAME_VIEW;
@@ -175,8 +180,6 @@ public class GameController {
         FRUIT.clear();
         MONSTERS.clear();
         wasLevelWon = false;
-//        mousePressedX = -1;
-//        mousePressedY = -1;
 
         int[][] gameBoard = LEVEL_MANAGER.getAllLevels().get(levelNum).getGAME_BOARD();
 
@@ -282,6 +285,7 @@ public class GameController {
     }
 
     private void gameOver() {
+
         isGameOn = false;
         isMenuOpened = false;
         monsterTimer.cancel();

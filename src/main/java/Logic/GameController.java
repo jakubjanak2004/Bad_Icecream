@@ -18,7 +18,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.*;
 import java.util.logging.Logger;
 
 public class GameController {
@@ -39,6 +38,7 @@ public class GameController {
     private boolean isGameOn = false;
     private boolean isMenuOpened = true;
     private boolean wasLevelWon = false;
+    private boolean isRefreshing = false;
 
     // Integer fields
     private int numOfFields;
@@ -66,6 +66,10 @@ public class GameController {
 
     // timer related methods
     public void setGameLoopTimer() {
+
+        logger.info("Graphics Refresh loop was started!");
+
+        isRefreshing = true;
         this.gameLoopTimer = new Timer();
         this.gameLoopTimerTask = new TimerTask() {
             @Override
@@ -82,7 +86,9 @@ public class GameController {
     }
 
     // handler method
-    public void userClickHandler(KeyEvent e) {
+    public void userTypeHandler(KeyEvent e) {
+
+        logger.info("User just pressed a key");
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && isGameOn) {
             PLAYER.setRot(1);
@@ -143,7 +149,69 @@ public class GameController {
         }
     }
 
-    // game logic
+    // public methods
+    public boolean isVisitable(int x, int y) {
+
+        if (x < 0 || x >= boardArrayObject.length){
+            return false;
+        }else if (y < 0 || y >= boardArrayObject[0].length){
+            return false;
+        }
+
+        if (boardArrayObject[x][y] != null) {
+            return boardArrayObject[x][y].getClass() != IceBlock.class && boardArrayObject[x][y].getClass() != SolidBlock.class;
+        }
+        return true;
+    }
+
+    public boolean isFrozenAtLoc(int x, int y){
+
+        if (x < 0 || x >= boardArrayObject.length){
+            return false;
+        }else if (y < 0 || y >= boardArrayObject[0].length){
+            return false;
+        }
+
+        return (boardArrayObject[x][y] != null
+                && boardArrayObject[x][y].getClass() == IceBlock.class);
+    }
+
+    public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
+        return (boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove] != null
+                && boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove].getClass() == IceBlock.class);
+    }
+
+    public void beatIce(int x, int y) {
+
+        if (x < 0 || x >= getBoardArrayObject().length){
+            return;
+        }else if(y < 0 || y >= getBoardArrayObject()[0].length){
+            return;
+        }
+
+        if (getBoardArrayObject()[x][y] != null && getBoardArrayObject()[x][y].getClass() == IceBlock.class) {
+            IceBlock iceBlock = (IceBlock) getBoardArrayObject()[x][y];
+            iceBlock.destabilize();
+
+            if (iceBlock.getStability() <= 0) {
+                getBoardArrayObject()[x][y] = null;
+            }
+        }
+    }
+
+    // private methods
+    private void checkAllFruitGone() {
+        boolean isMoreFruit = false;
+        for (Fruit f : FRUIT) {
+            if (f.isTaken()) continue;
+            isMoreFruit = true;
+        }
+        if (!isMoreFruit) {
+            wasLevelWon = true;
+            gameOver();
+        }
+    }
+
     private void checkDeath() {
         for (Monster m : MONSTERS) {
             if (Math.abs(m.getXPosition() - PLAYER.getXPosition()) <= 1 && m.getYPosition() == PLAYER.getYPosition()) {
@@ -176,6 +244,8 @@ public class GameController {
     }
 
     private void startGame() {
+
+        logger.info("Game was started");
 
         FRUIT.clear();
         MONSTERS.clear();
@@ -286,6 +356,8 @@ public class GameController {
 
     private void gameOver() {
 
+        logger.info("Game stopped (you either won or got killed by a monster)");
+
         isGameOn = false;
         isMenuOpened = false;
         monsterTimer.cancel();
@@ -293,41 +365,6 @@ public class GameController {
 
         if (wasLevelWon) {
             LEVEL_MANAGER.setScoreOfLevel(levelNum, true);
-        }
-    }
-
-    public boolean isVisitable(int x, int y) {
-        if (boardArrayObject[x][y] != null) {
-            return boardArrayObject[x][y].getClass() != IceBlock.class && boardArrayObject[x][y].getClass() != SolidBlock.class;
-        }
-        return true;
-    }
-
-    public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
-        return (boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove] != null
-                && boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove].getClass() == IceBlock.class);
-    }
-
-    public void beatIce(int x, int y) {
-        if (getBoardArrayObject()[x][y] != null && getBoardArrayObject()[x][y].getClass() == IceBlock.class) {
-            IceBlock iceBlock = (IceBlock) getBoardArrayObject()[x][y];
-            iceBlock.destabilize();
-
-            if (iceBlock.getStability() <= 0) {
-                getBoardArrayObject()[x][y] = null;
-            }
-        }
-    }
-
-    private void checkAllFruitGone() {
-        boolean isMoreFruit = false;
-        for (Fruit f : FRUIT) {
-            if (f.isTaken()) continue;
-            isMoreFruit = true;
-        }
-        if (!isMoreFruit) {
-            wasLevelWon = true;
-            gameOver();
         }
     }
 
@@ -379,5 +416,21 @@ public class GameController {
 
     public BoardElement[][] getBoardArrayObject() {
         return boardArrayObject;
+    }
+
+    public boolean isRefreshing() {
+        return isRefreshing;
+    }
+
+    public void setBoardArrayObject(BoardElement[][] boardArrayObject) {
+        this.boardArrayObject = boardArrayObject;
+    }
+
+    public void setGameOn(boolean gameOn) {
+        isGameOn = gameOn;
+    }
+
+    public void setNumOfFields(int numOfFields) {
+        this.numOfFields = numOfFields;
     }
 }

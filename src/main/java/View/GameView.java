@@ -33,7 +33,7 @@ public class GameView extends JLabel {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                gameController.userClickHandler(e);
+                gameController.userTypeHandler(e);
             }
         });
 

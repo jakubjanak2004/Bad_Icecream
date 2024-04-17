@@ -11,8 +11,8 @@ import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.StrongMonster;
 import BoardElements.Monsters.StupidMonster;
 import BoardElements.Player;
-import View.GameView;
 import LevelManagement.LevelManager;
+import View.GameView;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -152,9 +152,9 @@ public class GameController {
     // public methods
     public boolean isVisitable(int x, int y) {
 
-        if (x < 0 || x >= boardArrayObject.length){
+        if (x < 0 || x >= boardArrayObject.length) {
             return false;
-        }else if (y < 0 || y >= boardArrayObject[0].length){
+        } else if (y < 0 || y >= boardArrayObject[0].length) {
             return false;
         }
 
@@ -164,11 +164,11 @@ public class GameController {
         return true;
     }
 
-    public boolean isFrozenAtLoc(int x, int y){
+    public boolean isFrozenAtLoc(int x, int y) {
 
-        if (x < 0 || x >= boardArrayObject.length){
+        if (x < 0 || x >= boardArrayObject.length) {
             return false;
-        }else if (y < 0 || y >= boardArrayObject[0].length){
+        } else if (y < 0 || y >= boardArrayObject[0].length) {
             return false;
         }
 
@@ -183,9 +183,9 @@ public class GameController {
 
     public void beatIce(int x, int y) {
 
-        if (x < 0 || x >= getBoardArrayObject().length){
+        if (x < 0 || x >= getBoardArrayObject().length) {
             return;
-        }else if(y < 0 || y >= getBoardArrayObject()[0].length){
+        } else if (y < 0 || y >= getBoardArrayObject()[0].length) {
             return;
         }
 
@@ -360,14 +360,15 @@ public class GameController {
 
         isGameOn = false;
         isMenuOpened = false;
-        monsterTimer.cancel();
-        monsterTimer.purge();
+        if (monsterTimer != null) {
+            monsterTimer.cancel();
+            monsterTimer.purge();
+        }
 
         if (wasLevelWon) {
             LEVEL_MANAGER.setScoreOfLevel(levelNum, true);
         }
     }
-
 
     // Getters and Setters
     public GameView getGAME_VIEW() {
@@ -388,6 +389,10 @@ public class GameController {
 
     public boolean isGameOn() {
         return isGameOn;
+    }
+
+    public void setGameOn(boolean gameOn) {
+        isGameOn = gameOn;
     }
 
     public boolean isMenuOpened() {
@@ -414,23 +419,19 @@ public class GameController {
         return numOfFields;
     }
 
-    public BoardElement[][] getBoardArrayObject() {
-        return boardArrayObject;
+    public void setNumOfFields(int numOfFields) {
+        this.numOfFields = numOfFields;
     }
 
-    public boolean isRefreshing() {
-        return isRefreshing;
+    public BoardElement[][] getBoardArrayObject() {
+        return boardArrayObject;
     }
 
     public void setBoardArrayObject(BoardElement[][] boardArrayObject) {
         this.boardArrayObject = boardArrayObject;
     }
 
-    public void setGameOn(boolean gameOn) {
-        isGameOn = gameOn;
-    }
-
-    public void setNumOfFields(int numOfFields) {
-        this.numOfFields = numOfFields;
+    public boolean isRefreshing() {
+        return isRefreshing;
     }
 }

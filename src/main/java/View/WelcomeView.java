@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class WelcomePage extends JFrame {
+public class WelcomeView extends JFrame {
     private int moduloCounter = 0;
 
     private Timer refreshTimer;
     private TimerTask refreshTimerTask;
 
-    public WelcomePage(int dimension) {
+    public WelcomeView(int dimension) {
         this.setTitle("Bad Ice cream Welcome Page");
         this.setSize(dimension, dimension);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,31 +1,32 @@
 package BoardElements.Monsters;
 
 import BoardElements.BoardElement;
+import BoardElements.Player;
+import Logic.GameController;
 
 import java.awt.*;
 
-public class Monster extends BoardElement {
-    public enum Type {
-        STUPID,
-        CLEVER,
-        STRONG
-    }
-    protected Type monsterType;
+public abstract class Monster extends BoardElement implements SelfMovable {
     protected Color color;
-
-    public Color getColor() {
-        return this.color;
-    }
-
-    public Type getMonsterType() {
-        return this.monsterType;
-    }
 
     protected Monster(int xPosition, int yPosition, int rot) {
         super(xPosition, yPosition, rot);
     }
 
-    public void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, int tries) {
+    public Color getColor() {
+        return this.color;
+    }
+
+    public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
+        move(canUp, canRight, canDown, canLeft, 0);
+    }
+
+    public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+        g.setColor(getColor());
+        g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
+    }
+
+    protected void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, int tries) {
         if (tries > 3) return;
         if (rot == 0) {
             if (canUp) {
@@ -58,7 +59,7 @@ public class Monster extends BoardElement {
         }
     }
 
-    public void moveTo(char positionChar) {
+    protected void moveTo(char positionChar) {
         switch (positionChar) {
             case 'u':
                 this.rot = 0;

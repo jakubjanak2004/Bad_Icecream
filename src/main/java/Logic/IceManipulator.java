@@ -2,8 +2,9 @@ package Logic;
 
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
-import BoardElements.Fruit.Fruit;
-import BoardElements.Monsters.Monster;
+import BoardElements.BoardElement;
+import BoardElements.Fruit.Reward;
+import BoardElements.Monsters.SelfMovable;
 
 public class IceManipulator {
     private final GameController gLabel;
@@ -54,11 +55,10 @@ public class IceManipulator {
             return;
         }
 
-//        if (gLabel.getBoardArray()[playerxFreezingPosition][playeryFreezingPosition] == 1) {
-//            settingInt = 0;
-//        }
         if (gLabel.getBoardArrayObject()[playerxFreezingPosition][playeryFreezingPosition] != null) {
-            settingInt = 0;
+            if (gLabel.getBoardArrayObject()[playerxFreezingPosition][playeryFreezingPosition].getClass() != BoardElement.class) {
+                settingInt = 0;
+            }
         }
 
         if (gLabel.getPLAYER().getRot() == 0) {
@@ -66,8 +66,6 @@ public class IceManipulator {
                 if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
                     return;
                 }
-
-//                gLabel.getBoardArray()[playerxFreezingPosition][row] = settingInt;
 
                 changeArray(playerxFreezingPosition, row, settingInt);
 
@@ -79,8 +77,6 @@ public class IceManipulator {
                     return;
                 }
 
-//                gLabel.getBoardArray()[column][playeryFreezingPosition] = settingInt;
-
                 changeArray(column, playeryFreezingPosition, settingInt);
 
                 sleep(millis);
@@ -90,8 +86,6 @@ public class IceManipulator {
                 if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
                     return;
                 }
-
-//                gLabel.getBoardArray()[playerxFreezingPosition][row] = settingInt;
 
                 changeArray(playerxFreezingPosition, row, settingInt);
 
@@ -103,8 +97,6 @@ public class IceManipulator {
                     return;
                 }
 
-//                gLabel.getBoardArray()[column][playeryFreezingPosition] = settingInt;
-
                 changeArray(column, playeryFreezingPosition, settingInt);
 
                 sleep(millis);
@@ -114,36 +106,35 @@ public class IceManipulator {
 
     private void changeArray(int x, int y, int settingInt) {
         if (gLabel.getBoardArrayObject()[x][y] != null && gLabel.getBoardArrayObject()[x][y].getClass() == IceBlock.class && settingInt == 0) {
-            gLabel.getBoardArrayObject()[x][y] = null;
+            //gLabel.getBoardArrayObject()[x][y] = null;
+            BoardElement replacement = new BoardElement(x, y);
+            gLabel.getBoardArrayObject()[x][y] = replacement;
         } else {
             gLabel.getBoardArrayObject()[x][y] = new IceBlock(x, y);
         }
     }
 
     private boolean checkIceLoop(int x, int y, int settingInt) {
-
-        // checking for ice blocks and solid blocks to stop the ice loop
-//        if (gLabel.getBoardArray()[x][y] == settingInt || gLabel.getBoardArray()[x][y] == 2) {
-//            return false;
-//        }
-
         // checking if next tile is or is not an ice, according to the settingInt
         if (settingInt == 0) {
-            if (gLabel.getBoardArrayObject()[x][y] == null || gLabel.getBoardArrayObject()[x][y].getClass() == SolidBlock.class) {
+            if (gLabel.getBoardArrayObject()[x][y] == null || gLabel.getBoardArrayObject()[x][y].getClass() == SolidBlock.class
+                    || gLabel.getBoardArrayObject()[x][y].getClass() == BoardElement.class) {
                 return false;
             }
         } else if (settingInt == 1) {
             if (gLabel.getBoardArrayObject()[x][y] != null) {
-                return false;
+                if (gLabel.getBoardArrayObject()[x][y].getClass() != BoardElement.class) {
+                    return false;
+                }
             }
         }
 
-        for (Monster m : gLabel.getMONSTERS()) {
+        for (SelfMovable m : gLabel.getMONSTERS()) {
             if (m.getXPosition() == x && m.getYPosition() == y) {
                 return false;
             }
         }
-        for (Fruit f : gLabel.getFRUIT()) {
+        for (Reward f : gLabel.getREWARD()) {
             if (f.isTaken()) continue;
             if (f.getXPosition() == x && f.getYPosition() == y) {
                 return false;

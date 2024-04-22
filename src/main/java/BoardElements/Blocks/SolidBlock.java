@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class SolidBlock extends BoardElement {
+public class SolidBlock extends Block {
     public SolidBlock(int xPosition, int yPosition) {
         super(xPosition, yPosition);
     }

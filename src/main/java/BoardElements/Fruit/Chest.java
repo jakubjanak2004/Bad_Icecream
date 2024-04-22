@@ -1,10 +1,8 @@
 package BoardElements.Fruit;
 
-import BoardElements.Fruit.Fruit;
-
 import java.awt.*;
 
-public class Chest extends Fruit {
+public class Chest extends Reward {
     public Chest(int xPosition, int yPosition) {
         super(xPosition, yPosition);
     }

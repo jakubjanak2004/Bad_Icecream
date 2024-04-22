@@ -19,4 +19,9 @@ public class Player extends BoardElement {
         super(xPosition, yPosition, rot);
         super.color = Color.BLACK;
     }
+
+    public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+        g.setColor(getColor());
+        g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
+    }
 }

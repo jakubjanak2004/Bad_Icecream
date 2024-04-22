@@ -37,8 +37,7 @@ public class BoardElement implements IsOn2DimensionalBoard, isPaintable {
     }
 
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
-        g.setColor(getColor());
-        g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
+
     }
 
     public BoardElement(int xPosition, int yPosition){

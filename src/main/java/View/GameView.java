@@ -1,7 +1,8 @@
 package View;
 
-import BoardElements.Fruit.Fruit;
+import BoardElements.Fruit.Reward;
 import BoardElements.Monsters.Monster;
+import BoardElements.Monsters.SelfMovable;
 import Logic.GameController;
 
 import javax.swing.*;
@@ -107,7 +108,7 @@ public class GameView extends JLabel {
 
         paintGameBoard(g2, widthPadding, step, heightPadding, boardDimension, overFlow);
 
-        paintFruit(g2, step, widthPadding, heightPadding);
+        paintReward(g2, step, widthPadding, heightPadding);
 
         gameController.getPLAYER().paint(g2, step, widthPadding, heightPadding);
 
@@ -127,13 +128,14 @@ public class GameView extends JLabel {
     }
 
     private void paintMonsters(Graphics2D g2, int step, int widthPadding, int heightPadding) {
-        for (Monster m : gameController.getMONSTERS()) {
-            m.paint(g2, step, widthPadding, heightPadding);
+        for (SelfMovable m : gameController.getMONSTERS()) {
+            Monster monster = (Monster) m;
+            monster.paint(g2, step, widthPadding, heightPadding);
         }
     }
 
-    private void paintFruit(Graphics2D g2, int step, int widthPadding, int heightPadding) {
-        for (Fruit f : gameController.getFRUIT()) {
+    private void paintReward(Graphics2D g2, int step, int widthPadding, int heightPadding) {
+        for (Reward f : gameController.getREWARD()) {
             if (f.isTaken()) continue;
             f.paint(g2, step, widthPadding, heightPadding);
         }

@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class IceBlock extends BoardElement {
+public class IceBlock extends Block {
 
     private int stability = 2;
 

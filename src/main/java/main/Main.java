@@ -1,15 +1,15 @@
 package main;
 
 import View.GameFrame;
-import View.WelcomePage;
+import View.WelcomeView;
 
 public class Main {
     static int DIMENSION = 1000;
-    static WelcomePage welcomePage;
+    static WelcomeView welcomePage;
     static GameFrame gameBoard;
 
     public static void main(String[] args) {
-         welcomePage = new WelcomePage(DIMENSION);
+         welcomePage = new WelcomeView(DIMENSION);
     }
 
     public static void gameStarted() {

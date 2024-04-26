@@ -3,19 +3,17 @@ package Logic;
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
 import BoardElements.BoardElement;
-import BoardElements.Fruit.Chest;
-import BoardElements.Fruit.Fruit;
-import BoardElements.Fruit.Key;
-import BoardElements.Fruit.Reward;
 import BoardElements.Monsters.*;
 import BoardElements.Player;
+import BoardElements.Reward.Chest;
+import BoardElements.Reward.Fruit;
+import BoardElements.Reward.Key;
+import BoardElements.Reward.Reward;
 import LevelManagement.LevelManager;
 import View.GameView;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class GameController {
@@ -28,8 +26,8 @@ public class GameController {
     private final Player PLAYER;
     private final LevelManager LEVEL_MANAGER = new LevelManager();
     private final IceManipulator ICE_MANIPULATOR = new IceManipulator(this);
-    private final ArrayList<SelfMovable> MONSTERS = new ArrayList<>();
-    private final ArrayList<Reward> REWARD = new ArrayList<>();
+    private final List<SelfMovable> MONSTERS = Collections.synchronizedList(new ArrayList<>());
+    private final List<Reward> REWARD = Collections.synchronizedList(new ArrayList<>());
     private final int GAME_LOOP_REFRESH = 50;
     private final int MONSTER_MOVE_REFRESH = 500;
 
@@ -41,6 +39,7 @@ public class GameController {
     private boolean isMenuOpened = true;
     private boolean wasLevelWon = false;
     private boolean isRefreshing = false;
+    private boolean checkState = false;
 
     // Integer fields
     private int numOfFields;
@@ -79,15 +78,14 @@ public class GameController {
         this.gameLoopTimerTask = new TimerTask() {
             @Override
             public void run() {
-                if (!isGameOn) return;
+                if (!checkState) return;
 
                 checkDeath();
                 checkFruitTaken();
-
                 checkAllFruitGone();
             }
         };
-        gameLoopTimer.schedule(gameLoopTimerTask, 0, GAME_LOOP_REFRESH);
+        gameLoopTimer.schedule(gameLoopTimerTask, 800, GAME_LOOP_REFRESH);
     }
 
     /**
@@ -98,8 +96,6 @@ public class GameController {
      * </p>
      */
     public void userTypeHandler(KeyEvent e) {
-
-        logger.info("User just pressed a key");
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && isGameOn) {
             PLAYER.setRot(1);
@@ -275,7 +271,6 @@ public class GameController {
                 if (canBeOpened) {
                     f.grab();
                 }
-
             }
         }
     }
@@ -286,6 +281,7 @@ public class GameController {
         REWARD.clear();
         MONSTERS.clear();
         wasLevelWon = false;
+        isGameOn = true;
 
         int[][] gameBoard = LEVEL_MANAGER.getAllLevels().get(levelNum).getGAME_BOARD();
 
@@ -318,6 +314,7 @@ public class GameController {
                 }
             }
         }
+        checkState = true;
         monsterThread = new MonsterThread(this);
         monsterThread.start();
     }
@@ -327,6 +324,7 @@ public class GameController {
 
         isGameOn = false;
         isMenuOpened = false;
+        checkState = false;
 
         monsterThread.setRunning(false);
 
@@ -341,7 +339,6 @@ public class GameController {
     }
 
     public void setMenuButtonClickedOn(int counter) {
-        isGameOn = true;
         isMenuOpened = false;
         levelNum = counter;
         LEVEL_MANAGER.setScoreOfLevel(counter, false);
@@ -368,11 +365,11 @@ public class GameController {
         return wasLevelWon;
     }
 
-    public ArrayList<SelfMovable> getMONSTERS() {
+    public List<SelfMovable> getMONSTERS() {
         return MONSTERS;
     }
 
-    public ArrayList<Reward> getREWARD() {
+    public List<Reward> getREWARD() {
         return REWARD;
     }
 

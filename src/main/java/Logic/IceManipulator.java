@@ -3,7 +3,7 @@ package Logic;
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
 import BoardElements.BoardElement;
-import BoardElements.Fruit.Reward;
+import BoardElements.Reward.Reward;
 import BoardElements.Monsters.SelfMovable;
 
 public class IceManipulator {

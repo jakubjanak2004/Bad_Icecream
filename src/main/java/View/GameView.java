@@ -1,6 +1,6 @@
 package View;
 
-import BoardElements.Fruit.Reward;
+import BoardElements.Reward.Reward;
 import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.SelfMovable;
 import Logic.GameController;

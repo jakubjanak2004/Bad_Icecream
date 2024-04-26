@@ -1,4 +1,4 @@
-package BoardElements.Fruit;
+package BoardElements.Reward;
 
 public class Fruit extends Reward {
 

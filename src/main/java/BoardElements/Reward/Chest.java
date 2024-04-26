@@ -1,4 +1,4 @@
-package BoardElements.Fruit;
+package BoardElements.Reward;
 
 import java.awt.*;
 

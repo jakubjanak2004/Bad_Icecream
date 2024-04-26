@@ -7,7 +7,7 @@ public class Level {
     private final int[][] GAME_BOARD;
 
     public int[][] getGAME_BOARD() {
-        return GAME_BOARD;
+        return GAME_BOARD.clone();
     }
 
     public Level(int[][] gameBoard, int order){

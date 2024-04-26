@@ -33,6 +33,9 @@ public class GameController {
     private final int GAME_LOOP_REFRESH = 50;
     private final int MONSTER_MOVE_REFRESH = 500;
 
+    //Threading Classes
+    MonsterThread monsterThread;
+
     // boolean fields
     private boolean isGameOn = false;
     private boolean isMenuOpened = true;
@@ -40,20 +43,14 @@ public class GameController {
     private boolean isRefreshing = false;
 
     // Integer fields
-     private int numOfFields;
+    private int numOfFields;
     private int levelNum = 0;
 
     // Timer related fields
-    private Timer monsterTimer;
-    private TimerTask monsterTimerTask;
     private Timer gameLoopTimer;
     private TimerTask gameLoopTimerTask;
-
     // Objects Array
     private BoardElement[][] boardArrayObject;
-
-    // Reference object
-    GameController gameController = this;
 
     // Constructor
     public GameController() {
@@ -66,7 +63,13 @@ public class GameController {
         setGameLoopTimer();
     }
 
-    // timer related methods
+    /**
+     * setGameLoopTimer method
+     * <p>
+     * is a method starts th gameLoop timer,
+     * checking the conditions for death, fruit being taken and level being won
+     * </p>
+     */
     public void setGameLoopTimer() {
 
         logger.info("Graphics Refresh loop was started!");
@@ -87,7 +90,13 @@ public class GameController {
         gameLoopTimer.schedule(gameLoopTimerTask, 0, GAME_LOOP_REFRESH);
     }
 
-    // handler method
+    /**
+     * userTypeHandler method
+     * <p>
+     * is a method that handles user typing the keyboard events.
+     * These are sent from View but handled in Controller
+     * </p>
+     */
     public void userTypeHandler(KeyEvent e) {
 
         logger.info("User just pressed a key");
@@ -152,7 +161,13 @@ public class GameController {
     }
 
 
-    // public methods
+    /**
+     * isVisitable method
+     * <p>
+     * is a method that return true is block at current coordinates is visitable for player or monster.
+     * If the block is Ice or Solid Block false is returned.
+     * </p>
+     */
     public boolean isVisitable(int x, int y) {
 
         if (x < 0 || x >= boardArrayObject.length) {
@@ -167,6 +182,12 @@ public class GameController {
         return true;
     }
 
+    /**
+     * isFrozenAtLoc method
+     * <p>
+     * is a method that returns true if ice blocks is at coordinates provided.
+     * </p>
+     */
     public boolean isFrozenAtLoc(int x, int y) {
 
         if (x < 0 || x >= boardArrayObject.length) {
@@ -179,11 +200,23 @@ public class GameController {
                 && boardArrayObject[x][y].getClass() == IceBlock.class);
     }
 
+    /**
+     * isFrozenAtLoc method
+     * <p>
+     * overloaded method, returns true if it is frozen at loc the monster is on plus x and y movement.
+     * </p>
+     */
     public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
         return (boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove] != null
                 && boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove].getClass() == IceBlock.class);
     }
 
+    /**
+     * beatIce method
+     * <p>
+     * is a method used to beat ice at certain coordinates.
+     * </p>
+     */
     public void beatIce(int x, int y) {
 
         if (x < 0 || x >= getBoardArrayObject().length) {
@@ -202,7 +235,6 @@ public class GameController {
             }
         }
     }
-
 
     // private methods
     private void checkAllFruitGone() {
@@ -249,7 +281,6 @@ public class GameController {
     }
 
     private void startGame() {
-
         logger.info("Game was started");
 
         REWARD.clear();
@@ -282,66 +313,27 @@ public class GameController {
                     boardArrayObject[i][j] = new IceBlock(i, j);
                 } else if (gameBoard[i][j] == 2) {
                     boardArrayObject[i][j] = new SolidBlock(i, j);
-                } else if (gameBoard[i][j] == 0){
+                } else if (gameBoard[i][j] == 0) {
                     boardArrayObject[i][j] = new BoardElement(i, j);
                 }
             }
         }
-
-        this.monsterTimer = new Timer();
-        this.monsterTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-
-                for (int i = 0; i < MONSTERS.size(); i++) {
-
-                    if (!(MONSTERS.get(i) instanceof Monster)){
-                        continue;
-                    }
-
-                    Monster monster = (Monster) MONSTERS.get(i);
-
-                    boolean canUp = monster.getYPosition() > 0 && isVisitable(monster.getXPosition(), monster.getYPosition() - 1);
-                    boolean canRight = monster.getXPosition() < numOfFields - 1 && isVisitable(monster.getXPosition() + 1, monster.getYPosition());
-                    boolean canDown = monster.getYPosition() < numOfFields - 1 && isVisitable(monster.getXPosition(), monster.getYPosition() + 1);
-                    boolean canLeft = monster.getXPosition() > 0 && isVisitable(monster.getXPosition() - 1, monster.getYPosition());
-
-                    for (int j = 0; j < i; j++) {
-                        Monster loopMonster = (Monster) MONSTERS.get(j);
-                        if (loopMonster.getYPosition() == monster.getYPosition() + 1 && loopMonster.getXPosition() == monster.getXPosition()) {
-                            canDown = false;
-                        } else if (loopMonster.getYPosition() == monster.getYPosition() - 1 && loopMonster.getXPosition() == monster.getXPosition()) {
-                            canUp = false;
-                        } else if (loopMonster.getYPosition() == monster.getYPosition() && loopMonster.getXPosition() == monster.getXPosition() - 1) {
-                            canLeft = false;
-                        } else if (loopMonster.getYPosition() == monster.getYPosition() && loopMonster.getXPosition() == monster.getXPosition() + 1) {
-                            canRight = false;
-                        }
-                    }
-
-                    monster.selfMove(canUp, canRight, canDown, canLeft, gameController);
-                }
-            }
-        };
-        monsterTimer.schedule(monsterTimerTask, 250, MONSTER_MOVE_REFRESH);
+        monsterThread = new MonsterThread(this);
+        monsterThread.start();
     }
 
     private void gameOver() {
-
         logger.info("Game stopped (you either won or got killed by a monster)");
 
         isGameOn = false;
         isMenuOpened = false;
-        if (monsterTimer != null) {
-            monsterTimer.cancel();
-            monsterTimer.purge();
-        }
+
+        monsterThread.setRunning(false);
 
         if (wasLevelWon) {
             LEVEL_MANAGER.setScoreOfLevel(levelNum, true);
         }
     }
-
 
     // Getters and Setters
     public GameView getGAME_VIEW() {
@@ -406,5 +398,9 @@ public class GameController {
 
     public boolean isRefreshing() {
         return isRefreshing;
+    }
+
+    public int getMONSTER_MOVE_REFRESH() {
+        return MONSTER_MOVE_REFRESH;
     }
 }

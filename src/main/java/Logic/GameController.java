@@ -71,7 +71,7 @@ public class GameController {
      */
     public void setGameLoopTimer() {
 
-        logger.info("Graphics Refresh loop was started!");
+        logger.config("Graphics Refresh loop was started!");
 
         isRefreshing = true;
         this.gameLoopTimer = new Timer();
@@ -276,7 +276,7 @@ public class GameController {
     }
 
     private void startGame() {
-        logger.info("Game was started");
+        logger.config("Game was started");
 
         REWARD.clear();
         MONSTERS.clear();
@@ -320,7 +320,7 @@ public class GameController {
     }
 
     private void gameOver() {
-        logger.info("Game stopped (you either won or got killed by a monster)");
+        logger.config("Game stopped (you either won or got killed by a monster)");
 
         isGameOn = false;
         isMenuOpened = false;

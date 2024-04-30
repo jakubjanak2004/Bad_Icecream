@@ -94,7 +94,7 @@ public class GameControllerTest {
 
         BoardElement bElement = gameController.getBoardArrayObject()[x][y];
 
-        assertSame(bElement, null);
+        assertTrue(bElement != null && bElement.getClass() == BoardElement.class);
     }
 
     @Test

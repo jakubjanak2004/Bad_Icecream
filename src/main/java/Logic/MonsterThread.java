@@ -6,6 +6,9 @@ import BoardElements.Monsters.SelfMovable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Thread class used to refresh monsters movement, is not implemented by timer
+ */
 public class MonsterThread extends Thread {
     GameController gameController;
     boolean isRunning;

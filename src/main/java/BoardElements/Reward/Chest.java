@@ -2,6 +2,9 @@ package BoardElements.Reward;
 
 import java.awt.*;
 
+/**
+ * Representation of a chest containing the fruit.
+ */
 public class Chest extends Reward {
     public Chest(int xPosition, int yPosition) {
         super(xPosition, yPosition);

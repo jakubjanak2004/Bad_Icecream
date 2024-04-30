@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Key is an item that has to be collected in order to open chests.
+ */
 public class Key extends Reward {
     public Key(int xPosition, int yPosition) {
         super(xPosition, yPosition);

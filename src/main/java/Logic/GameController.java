@@ -16,9 +16,13 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * The GameController class manages the game logic and coordinates interactions between various game elements.
+ * It controls player movement, monster behavior, game state, and level progression.
+ */
 public class GameController {
 
-    // logging, does not work now
+    // logging
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
 
     // final fields
@@ -64,10 +68,8 @@ public class GameController {
 
     /**
      * setGameLoopTimer method
-     * <p>
      * is a method starts th gameLoop timer,
      * checking the conditions for death, fruit being taken and level being won
-     * </p>
      */
     public void setGameLoopTimer() {
 
@@ -89,11 +91,8 @@ public class GameController {
     }
 
     /**
-     * userTypeHandler method
-     * <p>
-     * is a method that handles user typing the keyboard events.
-     * These are sent from View but handled in Controller
-     * </p>
+     *
+     * @param e KeyEvent received when user types
      */
     public void userTypeHandler(KeyEvent e) {
 
@@ -158,11 +157,10 @@ public class GameController {
 
 
     /**
-     * isVisitable method
-     * <p>
-     * is a method that return true is block at current coordinates is visitable for player or monster.
-     * If the block is Ice or Solid Block false is returned.
-     * </p>
+     *
+     * @param x x location on board array
+     * @param y y location on board array
+     * @return true if is visitable by player or monster
      */
     public boolean isVisitable(int x, int y) {
 
@@ -179,10 +177,10 @@ public class GameController {
     }
 
     /**
-     * isFrozenAtLoc method
-     * <p>
-     * is a method that returns true if ice blocks is at coordinates provided.
-     * </p>
+     *
+     * @param x x position on game board
+     * @param y y position on game board
+     * @return true if there is ice at certain location
      */
     public boolean isFrozenAtLoc(int x, int y) {
 
@@ -197,10 +195,11 @@ public class GameController {
     }
 
     /**
-     * isFrozenAtLoc method
-     * <p>
-     * overloaded method, returns true if it is frozen at loc the monster is on plus x and y movement.
-     * </p>
+     *
+     * @param xMove movement on x axis
+     * @param yMove movement on y axis
+     * @param monster monster that is performing the movement
+     * @return is frozen at the location the monster is moving to
      */
     public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
         return (boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove] != null
@@ -208,10 +207,9 @@ public class GameController {
     }
 
     /**
-     * beatIce method
-     * <p>
-     * is a method used to beat ice at certain coordinates.
-     * </p>
+     * The method will beat ice at (x, y) coordinate
+     * @param x x coordinate
+     * @param y y coordinate
      */
     public void beatIce(int x, int y) {
 

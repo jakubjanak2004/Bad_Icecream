@@ -1,13 +1,14 @@
 package BoardElements.Blocks;
 
-import BoardElements.BoardElement;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * IceBlock represents a frozen block on the GameBoard.
+ */
 public class IceBlock extends Block {
 
     private int stability = 2;
@@ -16,10 +17,9 @@ public class IceBlock extends Block {
         super(xPosition, yPosition);
     }
 
-    public int getStability() {
-        return stability;
-    }
-
+    /**
+     * Monsters will be using this method to partially break the ice.
+     */
     public void destabilize() {
         if (stability <= 0) return;
         stability--;
@@ -44,5 +44,9 @@ public class IceBlock extends Block {
         double h = 52.0 * ((double) step / 36.0);
         y -= (int) (h - step);
         g.drawImage(img, x, y, (int) (double) step, (int) h, null);
+    }
+
+    public int getStability() {
+        return stability;
     }
 }

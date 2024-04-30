@@ -7,28 +7,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-// -1 ->  player
-// 0  ->  regular block
-// 1  ->  ice
-// 2  ->  STUPID monster
-// 3  ->  CLEVER monster
-// 4  ->  fruit
-
+/**
+ * This class is for management of levels and is communicating with the game as well as levels folder structure.
+ *
+ */
 public class LevelManager {
     private final String LEVELS_FOLDER_PATH = "/Users/jakubjanak/Desktop/SIT/S2/PJV/BadIcecream/src/main/java/LevelManagement/Levels";
     private final String SCORE_FOLDER_PATH = "/Users/jakubjanak/Desktop/SIT/S2/PJV/BadIcecream/src/main/java/LevelManagement/LevelsScore";
     private final ArrayList<File> allLevelsFiles = new ArrayList<>();
     private final ArrayList<Level> allLevels = new ArrayList<>();
 
-    public ArrayList<Level> getAllLevels() {
-        return allLevels;
-    }
-
     public LevelManager() {
         readAllFromDir();
         createLevels();
     }
 
+    /**
+     * This method will read all levels from a directory Levels.
+     */
     public void readAllFromDir() {
         Set<String> fileSet = new HashSet<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LEVELS_FOLDER_PATH))) {
@@ -46,12 +42,19 @@ public class LevelManager {
         allLevelsFiles.sort(Comparator.naturalOrder());
     }
 
+    /**
+     * This method will get all levels from the folder and will create Level objects for them.
+     */
     public void createLevels() {
         int count = 0;
         for (File file : allLevelsFiles) {
             allLevels.add(new Level(getLevelBoard(file.getAbsolutePath()), count));
             count++;
         }
+    }
+
+    public ArrayList<Level> getAllLevels() {
+        return allLevels;
     }
 
     public int[][] getLevelBoard(String filePath) {

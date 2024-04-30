@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Abstract representation of a class that can be grabbed by the player and have to be collected i order to win a level.
+ */
 public abstract class Reward extends BoardElement implements Grabbable {
     private boolean taken = false;
 
@@ -14,10 +17,7 @@ public abstract class Reward extends BoardElement implements Grabbable {
         super(xPosition, yPosition);
     }
 
-    public boolean isTaken() {
-        return taken;
-    }
-
+    @Override
     synchronized public void grab() {
         this.taken = true;
     }
@@ -40,5 +40,9 @@ public abstract class Reward extends BoardElement implements Grabbable {
         }
 
         g.drawImage(img, x + xPaddingInBlock, y + yPaddingInBlock, width, height, null);
+    }
+
+    public boolean isTaken() {
+        return taken;
     }
 }

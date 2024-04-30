@@ -7,12 +7,16 @@ import Logic.ShortestPath;
 
 import java.awt.*;
 
+/**
+ * Strong monster represents a monster that is strong and can break through ice.
+ */
 public class StrongMonster extends Monster {
     public StrongMonster(int xPosition, int yPosition, int rot) {
         super(xPosition, yPosition, rot);
         super.color = Color.ORANGE;
     }
 
+    @Override
     public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         Player player = gameController.getPLAYER();
         BoardElement[][] boardElements = gameController.getBoardArrayObject();

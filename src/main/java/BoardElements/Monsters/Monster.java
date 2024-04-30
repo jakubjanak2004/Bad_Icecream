@@ -6,6 +6,9 @@ import Logic.GameController;
 
 import java.awt.*;
 
+/**
+ * Abstract representation of a monster in the game.
+ */
 public abstract class Monster extends BoardElement implements SelfMovable {
     protected Color color;
 
@@ -13,14 +16,12 @@ public abstract class Monster extends BoardElement implements SelfMovable {
         super(xPosition, yPosition, rot);
     }
 
-    public Color getColor() {
-        return this.color;
-    }
-
+    @Override
     public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         move(canUp, canRight, canDown, canLeft, 0);
     }
 
+    @Override
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
         g.setColor(getColor());
         g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
@@ -75,5 +76,9 @@ public abstract class Monster extends BoardElement implements SelfMovable {
                 break;
         }
         move(true, true, true, true, 0);
+    }
+
+    public Color getColor() {
+        return this.color;
     }
 }

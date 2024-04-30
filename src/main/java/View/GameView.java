@@ -14,6 +14,9 @@ import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Is a view that shows us the Game and pages relating to it (level win/lost and menu). The View Part of the MVC framework.
+ */
 public class GameView extends JLabel {
     private final int REFRESH_IN_MILLISECONDS = 25;
     private int mousePressedX = -1;
@@ -55,7 +58,9 @@ public class GameView extends JLabel {
         mousePressedY = e.getY();
     }
 
-    // timer related methods
+    /**
+     * Is used as a method that will be refreshing the game a t a set rate.
+     */
     public void gameRefreshTimerSetMethod() {
         this.refreshTimer = new Timer();
         this.refreshTimerTask = new TimerTask() {
@@ -67,8 +72,6 @@ public class GameView extends JLabel {
         };
         refreshTimer.schedule(refreshTimerTask, 0, REFRESH_IN_MILLISECONDS);
     }
-
-
 
     // paint methods
     @Override

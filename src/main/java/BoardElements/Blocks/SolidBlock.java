@@ -1,13 +1,14 @@
 package BoardElements.Blocks;
 
-import BoardElements.BoardElement;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * SolidBlock class representing the Block that is solid and cannot be broken on the map.
+ */
 public class SolidBlock extends Block {
     public SolidBlock(int xPosition, int yPosition) {
         super(xPosition, yPosition);

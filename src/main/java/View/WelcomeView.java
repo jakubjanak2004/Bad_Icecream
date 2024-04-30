@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * WelcomeView serves as a window that is being shown when the game is run at first. After this window is closed it can be opened only by turning the game off and on.
+ */
 public class WelcomeView extends JFrame {
     private int moduloCounter = 0;
 
@@ -105,7 +108,7 @@ public class WelcomeView extends JFrame {
         if (moduloCounter > this.getWidth()) moduloCounter = 0;
     }
 
-    public void drawHeadline(Graphics g){
+    private void drawHeadline(Graphics g){
         int startY = 150;
 
         String gameOverString = "BAD ICECREAM";

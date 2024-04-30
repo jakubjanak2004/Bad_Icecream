@@ -7,21 +7,16 @@ import BoardElements.VisitedNode;
 
 import java.util.ArrayList;
 
+/**
+ * Shortest Path Algorithm class, this class contains algorithms for finding the shortest path in the game board,
+ * taking ice into account.
+ */
 public class ShortestPath {
-
     static String shortestPathThruMaze = "";
     static String shortestPath = "";
 
     static ArrayList<VisitedNode> VISITED_NODES_SHORTEST = new ArrayList<>();
     static ArrayList<VisitedNode> VISITED_NOTES_SHORTEST_SOLID_BLOCKS = new ArrayList<>();
-
-    public static String getShortestPathStart(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
-        shortestPath = "";
-        VISITED_NOTES_SHORTEST_SOLID_BLOCKS.clear();
-
-        ShortestPath.getShortestPath(x1, y1, x2, y2, subPath, was, boardArray, numOfFields);
-        return ShortestPath.shortestPath;
-    }
 
     private static void getShortestPath(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
 
@@ -60,15 +55,6 @@ public class ShortestPath {
         if (y1 + 1 < numOfFields && isNotSolidBlockOnLoc(x1, y1 + 1, boardArray) && was != 'u') {
             getShortestPath(x1, y1 + 1, x2, y2, subPath + "d", 'd', boardArray, numOfFields);
         }
-    }
-
-    public static String getShortestMazePathStart(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
-        shortestPathThruMaze = "";
-        VISITED_NODES_SHORTEST.clear();
-
-        getShortestPathThruMaze(x1, y1, x2, y2, subPath, was, boardArray, numOfFields);
-
-        return shortestPathThruMaze;
     }
 
     private static void getShortestPathThruMaze(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
@@ -111,6 +97,54 @@ public class ShortestPath {
 
     }
 
+    /**
+     * Returns the start of the shortest path. Used by strong monster to see what`s the shortest path.
+     * @param x1 x position on player board, source
+     * @param y1 y position on player board, source
+     * @param x2 x position on player board, target
+     * @param y2 y position on player board, target
+     * @param subPath the path we have already taken, used in recursion
+     * @param was what was the last move
+     * @param boardArray the board array used in this game
+     * @param numOfFields number of fields in rectangular board array
+     * @return the first direction the board element should move
+     */
+    public static String getShortestPathStart(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
+        shortestPath = "";
+        VISITED_NOTES_SHORTEST_SOLID_BLOCKS.clear();
+
+        ShortestPath.getShortestPath(x1, y1, x2, y2, subPath, was, boardArray, numOfFields);
+        return ShortestPath.shortestPath;
+    }
+
+    /**
+     * Returns the start of the shortest path. Used by the clever monster to see if there is a path that leads to player.
+     * @param x1 x position on player board, source
+     * @param y1 y position on player board, source
+     * @param x2 x position on player board, target
+     * @param y2 y position on player board, target
+     * @param subPath the path we have already taken, used in recursion
+     * @param was what was the last move
+     * @param boardArray the board array used in this game
+     * @param numOfFields number of fields in rectangular board array
+     * @return the first direction the board element should move
+     */
+    public static String getShortestMazePathStart(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
+        shortestPathThruMaze = "";
+        VISITED_NODES_SHORTEST.clear();
+
+        getShortestPathThruMaze(x1, y1, x2, y2, subPath, was, boardArray, numOfFields);
+
+        return shortestPathThruMaze;
+    }
+
+    /**
+     * This method returns if there is a solid block on a certain location.
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param boardArrayObject the array containing the game Board as objects
+     * @return true if there is no solid block on certain location
+     */
     public static boolean isNotSolidBlockOnLoc(int x, int y, BoardElement[][] boardArrayObject) {
         if (boardArrayObject[x][y] != null && boardArrayObject[x][y].getClass() == SolidBlock.class) {
             return false;
@@ -118,6 +152,13 @@ public class ShortestPath {
         return true;
     }
 
+    /**
+     * Returns if there is no ice block on location.
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param boardArrayObject the array containing the game Board as objects
+     * @return true if there is no ice block on certain location
+     */
     public static boolean isNotIceBlockOnLoc(int x, int y, BoardElement[][] boardArrayObject) {
         if (boardArrayObject[x][y] != null && boardArrayObject[x][y].getClass() == IceBlock.class) {
             return false;

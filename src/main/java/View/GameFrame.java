@@ -4,6 +4,9 @@ import Logic.GameController;
 
 import javax.swing.*;
 
+/**
+ * GameFrame is a class extending the JFrame java swing object. It is a window on which the game runs.
+ */
 public class GameFrame extends JFrame {
     public GameFrame(int dimension) {
         this.setTitle("Bad Ice cream Game");

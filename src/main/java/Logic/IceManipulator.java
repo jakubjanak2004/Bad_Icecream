@@ -6,6 +6,9 @@ import BoardElements.BoardElement;
 import BoardElements.Reward.Reward;
 import BoardElements.Monsters.SelfMovable;
 
+/**
+ * Ice Manipulator class is used for manipulating the ice, it is used by player and monsters.
+ */
 public class IceManipulator {
     private final GameController gLabel;
     private boolean isManipulating = false;
@@ -14,6 +17,9 @@ public class IceManipulator {
         this.gLabel = gLabel;
     }
 
+    /**
+     * Manipulate Ice and while manipulating cannot start another manipulation, is used for player block freezing/unfreezing
+     */
     public void manipulateIceAsync() {
         if (isManipulating) return;
         Thread t1 = new Thread(new Runnable() {
@@ -27,6 +33,9 @@ public class IceManipulator {
         t1.start();
     }
 
+    /**
+     * Manipulating the ice, used by monsters to break ice slowly.
+     */
     public void manipulateIce() {
         int playerxFreezingPosition = gLabel.getPLAYER().getXPosition();
         int playeryFreezingPosition = gLabel.getPLAYER().getYPosition();

@@ -274,14 +274,14 @@ public class GameController {
     }
 
     private void startGame() {
-        logger.config("Game was started");
+        logger.info("Game was started");
 
         REWARD.clear();
         MONSTERS.clear();
         wasLevelWon = false;
         isGameOn = true;
 
-        int[][] gameBoard = LEVEL_MANAGER.getAllLevels().get(levelNum).getGAME_BOARD();
+        int[][] gameBoard = LEVEL_MANAGER.getAllLevels().get(levelNum).getGAME_BOARDCopy();
 
         numOfFields = gameBoard.length;
         boardArrayObject = new BoardElement[gameBoard.length][gameBoard[0].length];
@@ -318,7 +318,7 @@ public class GameController {
     }
 
     private void gameOver() {
-        logger.config("Game stopped (you either won or got killed by a monster)");
+        logger.info("Game stopped (you either won or got killed by a monster)");
 
         isGameOn = false;
         isMenuOpened = false;

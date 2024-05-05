@@ -5,17 +5,22 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class is for management of levels and is communicating with the game as well as levels folder structure.
- *
  */
 public class LevelManager {
-    private final String LEVELS_FOLDER_PATH = "/Users/jakubjanak/Desktop/SIT/S2/PJV/BadIcecream/src/main/java/LevelManagement/Levels";
-    private final String SCORE_FOLDER_PATH = "/Users/jakubjanak/Desktop/SIT/S2/PJV/BadIcecream/src/main/java/LevelManagement/LevelsScore";
+    private final String LEVELS_FOLDER_PATH = "src/main/java/LevelManagement/Levels";
+    private final String SCORE_FOLDER_PATH = "src/main/java/LevelManagement/LevelsScore";
     private final ArrayList<File> allLevelsFiles = new ArrayList<>();
     private final ArrayList<Level> allLevels = new ArrayList<>();
+
+    Logger logger = Logger.getLogger(LevelManager.class.getName());
 
     public LevelManager() {
         readAllFromDir();
@@ -25,12 +30,13 @@ public class LevelManager {
     /**
      * This method will read all levels from a directory Levels.
      */
+
     public void readAllFromDir() {
-        Set<String> fileSet = new HashSet<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LEVELS_FOLDER_PATH))) {
             for (Path path : stream) {
                 if (!Files.isDirectory(path) && path.toString().endsWith(".csv")) {
                     File file = new File(path.toString());
+                    logger.warning("Currently reading: " + file.getAbsolutePath());
                     if (file.exists()) {
                         allLevelsFiles.add(file);
                     }
@@ -53,6 +59,7 @@ public class LevelManager {
         }
     }
 
+    // getters and setters for level manager
     public ArrayList<Level> getAllLevels() {
         return allLevels;
     }
@@ -96,8 +103,8 @@ public class LevelManager {
             }
         }
 
-        BufferedWriter bw = null;
-        FileWriter fw = null;
+        BufferedWriter bw;
+        FileWriter fw;
 
         try {
             fw = new FileWriter(file);
@@ -106,6 +113,7 @@ public class LevelManager {
         }
         bw = new BufferedWriter(fw);
         try {
+            logger.warning("Currently writing: " + status);
             bw.write(status + "");
             bw.close();
         } catch (IOException e) {

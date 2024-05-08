@@ -1,3 +1,4 @@
+import BoardElements.Player;
 import LevelManagement.Level;
 import LevelManagement.LevelManager;
 import Logic.GameController;
@@ -5,10 +6,11 @@ import View.GameFrame;
 import View.GameView;
 import org.junit.jupiter.api.*;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class ProcessTests {
 
     // set the pause between the steps as well as if the viw will be Visible
-    int pause = 500;
+    int pause = 200;
     boolean showTest = true;
 
     GameView gameView;
@@ -33,6 +35,10 @@ public class ProcessTests {
             {1, 1, 0, 0, 0, 1, 1},
             {1, 0, 0, 3, 0, 0, 1}
     };
+
+    KeyEvent event;
+
+    CountDownLatch latch = new CountDownLatch(1);
 
     @BeforeAll
     public void setUpTheProcessTest() {
@@ -79,255 +85,158 @@ public class ProcessTests {
     @Test
     @Order(1)
     public void processTest1() {
-        KeyEvent event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_RIGHT,
-                KeyEvent.CHAR_UNDEFINED
-        );
+        lose();
 
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_R,  // Use KeyEvent.VK_R for the 'r' key
-                'r'             // Specify the keychar as 'r'
-        );
-
-        gameController.userTypeHandler(event);
+        returnToMenu();
     }
 
     @Test
     @Order(2)
     public void processTest2() {
-        KeyEvent event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_LEFT,
-                KeyEvent.CHAR_UNDEFINED
-        );
+        win();
 
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_R,  // Use KeyEvent.VK_R for the 'r' key
-                'r'             // Specify the keychar as 'r'
-        );
-
-        gameController.userTypeHandler(event);
+        returnToMenu();
     }
 
     @Test
     @Order(3)
     public void processTest3() {
-        KeyEvent event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_RIGHT,
-                KeyEvent.CHAR_UNDEFINED
-        );
+        lose();
 
-        gameController.userTypeHandler(event);
+        replayGame();
 
-        pause();
+        win();
 
-        gameController.userTypeHandler(event);
+        replayGame();
 
-        pause();
+        lose();
 
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_G,  // Use KeyEvent.VK_R for the 'g' key
-                'g'             // Specify the keychar as 'g'
-        );
+        replayGame();
 
-        gameController.userTypeHandler(event);
+        lose();
 
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_LEFT,
-                KeyEvent.CHAR_UNDEFINED
-        );
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_G,  // Use KeyEvent.VK_R for the 'r' key
-                'g'             // Specify the keychar as 'r'
-        );
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_RIGHT,
-                KeyEvent.CHAR_UNDEFINED
-        );
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_G,  // Use KeyEvent.VK_R for the 'r' key
-                'g'             // Specify the keychar as 'r'
-        );
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_RIGHT,
-                KeyEvent.CHAR_UNDEFINED
-        );
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_R,  // Use KeyEvent.VK_R for the 'r' key
-                'r'             // Specify the keychar as 'r'
-        );
-
-        gameController.userTypeHandler(event);
+        returnToMenu();
     }
 
     @Test
     @Order(3)
     public void processTest4() {
-        KeyEvent event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_LEFT,
-                KeyEvent.CHAR_UNDEFINED
-        );
+        win();
 
-        gameController.userTypeHandler(event);
+        replayGame();
 
-        pause();
+        win();
 
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_G,  // Use KeyEvent.VK_R for the 'r' key
-                'g'             // Specify the keychar as 'r'
-        );
-
-        gameController.userTypeHandler(event);
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_LEFT,
-                KeyEvent.CHAR_UNDEFINED
-        );
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        gameController.userTypeHandler(event);
-
-        pause();
-
-        event = new KeyEvent(
-                gameFrame,
-                KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
-                0,
-                KeyEvent.VK_R,  // Use KeyEvent.VK_R for the 'r' key
-                'r'             // Specify the keychar as 'r'
-        );
-
-        gameController.userTypeHandler(event);
+        returnToMenu();
     }
 
+    // helper methods that are managing the paths in our process tests
+    // many tests use the same code so this is a reduction for better structure
     public void pause() {
         try {
             Thread.sleep(this.pause);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void win() {
+        assertTrue(gameController.isGameOn());
+        assertFalse(gameController.isWasLevelWon());
+
+        Player player = gameController.getPLAYER();
+        int playerXPosition = player.getXPosition();
+        int playerYPosition = player.getYPosition();
+
+        event = new KeyEvent(
+                gameFrame,
+                KeyEvent.KEY_PRESSED,
+                System.currentTimeMillis(),
+                0,
+                KeyEvent.VK_LEFT,
+                KeyEvent.CHAR_UNDEFINED
+        );
+
+        gameController.userTypeHandler(event);
+
+        assertEquals(playerXPosition - 1, player.getXPosition());
+        assertEquals(playerYPosition, player.getYPosition());
+
+        pause();
+
+        gameController.userTypeHandler(event);
+
+        assertEquals(playerXPosition - 2, player.getXPosition());
+        assertEquals(playerYPosition, player.getYPosition());
+
+        pause();
+    }
+
+    public void lose() {
+        assertTrue(gameController.isGameOn());
+        assertFalse(gameController.isWasLevelWon());
+
+        Player player = gameController.getPLAYER();
+        int playerXPosition = player.getXPosition();
+        int playerYPosition = player.getYPosition();
+
+        event = new KeyEvent(
+                gameFrame,
+                KeyEvent.KEY_PRESSED,
+                System.currentTimeMillis(),
+                0,
+                KeyEvent.VK_RIGHT,
+                KeyEvent.CHAR_UNDEFINED
+        );
+
+        gameController.userTypeHandler(event);
+
+        assertEquals(playerXPosition + 1, player.getXPosition());
+        assertEquals(playerYPosition, player.getYPosition());
+
+        pause();
+
+        gameController.userTypeHandler(event);
+
+        assertEquals(playerXPosition + 2, player.getXPosition());
+        assertEquals(playerYPosition, player.getYPosition());
+
+        pause();
+
+        assertFalse(gameController.isGameOn());
+    }
+
+    public void replayGame() {
+        event = new KeyEvent(
+                gameFrame,
+                KeyEvent.KEY_PRESSED,
+                System.currentTimeMillis(),
+                0,
+                KeyEvent.VK_G,  // Use KeyEvent.VK_R for the 'r' key
+                'g'             // Specify the keychar as 'r'
+        );
+
+        gameController.userTypeHandler(event);
+
+        pause();
+
+        assertTrue(gameController.isGameOn());
+    }
+
+    public void returnToMenu() {
+        event = new KeyEvent(
+                gameFrame,
+                KeyEvent.KEY_PRESSED,
+                System.currentTimeMillis(),
+                0,
+                KeyEvent.VK_R,  // Use KeyEvent.VK_R for the 'r' key
+                'r'             // Specify the keychar as 'r'
+        );
+
+        gameController.userTypeHandler(event);
+
+        pause();
+
+        assertTrue(gameController.isMenuOpened());
     }
 }

@@ -14,6 +14,7 @@ import View.GameView;
 
 import java.awt.event.KeyEvent;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 
 /**
@@ -52,6 +53,7 @@ public class GameController {
     // Timer related fields
     private Timer gameLoopTimer;
     private TimerTask gameLoopTimerTask;
+
     // Objects Array
     private BoardElement[][] boardArrayObject;
 
@@ -251,7 +253,6 @@ public class GameController {
         REWARD.clear();
         MONSTERS.clear();
         wasLevelWon = false;
-        isGameOn = true;
 
         int[][] gameBoard = levelManager.getAllLevels().get(levelNum).getGAME_BOARDCopy();
 
@@ -285,7 +286,10 @@ public class GameController {
                 }
             }
         }
+
+        isGameOn = true; // is game on moved so that the view fill fetch the game data later
         checkState = true;
+
         monsterThread = new MonsterThread(this);
 
         if (this.monstersMove) {
@@ -391,7 +395,7 @@ public class GameController {
     }
 
     public List<Reward> getREWARD() {
-        return REWARD;
+        return new ArrayList<>(REWARD);
     }
 
     public Player getPLAYER() {

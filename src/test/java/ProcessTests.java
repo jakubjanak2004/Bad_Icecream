@@ -8,7 +8,6 @@ import org.junit.jupiter.api.*;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class ProcessTests {
 
     // set the pause between the steps as well as if the viw will be Visible
-    int pause = 200;
+    int pause = 100;
     boolean showTest = true;
 
     GameView gameView;
@@ -37,8 +36,6 @@ public class ProcessTests {
     };
 
     KeyEvent event;
-
-    CountDownLatch latch = new CountDownLatch(1);
 
     @BeforeAll
     public void setUpTheProcessTest() {
@@ -68,7 +65,7 @@ public class ProcessTests {
 
         pause();
 
-        gameController.startGame();
+        assertTrue(gameController.startGame());
 
         pause();
     }
@@ -157,19 +154,29 @@ public class ProcessTests {
                 KeyEvent.CHAR_UNDEFINED
         );
 
-        gameController.userTypeHandler(event);
+        assertTrue(gameController.userTypeHandler(event));
 
         assertEquals(playerXPosition - 1, player.getXPosition());
         assertEquals(playerYPosition, player.getYPosition());
 
         pause();
 
-        gameController.userTypeHandler(event);
+        assertTrue(gameController.userTypeHandler(event));
 
         assertEquals(playerXPosition - 2, player.getXPosition());
         assertEquals(playerYPosition, player.getYPosition());
 
         pause();
+
+        while (gameController.isGameOn()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        assertFalse(gameController.isGameOn());
     }
 
     public void lose() {
@@ -189,19 +196,27 @@ public class ProcessTests {
                 KeyEvent.CHAR_UNDEFINED
         );
 
-        gameController.userTypeHandler(event);
+        assertTrue(gameController.userTypeHandler(event));
 
         assertEquals(playerXPosition + 1, player.getXPosition());
         assertEquals(playerYPosition, player.getYPosition());
 
         pause();
 
-        gameController.userTypeHandler(event);
+        assertTrue(gameController.userTypeHandler(event));
 
         assertEquals(playerXPosition + 2, player.getXPosition());
         assertEquals(playerYPosition, player.getYPosition());
 
         pause();
+
+        while (gameController.isGameOn()) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         assertFalse(gameController.isGameOn());
     }
@@ -216,7 +231,7 @@ public class ProcessTests {
                 'g'             // Specify the keychar as 'r'
         );
 
-        gameController.userTypeHandler(event);
+        assertTrue(gameController.userTypeHandler(event));
 
         pause();
 
@@ -233,10 +248,10 @@ public class ProcessTests {
                 'r'             // Specify the keychar as 'r'
         );
 
-        gameController.userTypeHandler(event);
+        assertTrue(gameController.userTypeHandler(event));
 
         pause();
 
-        assertTrue(gameController.isMenuOpened());
+         assertTrue(gameController.isMenuOpened());
     }
 }

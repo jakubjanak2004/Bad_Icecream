@@ -14,7 +14,6 @@ import View.GameView;
 
 import java.awt.event.KeyEvent;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 
 /**
@@ -22,7 +21,6 @@ import java.util.logging.Logger;
  * It controls player movement, monster behavior, game state, and level progression.
  */
 public class GameController {
-
     // logging
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
 
@@ -34,10 +32,13 @@ public class GameController {
     private final List<Reward> REWARD = Collections.synchronizedList(new ArrayList<>());
     private final int GAME_LOOP_REFRESH = 50;
     private final int MONSTER_MOVE_REFRESH = 500;
+
     //Threading Classes
     MonsterThread monsterThread;
+
     // level management classes
     private LevelManager levelManager;
+
     // boolean fields
     private boolean isGameOn = false;
     private boolean isMenuOpened = true;
@@ -109,15 +110,15 @@ public class GameController {
     /**
      * @param e KeyEvent received when user types
      */
-    public void userTypeHandler(KeyEvent e) {
+    public boolean userTypeHandler(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && isGameOn) {
             PLAYER.setRot(1);
             if (PLAYER.getXPosition() >= numOfFields - 1) {
-                return;
+                return true;
             }
             if (!isVisitable(PLAYER.getXPosition() + 1, PLAYER.getYPosition())) {
-                return;
+                return true;
             }
             PLAYER.moveOnx(1);
             checkDeath();
@@ -126,10 +127,10 @@ public class GameController {
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT && isGameOn) {
             PLAYER.setRot(3);
             if (PLAYER.getXPosition() <= 0) {
-                return;
+                return true;
             }
             if (!isVisitable(PLAYER.getXPosition() - 1, PLAYER.getYPosition())) {
-                return;
+                return true;
             }
             PLAYER.moveOnx(-1);
             checkDeath();
@@ -138,10 +139,10 @@ public class GameController {
         } else if (e.getKeyCode() == KeyEvent.VK_UP && isGameOn) {
             PLAYER.setRot(0);
             if (PLAYER.getYPosition() <= 0) {
-                return;
+                return true;
             }
             if (!isVisitable(PLAYER.getXPosition(), PLAYER.getYPosition() - 1)) {
-                return;
+                return true;
             }
             PLAYER.moveOny(-1);
             checkDeath();
@@ -150,10 +151,10 @@ public class GameController {
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN && isGameOn) {
             PLAYER.setRot(2);
             if (PLAYER.getYPosition() >= numOfFields - 1) {
-                return;
+                return true;
             }
             if (!isVisitable(PLAYER.getXPosition(), PLAYER.getYPosition() + 1)) {
-                return;
+                return true;
             }
             PLAYER.moveOny(1);
             checkDeath();
@@ -166,8 +167,12 @@ public class GameController {
         } else if (e.getKeyCode() == 71 && !isGameOn) {
             isGameOn = true;
             isMenuOpened = false;
-            startGame();
+            return startGame();
+        }else{
+            // when unrecognised key is pressed
+            return false;
         }
+        return true;
     }
 
 
@@ -247,7 +252,7 @@ public class GameController {
      * This method is for starting the game.
      * It has to be public for testing purposes.
      */
-    public void startGame() {
+    public boolean startGame() {
         logger.info("Game was started");
 
         REWARD.clear();
@@ -295,6 +300,9 @@ public class GameController {
         if (this.monstersMove) {
             monsterThread.start();
         }
+
+        // game was started
+        return true;
     }
 
     // private methods

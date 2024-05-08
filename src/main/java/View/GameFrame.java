@@ -19,4 +19,15 @@ public class GameFrame extends JFrame {
 
         this.setVisible(true);
     }
+
+    public GameFrame(int dimension, GameController gameController, boolean visibility) {
+        this.setTitle("Bad Ice cream Game");
+        this.setSize(dimension, dimension);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+
+        this.add(gameController.getGAME_VIEW());
+
+        this.setVisible(visibility);
+    }
 }

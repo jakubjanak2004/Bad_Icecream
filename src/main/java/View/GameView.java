@@ -1,8 +1,8 @@
 package View;
 
-import BoardElements.Reward.Reward;
 import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.SelfMovable;
+import BoardElements.Reward.Reward;
 import Logic.GameController;
 
 import javax.swing.*;
@@ -30,7 +30,7 @@ public class GameView extends JLabel {
 
     public GameView(GameController gameController) {
 
-         this.setFocusable(true);
+        this.setFocusable(true);
 
         this.gameController = gameController;
 
@@ -169,7 +169,7 @@ public class GameView extends JLabel {
     private void menuPage(Graphics2D g2d) {
         int height = this.getHeight();
         int width = this.getWidth();
-        int levelsSize = gameController.getLEVEL_MANAGER().getAllLevels().size();
+        int levelsSize = gameController.getLevelManager().getAllLevels().size();
         int cols = 4;
         int widthPadding;
         int heightPadding;
@@ -208,7 +208,7 @@ public class GameView extends JLabel {
         int counter = 0;
         for (int row = 0; row < levelsSize / cols + 1; row++) {
             for (int column = 0; column < cols; column++) {
-                if (counter >= gameController.getLEVEL_MANAGER().getAllLevels().size()) break;
+                if (counter >= gameController.getLevelManager().getAllLevels().size()) break;
 
                 int xPos = column * step + widthPadding;
                 int yPos = row * step + heightPadding + space;
@@ -218,7 +218,7 @@ public class GameView extends JLabel {
                 g2d.setColor(Color.WHITE);
                 g2d.fillOval(xPos, yPos, diameter, diameter);
 
-                if (gameController.getLEVEL_MANAGER().getScoreOfLevel(counter)) {
+                if (gameController.getLevelManager().getScoreOfLevel(counter)) {
                     g2d.setColor(Color.GREEN);
                 } else {
                     g2d.setColor(Color.BLACK);

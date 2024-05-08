@@ -28,22 +28,22 @@ public class GameController {
     // final fields
     private final GameView GAME_VIEW;
     private final Player PLAYER;
-    private final LevelManager LEVEL_MANAGER = new LevelManager();
     private final IceManipulator ICE_MANIPULATOR = new IceManipulator(this);
     private final List<SelfMovable> MONSTERS = Collections.synchronizedList(new ArrayList<>());
     private final List<Reward> REWARD = Collections.synchronizedList(new ArrayList<>());
     private final int GAME_LOOP_REFRESH = 50;
     private final int MONSTER_MOVE_REFRESH = 500;
-
     //Threading Classes
     MonsterThread monsterThread;
-
+    // level management classes
+    private LevelManager levelManager;
     // boolean fields
     private boolean isGameOn = false;
     private boolean isMenuOpened = true;
     private boolean wasLevelWon = false;
     private boolean isRefreshing = false;
     private boolean checkState = false;
+    private boolean monstersMove = true;
 
     // Integer fields
     private int numOfFields;
@@ -57,6 +57,20 @@ public class GameController {
 
     // Constructor
     public GameController() {
+        this.levelManager = new LevelManager();
+
+        this.boardArrayObject = new BoardElement[numOfFields][numOfFields];
+
+        this.PLAYER = new Player(0, 0, 0);
+
+        GAME_VIEW = new GameView(this);
+
+        setGameLoopTimer();
+    }
+
+    public GameController(LevelManager levelManager) {
+        this.levelManager = levelManager;
+
         this.boardArrayObject = new BoardElement[numOfFields][numOfFields];
 
         this.PLAYER = new Player(0, 0, 0);
@@ -91,7 +105,6 @@ public class GameController {
     }
 
     /**
-     *
      * @param e KeyEvent received when user types
      */
     public void userTypeHandler(KeyEvent e) {
@@ -157,7 +170,6 @@ public class GameController {
 
 
     /**
-     *
      * @param x x location on board array
      * @param y y location on board array
      * @return true if is visitable by player or monster
@@ -177,7 +189,6 @@ public class GameController {
     }
 
     /**
-     *
      * @param x x position on game board
      * @param y y position on game board
      * @return true if there is ice at certain location
@@ -195,9 +206,8 @@ public class GameController {
     }
 
     /**
-     *
-     * @param xMove movement on x axis
-     * @param yMove movement on y axis
+     * @param xMove   movement on x axis
+     * @param yMove   movement on y axis
      * @param monster monster that is performing the movement
      * @return is frozen at the location the monster is moving to
      */
@@ -208,6 +218,7 @@ public class GameController {
 
     /**
      * The method will beat ice at (x, y) coordinate
+     *
      * @param x x coordinate
      * @param y y coordinate
      */
@@ -227,6 +238,58 @@ public class GameController {
                 BoardElement replacement = new BoardElement(x, y);
                 getBoardArrayObject()[x][y] = replacement;
             }
+        }
+    }
+
+    /**
+     * This method is for starting the game.
+     * It has to be public for testing purposes.
+     */
+    public void startGame() {
+        logger.info("Game was started");
+
+        REWARD.clear();
+        MONSTERS.clear();
+        wasLevelWon = false;
+        isGameOn = true;
+
+        int[][] gameBoard = levelManager.getAllLevels().get(levelNum).getGAME_BOARDCopy();
+
+        numOfFields = gameBoard.length;
+
+        boardArrayObject = new BoardElement[gameBoard.length][gameBoard[0].length];
+
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int j = 0; j < gameBoard[i].length; j++) {
+                if (gameBoard[i][j] == -1) {
+                    PLAYER.setXPosition(i);
+                    PLAYER.setYPosition(j);
+                } else if (gameBoard[i][j] == 3) {
+                    MONSTERS.add(new StupidMonster(i, j, 0));
+                } else if (gameBoard[i][j] == 4) {
+                    MONSTERS.add(new CleverMonster(i, j, 0));
+                } else if (gameBoard[i][j] == 5) {
+                    MONSTERS.add(new StrongMonster(i, j, 0));
+                } else if (gameBoard[i][j] == 6) {
+                    REWARD.add(new Fruit(i, j));
+                } else if (gameBoard[i][j] == 7) {
+                    REWARD.add(new Chest(i, j));
+                } else if (gameBoard[i][j] == 8) {
+                    REWARD.add(new Key(i, j));
+                } else if (gameBoard[i][j] == 1) {
+                    boardArrayObject[i][j] = new IceBlock(i, j);
+                } else if (gameBoard[i][j] == 2) {
+                    boardArrayObject[i][j] = new SolidBlock(i, j);
+                } else if (gameBoard[i][j] == 0) {
+                    boardArrayObject[i][j] = new BoardElement(i, j);
+                }
+            }
+        }
+        checkState = true;
+        monsterThread = new MonsterThread(this);
+
+        if (this.monstersMove) {
+            monsterThread.start();
         }
     }
 
@@ -273,50 +336,6 @@ public class GameController {
         }
     }
 
-    private void startGame() {
-        logger.info("Game was started");
-
-        REWARD.clear();
-        MONSTERS.clear();
-        wasLevelWon = false;
-        isGameOn = true;
-
-        int[][] gameBoard = LEVEL_MANAGER.getAllLevels().get(levelNum).getGAME_BOARDCopy();
-
-        numOfFields = gameBoard.length;
-        boardArrayObject = new BoardElement[gameBoard.length][gameBoard[0].length];
-
-        for (int i = 0; i < gameBoard.length; i++) {
-            for (int j = 0; j < gameBoard[i].length; j++) {
-                if (gameBoard[i][j] == -1) {
-                    PLAYER.setXPosition(i);
-                    PLAYER.setYPosition(j);
-                } else if (gameBoard[i][j] == 3) {
-                    MONSTERS.add(new StupidMonster(i, j, 0));
-                } else if (gameBoard[i][j] == 4) {
-                    MONSTERS.add(new CleverMonster(i, j, 0));
-                } else if (gameBoard[i][j] == 5) {
-                    MONSTERS.add(new StrongMonster(i, j, 0));
-                } else if (gameBoard[i][j] == 6) {
-                    REWARD.add(new Fruit(i, j));
-                } else if (gameBoard[i][j] == 7) {
-                    REWARD.add(new Chest(i, j));
-                } else if (gameBoard[i][j] == 8) {
-                    REWARD.add(new Key(i, j));
-                } else if (gameBoard[i][j] == 1) {
-                    boardArrayObject[i][j] = new IceBlock(i, j);
-                } else if (gameBoard[i][j] == 2) {
-                    boardArrayObject[i][j] = new SolidBlock(i, j);
-                } else if (gameBoard[i][j] == 0) {
-                    boardArrayObject[i][j] = new BoardElement(i, j);
-                }
-            }
-        }
-        checkState = true;
-        monsterThread = new MonsterThread(this);
-        monsterThread.start();
-    }
-
     private void gameOver() {
         logger.info("Game stopped (you either won or got killed by a monster)");
 
@@ -327,11 +346,10 @@ public class GameController {
         monsterThread.setRunning(false);
 
         if (wasLevelWon) {
-            LEVEL_MANAGER.setScoreOfLevel(levelNum, true);
+            levelManager.setScoreOfLevel(levelNum, true);
         }
     }
 
-    // Getters and Setters
     public GameView getGAME_VIEW() {
         return GAME_VIEW;
     }
@@ -339,12 +357,17 @@ public class GameController {
     public void setMenuButtonClickedOn(int counter) {
         isMenuOpened = false;
         levelNum = counter;
-        LEVEL_MANAGER.setScoreOfLevel(counter, false);
+        levelManager.setScoreOfLevel(counter, false);
         startGame();
     }
 
-    public LevelManager getLEVEL_MANAGER() {
-        return LEVEL_MANAGER;
+    public LevelManager getLevelManager() {
+        return levelManager;
+    }
+
+    // Getters and Setters
+    public void setLevelManager(LevelManager levelManager) {
+        this.levelManager = levelManager;
     }
 
     public boolean isGameOn() {
@@ -397,5 +420,17 @@ public class GameController {
 
     public int getMONSTER_MOVE_REFRESH() {
         return MONSTER_MOVE_REFRESH;
+    }
+
+    public int getLevelNum() {
+        return levelNum;
+    }
+
+    public void setLevelNum(int levelNum) {
+        this.levelNum = levelNum;
+    }
+
+    public void setMonstersMove(boolean monstersMove) {
+        this.monstersMove = monstersMove;
     }
 }

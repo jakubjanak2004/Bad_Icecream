@@ -33,6 +33,19 @@ public class BoardElement implements IsOn2DimensionalBoard, isPaintable {
 
     }
 
+    @Override
+    public String toString() {
+        return "<BoardElement: xPosition=" + this.xPosition + " yPosition=" + this.yPosition + ">";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof BoardElement element) {
+            return this.xPosition == element.xPosition && this.yPosition == element.yPosition;
+        }
+        return false;
+    }
+
     public Color getColor() {
         return color;
     }

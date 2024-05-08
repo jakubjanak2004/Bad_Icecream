@@ -24,10 +24,10 @@ public class GameControllerTest {
         // array[] -> x | array[][] -> y
         // indexes increasing -> down | indexes decreasing -> up
         BoardElement[][] boardArrayObject = {
-                {null, null, new IceBlock(0, 2), null},
-                {new IceBlock(1, 0), null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {new BoardElement(0, 0), new BoardElement(0, 1), new IceBlock(0, 2), new BoardElement(0, 3)},
+                {new IceBlock(1, 0), new BoardElement(1, 1), new BoardElement(1, 2), new BoardElement(1, 3)},
+                {new BoardElement(2, 0), new BoardElement(2, 1), new BoardElement(2, 2), new BoardElement(2, 3)},
+                {new BoardElement(3, 0), new BoardElement(3, 1), new BoardElement(3, 2), new BoardElement(3, 3)}
         };
 
         // pass the level to the Controller

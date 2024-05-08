@@ -18,7 +18,8 @@ public class IceManipulator {
     }
 
     /**
-     * Manipulate Ice and while manipulating cannot start another manipulation, is used for player block freezing/unfreezing
+     * Manipulate Ice and while manipulating cannot start another manipulation,
+     * is used for player block freezing/unfreezing
      */
     public void manipulateIceAsync() {
         if (isManipulating) return;

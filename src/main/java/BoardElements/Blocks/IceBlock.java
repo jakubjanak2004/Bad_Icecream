@@ -1,5 +1,7 @@
 package BoardElements.Blocks;
 
+import BoardElements.BoardElement;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,6 +25,14 @@ public class IceBlock extends Block {
     public void destabilize() {
         if (stability <= 0) return;
         stability--;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof IceBlock element) {
+            return this.stability == element.stability && super.equals(obj);
+        }
+        return false;
     }
 
     @Override

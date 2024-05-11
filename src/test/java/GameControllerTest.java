@@ -97,6 +97,8 @@ public class GameControllerTest {
         assertTrue(bElement != null && bElement.getClass() == BoardElement.class);
     }
 
+    // described by the Test Scenario
+    // Handler_1
     @Test
     public void userTypeHandler_stateGiven_ExpectedReturn() {
         gameController.setGameOn(true);

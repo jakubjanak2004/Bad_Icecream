@@ -27,7 +27,7 @@ public class MonsterThread extends Thread {
                 throw new RuntimeException(e);
             }
 
-            List<SelfMovable> Monsters = gameController.getMONSTERS();
+            List<SelfMovable> Monsters = gameController.getMonsters();
             for (int i = 0; i < Monsters.size(); i++) {
 
                 if (!(Monsters.get(i) instanceof Monster)) {

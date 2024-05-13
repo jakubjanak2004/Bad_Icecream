@@ -18,7 +18,8 @@ import java.util.TimerTask;
  * Is a view that shows us the Game and pages relating to it (level win/lost and menu). The View Part of the MVC framework.
  */
 public class GameView extends JLabel {
-    private final int REFRESH_IN_MILLISECONDS = 25;
+    private static final int REFRESH_IN_MILLISECONDS = 25;
+
     private int mousePressedX = -1;
     private int mousePressedY = -1;
     private boolean painting = false;
@@ -113,7 +114,7 @@ public class GameView extends JLabel {
 
         paintReward(g2, step, widthPadding, heightPadding);
 
-        gameController.getPLAYER().paint(g2, step, widthPadding, heightPadding);
+        gameController.getPlayer().paint(g2, step, widthPadding, heightPadding);
 
         paintMonsters(g2, step, widthPadding, heightPadding);
 
@@ -131,14 +132,14 @@ public class GameView extends JLabel {
     }
 
     private void paintMonsters(Graphics2D g2, int step, int widthPadding, int heightPadding) {
-        for (SelfMovable m : gameController.getMONSTERS()) {
+        for (SelfMovable m : gameController.getMonsters()) {
             Monster monster = (Monster) m;
             monster.paint(g2, step, widthPadding, heightPadding);
         }
     }
 
     private void paintReward(Graphics2D g2, int step, int widthPadding, int heightPadding) {
-        for (Reward f : gameController.getREWARD()) {
+        for (Reward f : gameController.getRewards()) {
             if (f.isTaken()) continue;
             f.paint(g2, step, widthPadding, heightPadding);
         }

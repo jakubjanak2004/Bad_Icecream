@@ -5,13 +5,13 @@ package BoardElements;
  * This graph represents the game board and is used to find the shortest path.
  */
 public class VisitedNode implements IsOn2DimensionalBoard {
-    private final int X_POSITION;
-    private final int Y_POSITION;
+    private final int xPosition;
+    private final int yPosition;
     private int pathLength;
 
     public VisitedNode(int x, int y, String path) {
-        this.X_POSITION = x;
-        this.Y_POSITION = y;
+        this.xPosition = x;
+        this.yPosition = y;
         this.pathLength = path.length();
     }
 
@@ -33,11 +33,11 @@ public class VisitedNode implements IsOn2DimensionalBoard {
 
     @Override
     public int getXPosition() {
-        return X_POSITION;
+        return xPosition;
     }
 
     @Override
     public int getYPosition() {
-        return Y_POSITION;
+        return yPosition;
     }
 }

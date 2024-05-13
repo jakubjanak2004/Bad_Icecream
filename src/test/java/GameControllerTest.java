@@ -245,11 +245,11 @@ public class GameControllerTest {
     public void userTypeHandler_stateGiven_ExpectedReturn() {
         gameController.setGameOn(true);
 
-        KeyEvent e = new KeyEvent(gameController.getGAME_VIEW(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, KeyEvent.CHAR_UNDEFINED);
+        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, KeyEvent.CHAR_UNDEFINED);
 
         gameController.userTypeHandler(e);
 
-        Player player = gameController.getPLAYER();
+        Player player = gameController.getPlayer();
 
         assertEquals(0, player.getXPosition());
         assertEquals(Rotation.RIGHT, player.getRot());
@@ -259,11 +259,11 @@ public class GameControllerTest {
     public void userTypeHandler_arrowDown_ExpectedReturn() {
         gameController.setGameOn(true);
 
-        KeyEvent e = new KeyEvent(gameController.getGAME_VIEW(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN, KeyEvent.CHAR_UNDEFINED);
+        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN, KeyEvent.CHAR_UNDEFINED);
 
         gameController.userTypeHandler(e);
 
-        Player player = gameController.getPLAYER();
+        Player player = gameController.getPlayer();
 
         assertEquals(1, player.getYPosition());
         assertEquals(Rotation.DOWN, player.getRot());
@@ -273,11 +273,11 @@ public class GameControllerTest {
     public void userTypeHandler_arrowLeft_ExpectedReturn() {
         gameController.setGameOn(true);
 
-        KeyEvent e = new KeyEvent(gameController.getGAME_VIEW(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, KeyEvent.CHAR_UNDEFINED);
+        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, KeyEvent.CHAR_UNDEFINED);
 
         gameController.userTypeHandler(e);
 
-        Player player = gameController.getPLAYER();
+        Player player = gameController.getPlayer();
 
         assertEquals(0, player.getXPosition());
         assertEquals(Rotation.LEFT, player.getRot());
@@ -287,11 +287,11 @@ public class GameControllerTest {
     public void userTypeHandler_arrowUp_ExpectedReturn() {
         gameController.setGameOn(true);
 
-        KeyEvent e = new KeyEvent(gameController.getGAME_VIEW(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP, KeyEvent.CHAR_UNDEFINED);
+        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP, KeyEvent.CHAR_UNDEFINED);
 
         gameController.userTypeHandler(e);
 
-        Player player = gameController.getPLAYER();
+        Player player = gameController.getPlayer();
 
         assertEquals(0, player.getYPosition());
         assertEquals(Rotation.UP, player.getRot());

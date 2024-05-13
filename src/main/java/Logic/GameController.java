@@ -22,17 +22,19 @@ import java.util.logging.Logger;
  * It controls player movement, monster behavior, game state, and level progression.
  */
 public class GameController {
+    // Constants
+    public static final int MONSTER_MOVE_REFRESH = 500;
+    public static final int GAME_LOOP_REFRESH = 50;
+
     // logging
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
 
     // final fields
-    private final GameView GAME_VIEW;
-    private final Player PLAYER;
-    private final IceManipulator ICE_MANIPULATOR = new IceManipulator(this);
-    private final List<SelfMovable> MONSTERS = Collections.synchronizedList(new ArrayList<>());
-    private final List<Reward> REWARD = Collections.synchronizedList(new ArrayList<>());
-    private final int GAME_LOOP_REFRESH = 50;
-    private final int MONSTER_MOVE_REFRESH = 500;
+    private final GameView gameView;
+    private final Player player;
+    private final IceManipulator iceManipulator = new IceManipulator(this);
+    private final List<SelfMovable> monsters = Collections.synchronizedList(new ArrayList<>());
+    private final List<Reward> rewards = Collections.synchronizedList(new ArrayList<>());
 
     //Threading Classes
     MonsterThread monsterThread;
@@ -65,9 +67,9 @@ public class GameController {
 
         this.boardArrayObject = new BoardElement[numOfFields][numOfFields];
 
-        this.PLAYER = new Player(0, 0, Rotation.UP);
+        this.player = new Player(0, 0, Rotation.UP);
 
-        GAME_VIEW = new GameView(this);
+        gameView = new GameView(this);
 
         setGameLoopTimer();
     }
@@ -77,9 +79,9 @@ public class GameController {
 
         this.boardArrayObject = new BoardElement[numOfFields][numOfFields];
 
-        this.PLAYER = new Player(0, 0, Rotation.UP);
+        this.player = new Player(0, 0, Rotation.UP);
 
-        GAME_VIEW = new GameView(this);
+        gameView = new GameView(this);
 
         setGameLoopTimer();
     }
@@ -114,55 +116,55 @@ public class GameController {
     public boolean userTypeHandler(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && isGameOn) {
-            PLAYER.setRot(Rotation.RIGHT);
-            if (PLAYER.getXPosition() >= numOfFields - 1) {
+            player.setRot(Rotation.RIGHT);
+            if (player.getXPosition() >= numOfFields - 1) {
                 return true;
             }
-            if (!isVisitable(PLAYER.getXPosition() + 1, PLAYER.getYPosition())) {
+            if (!isVisitable(player.getXPosition() + 1, player.getYPosition())) {
                 return true;
             }
-            PLAYER.moveOnx(1);
+            player.moveOnx(1);
             checkDeath();
             checkFruitTaken();
 
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT && isGameOn) {
-            PLAYER.setRot(Rotation.LEFT);
-            if (PLAYER.getXPosition() <= 0) {
+            player.setRot(Rotation.LEFT);
+            if (player.getXPosition() <= 0) {
                 return true;
             }
-            if (!isVisitable(PLAYER.getXPosition() - 1, PLAYER.getYPosition())) {
+            if (!isVisitable(player.getXPosition() - 1, player.getYPosition())) {
                 return true;
             }
-            PLAYER.moveOnx(-1);
+            player.moveOnx(-1);
             checkDeath();
             checkFruitTaken();
 
         } else if (e.getKeyCode() == KeyEvent.VK_UP && isGameOn) {
-            PLAYER.setRot(Rotation.UP);
-            if (PLAYER.getYPosition() <= 0) {
+            player.setRot(Rotation.UP);
+            if (player.getYPosition() <= 0) {
                 return true;
             }
-            if (!isVisitable(PLAYER.getXPosition(), PLAYER.getYPosition() - 1)) {
+            if (!isVisitable(player.getXPosition(), player.getYPosition() - 1)) {
                 return true;
             }
-            PLAYER.moveOny(-1);
+            player.moveOny(-1);
             checkDeath();
             checkFruitTaken();
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN && isGameOn) {
-            PLAYER.setRot(Rotation.DOWN);
-            if (PLAYER.getYPosition() >= numOfFields - 1) {
+            player.setRot(Rotation.DOWN);
+            if (player.getYPosition() >= numOfFields - 1) {
                 return true;
             }
-            if (!isVisitable(PLAYER.getXPosition(), PLAYER.getYPosition() + 1)) {
+            if (!isVisitable(player.getXPosition(), player.getYPosition() + 1)) {
                 return true;
             }
-            PLAYER.moveOny(1);
+            player.moveOny(1);
             checkDeath();
             checkFruitTaken();
 
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE && isGameOn) {
-            ICE_MANIPULATOR.manipulateIceAsync();
+            iceManipulator.manipulateIceAsync();
         } else if (e.getKeyCode() == 82 && !isGameOn) {
             isMenuOpened = true;
         } else if (e.getKeyCode() == 71 && !isGameOn) {
@@ -256,8 +258,8 @@ public class GameController {
     public boolean startGame() {
         logger.info("Game was started");
 
-        REWARD.clear();
-        MONSTERS.clear();
+        rewards.clear();
+        monsters.clear();
         wasLevelWon = false;
 
         int[][] gameBoard = levelManager.getAllLevels().get(levelNum).getGAME_BOARDCopy();
@@ -269,20 +271,20 @@ public class GameController {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[i].length; j++) {
                 if (gameBoard[i][j] == -1) {
-                    PLAYER.setXPosition(i);
-                    PLAYER.setYPosition(j);
+                    player.setXPosition(i);
+                    player.setYPosition(j);
                 } else if (gameBoard[i][j] == 3) {
-                    MONSTERS.add(new StupidMonster(i, j, Rotation.UP));
+                    monsters.add(new StupidMonster(i, j, Rotation.UP));
                 } else if (gameBoard[i][j] == 4) {
-                    MONSTERS.add(new CleverMonster(i, j, Rotation.UP));
+                    monsters.add(new CleverMonster(i, j, Rotation.UP));
                 } else if (gameBoard[i][j] == 5) {
-                    MONSTERS.add(new StrongMonster(i, j, Rotation.UP));
+                    monsters.add(new StrongMonster(i, j, Rotation.UP));
                 } else if (gameBoard[i][j] == 6) {
-                    REWARD.add(new Fruit(i, j));
+                    rewards.add(new Fruit(i, j));
                 } else if (gameBoard[i][j] == 7) {
-                    REWARD.add(new Chest(i, j));
+                    rewards.add(new Chest(i, j));
                 } else if (gameBoard[i][j] == 8) {
-                    REWARD.add(new Key(i, j));
+                    rewards.add(new Key(i, j));
                 } else if (gameBoard[i][j] == 1) {
                     boardArrayObject[i][j] = new IceBlock(i, j);
                 } else if (gameBoard[i][j] == 2) {
@@ -309,7 +311,7 @@ public class GameController {
     // private methods
     private void checkAllFruitGone() {
         boolean isMoreFruit = false;
-        for (Reward f : REWARD) {
+        for (Reward f : rewards) {
             if (f.isTaken()) continue;
             isMoreFruit = true;
         }
@@ -320,21 +322,21 @@ public class GameController {
     }
 
     private void checkDeath() {
-        for (SelfMovable m : MONSTERS) {
-            if (Math.abs(m.getXPosition() - PLAYER.getXPosition()) <= 1 && m.getYPosition() == PLAYER.getYPosition()) {
+        for (SelfMovable m : monsters) {
+            if (Math.abs(m.getXPosition() - player.getXPosition()) <= 1 && m.getYPosition() == player.getYPosition()) {
                 gameOver();
-            } else if (Math.abs(m.getYPosition() - PLAYER.getYPosition()) <= 1 && m.getXPosition() == PLAYER.getXPosition()) {
+            } else if (Math.abs(m.getYPosition() - player.getYPosition()) <= 1 && m.getXPosition() == player.getXPosition()) {
                 gameOver();
             }
         }
     }
 
     private void checkFruitTaken() {
-        for (Reward f : REWARD) {
-            if (f.getXPosition() == PLAYER.getXPosition() && f.getYPosition() == PLAYER.getYPosition()) {
+        for (Reward f : rewards) {
+            if (f.getXPosition() == player.getXPosition() && f.getYPosition() == player.getYPosition()) {
                 boolean canBeOpened = true;
                 if (f instanceof Chest) {
-                    for (Reward key : REWARD) {
+                    for (Reward key : rewards) {
                         if (key instanceof Key) {
                             if (!key.isTaken()) {
                                 canBeOpened = false;
@@ -363,8 +365,8 @@ public class GameController {
         }
     }
 
-    public GameView getGAME_VIEW() {
-        return GAME_VIEW;
+    public GameView getGameView() {
+        return gameView;
     }
 
     public void setMenuButtonClickedOn(int counter) {
@@ -399,16 +401,16 @@ public class GameController {
         return wasLevelWon;
     }
 
-    public List<SelfMovable> getMONSTERS() {
-        return MONSTERS;
+    public List<SelfMovable> getMonsters() {
+        return monsters;
     }
 
-    public List<Reward> getREWARD() {
-        return new ArrayList<>(REWARD);
+    public List<Reward> getRewards() {
+        return new ArrayList<>(rewards);
     }
 
-    public Player getPLAYER() {
-        return PLAYER;
+    public Player getPlayer() {
+        return player;
     }
 
     public int getNumOfFields() {

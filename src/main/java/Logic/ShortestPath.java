@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * taking ice into account.
  */
 public class ShortestPath {
+    private static final ArrayList<VisitedNode> VISITED_NOTES_SHORTEST_SOLID_BLOCKS = new ArrayList<>();
+    private static final ArrayList<VisitedNode> VISITED_NODES_SHORTEST = new ArrayList<>();
+
     static String shortestPathThruMaze = "";
     static String shortestPath = "";
-
-    static ArrayList<VisitedNode> VISITED_NODES_SHORTEST = new ArrayList<>();
-    static ArrayList<VisitedNode> VISITED_NOTES_SHORTEST_SOLID_BLOCKS = new ArrayList<>();
 
     private static void getShortestPath(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
 

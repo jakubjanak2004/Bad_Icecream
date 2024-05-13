@@ -8,6 +8,7 @@ import javax.swing.*;
  * GameFrame is a class extending the JFrame java swing object. It is a window on which the game runs.
  */
 public class GameFrame extends JFrame {
+
     public GameFrame(int dimension) {
         this.setTitle("Bad Ice cream Game");
         this.setSize(dimension, dimension);
@@ -15,7 +16,7 @@ public class GameFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
         GameController gameController = new GameController();
-        this.add(gameController.getGAME_VIEW());
+        this.add(gameController.getGameView());
 
         this.setVisible(true);
     }
@@ -26,7 +27,7 @@ public class GameFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        this.add(gameController.getGAME_VIEW());
+        this.add(gameController.getGameView());
 
         this.setVisible(visibility);
     }

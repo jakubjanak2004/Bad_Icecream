@@ -41,7 +41,7 @@ public class IceManipulatorTest {
         gameController = mock(GameController.class);
 
         // returning desired objects from the mocked controller class
-        when(gameController.getPLAYER()).thenReturn(player);
+        when(gameController.getPlayer()).thenReturn(player);
         when(gameController.getBoardArrayObject()).thenReturn(boardArrayObject);
         when(gameController.getNumOfFields()).thenReturn(boardArrayObject.length);
 

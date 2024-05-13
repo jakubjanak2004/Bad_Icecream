@@ -19,7 +19,7 @@ public class StrongMonster extends Monster {
 
     @Override
     public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
-        Player player = gameController.getPLAYER();
+        Player player = gameController.getPlayer();
         BoardElement[][] boardElements = gameController.getBoardArrayObject();
 
         String shortestPath = ShortestPath.getShortestMazePathStart(getXPosition(), getYPosition(), player.getXPosition(),

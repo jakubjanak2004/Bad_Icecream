@@ -15,8 +15,9 @@ import java.util.logging.Logger;
  * This class is for management of levels and is communicating with the game as well as levels folder structure.
  */
 public class LevelManager {
-    private final String LEVELS_FOLDER_PATH = "src/main/java/LevelManagement/Levels";
-    private final String SCORE_FOLDER_PATH = "src/main/java/LevelManagement/LevelsScore";
+    private static final String LEVELS_FOLDER_PATH = "src/main/java/LevelManagement/Levels";
+    private static final String SCORE_FOLDER_PATH = "src/main/java/LevelManagement/LevelsScore";
+
     private final ArrayList<File> allLevelsFiles = new ArrayList<>();
     private final ArrayList<Level> allLevels = new ArrayList<>();
 

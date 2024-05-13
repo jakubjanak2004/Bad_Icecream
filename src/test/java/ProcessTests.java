@@ -141,7 +141,7 @@ public class ProcessTests {
         assertTrue(gameController.isGameOn());
         assertFalse(gameController.isWasLevelWon());
 
-        Player player = gameController.getPLAYER();
+        Player player = gameController.getPlayer();
         int playerXPosition = player.getXPosition();
         int playerYPosition = player.getYPosition();
 
@@ -183,7 +183,7 @@ public class ProcessTests {
         assertTrue(gameController.isGameOn());
         assertFalse(gameController.isWasLevelWon());
 
-        Player player = gameController.getPLAYER();
+        Player player = gameController.getPlayer();
         int playerXPosition = player.getXPosition();
         int playerYPosition = player.getYPosition();
 

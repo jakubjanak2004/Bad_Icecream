@@ -7,10 +7,10 @@ import java.util.Arrays;
  */
 public class Level {
     private final int order;
-    private final int[][] GAME_BOARD;
+    private final int[][] gameBoard;
 
     public Level(int[][] gameBoard, int order){
-            GAME_BOARD = gameBoard;
+            this.gameBoard = gameBoard;
             this.order = order;
     }
 
@@ -20,10 +20,10 @@ public class Level {
      */
     @Override
     public String toString() {
-        return "Order: " + this.order + System.lineSeparator() + " Game Board: " + Arrays.deepToString(this.GAME_BOARD) + System.lineSeparator();
+        return "Order: " + this.order + System.lineSeparator() + " Game Board: " + Arrays.deepToString(this.gameBoard) + System.lineSeparator();
     }
 
     public int[][] getGAME_BOARDCopy() {
-        return GAME_BOARD.clone();
+        return gameBoard.clone();
     }
 }

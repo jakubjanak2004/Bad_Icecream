@@ -1,5 +1,7 @@
 package BoardElements.Monsters;
 
+import BoardElements.Rotation;
+
 import java.awt.*;
 
 /**
@@ -7,7 +9,7 @@ import java.awt.*;
  * But is still as deadly as other monsters.
  */
 public class StupidMonster extends Monster{
-    public StupidMonster(int xPosition, int yPosition, int rot){
+    public StupidMonster(int xPosition, int yPosition, Rotation rot){
         super(xPosition, yPosition, rot);
         super.color = Color.GREEN;
     }

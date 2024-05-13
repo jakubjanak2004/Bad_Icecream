@@ -1,6 +1,7 @@
 import BoardElements.Blocks.IceBlock;
 import BoardElements.BoardElement;
 import BoardElements.Player;
+import BoardElements.Rotation;
 import Logic.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -251,7 +252,7 @@ public class GameControllerTest {
         Player player = gameController.getPLAYER();
 
         assertEquals(0, player.getXPosition());
-        assertEquals(1, player.getRot());
+        assertEquals(Rotation.RIGHT, player.getRot());
     }
 
     @Test
@@ -265,7 +266,7 @@ public class GameControllerTest {
         Player player = gameController.getPLAYER();
 
         assertEquals(1, player.getYPosition());
-        assertEquals(2, player.getRot());
+        assertEquals(Rotation.DOWN, player.getRot());
     }
 
     @Test
@@ -279,7 +280,7 @@ public class GameControllerTest {
         Player player = gameController.getPLAYER();
 
         assertEquals(0, player.getXPosition());
-        assertEquals(3, player.getRot());
+        assertEquals(Rotation.LEFT, player.getRot());
     }
 
     @Test
@@ -293,6 +294,6 @@ public class GameControllerTest {
         Player player = gameController.getPLAYER();
 
         assertEquals(0, player.getYPosition());
-        assertEquals(0, player.getRot());
+        assertEquals(Rotation.UP, player.getRot());
     }
 }

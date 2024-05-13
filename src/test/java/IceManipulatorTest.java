@@ -1,6 +1,7 @@
 import BoardElements.Blocks.IceBlock;
 import BoardElements.BoardElement;
 import BoardElements.Player;
+import BoardElements.Rotation;
 import Logic.GameController;
 import Logic.IceManipulator;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ public class IceManipulatorTest {
                 {new BoardElement(2, 0), new BoardElement(2, 1), new BoardElement(2, 2), new BoardElement(2, 3)},
                 {new BoardElement(3, 0), new BoardElement(3, 1), new BoardElement(3, 2), new BoardElement(3, 3)}
         };
-        player = new Player(0, 0, 0);
+        player = new Player(0, 0, Rotation.UP);
 
         // mocking the gameController
         gameController = mock(GameController.class);
@@ -50,7 +51,7 @@ public class IceManipulatorTest {
 
     @Test
     public void manipulateIceAsyncTest_playerFacingWall_boardsShouldEqual() {
-        this.player.setRot(0);
+        this.player.setRot(Rotation.UP);
 
         iceManipulator.manipulateIce();
 
@@ -59,7 +60,7 @@ public class IceManipulatorTest {
 
     @Test
     public void manipulateIceAsyncTest_playerWillBeFreezing_shouldUnfreeze() {
-        this.player.setRot(1);
+        this.player.setRot(Rotation.RIGHT);
 
         iceManipulator.manipulateIce();
 
@@ -70,7 +71,7 @@ public class IceManipulatorTest {
     public void manipulateIceAsyncTest_playerWillBeFreezing_shouldWholeRow() {
         this.player.setXPosition(3);
         this.player.setYPosition(0);
-        this.player.setRot(2);
+        this.player.setRot(Rotation.DOWN);
 
         iceManipulator.manipulateIce();
 
@@ -83,7 +84,7 @@ public class IceManipulatorTest {
     public void manipulateIceAsyncTest_playerWillBeFreezing_shouldWholeColumn() {
         this.player.setXPosition(3);
         this.player.setYPosition(3);
-        this.player.setRot(3);
+        this.player.setRot(Rotation.LEFT);
 
         iceManipulator.manipulateIce();
 

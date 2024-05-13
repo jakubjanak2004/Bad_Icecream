@@ -8,7 +8,7 @@ import java.awt.*;
 public class BoardElement implements IsOn2DimensionalBoard, isPaintable {
     protected int xPosition;
     protected int yPosition;
-    protected int rot;
+    protected Rotation rot;
     protected Color color;
 
     public BoardElement(int xPosition, int yPosition){
@@ -16,7 +16,7 @@ public class BoardElement implements IsOn2DimensionalBoard, isPaintable {
         this.yPosition = yPosition;
     }
 
-    public BoardElement(int xPosition, int yPosition, int rot){
+    public BoardElement(int xPosition, int yPosition, Rotation rot){
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.rot = rot;
@@ -66,11 +66,11 @@ public class BoardElement implements IsOn2DimensionalBoard, isPaintable {
         this.yPosition = yPosition;
     }
 
-    public int getRot() {
+    public Rotation getRot() {
         return rot;
     }
 
-    public void setRot(int rot) {
+    public void setRot(Rotation rot) {
         this.rot = rot;
     }
 }

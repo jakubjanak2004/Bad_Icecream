@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * Main class is the class containing the main method that runs at first and will execute the application
  */
 public class Main {
-    static int DIMENSION = 1000;
+    static final int DIMENSION = 1000;
     static WelcomeView welcomePage;
     static GameFrame gameBoard;
     private static final Logger logger = Logger.getLogger(Main.class.getName());

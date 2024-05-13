@@ -2,6 +2,7 @@ package BoardElements.Monsters;
 
 import BoardElements.BoardElement;
 import BoardElements.Player;
+import BoardElements.Rotation;
 import Logic.GameController;
 import Logic.ShortestPath;
 
@@ -11,7 +12,7 @@ import java.awt.*;
  * This class represents a monster that is clever and can find the player even if it is hiding.
  */
 public class CleverMonster extends Monster {
-    public CleverMonster(int xPosition, int yPosition, int rot) {
+    public CleverMonster(int xPosition, int yPosition, Rotation rot) {
         super(xPosition, yPosition, rot);
         super.color = Color.RED;
     }

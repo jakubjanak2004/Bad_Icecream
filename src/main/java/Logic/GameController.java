@@ -9,6 +9,7 @@ import BoardElements.Reward.Chest;
 import BoardElements.Reward.Fruit;
 import BoardElements.Reward.Key;
 import BoardElements.Reward.Reward;
+import BoardElements.Rotation;
 import LevelManagement.LevelManager;
 import View.GameView;
 
@@ -64,7 +65,7 @@ public class GameController {
 
         this.boardArrayObject = new BoardElement[numOfFields][numOfFields];
 
-        this.PLAYER = new Player(0, 0, 0);
+        this.PLAYER = new Player(0, 0, Rotation.UP);
 
         GAME_VIEW = new GameView(this);
 
@@ -76,7 +77,7 @@ public class GameController {
 
         this.boardArrayObject = new BoardElement[numOfFields][numOfFields];
 
-        this.PLAYER = new Player(0, 0, 0);
+        this.PLAYER = new Player(0, 0, Rotation.UP);
 
         GAME_VIEW = new GameView(this);
 
@@ -113,7 +114,7 @@ public class GameController {
     public boolean userTypeHandler(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT && isGameOn) {
-            PLAYER.setRot(1);
+            PLAYER.setRot(Rotation.RIGHT);
             if (PLAYER.getXPosition() >= numOfFields - 1) {
                 return true;
             }
@@ -125,7 +126,7 @@ public class GameController {
             checkFruitTaken();
 
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT && isGameOn) {
-            PLAYER.setRot(3);
+            PLAYER.setRot(Rotation.LEFT);
             if (PLAYER.getXPosition() <= 0) {
                 return true;
             }
@@ -137,7 +138,7 @@ public class GameController {
             checkFruitTaken();
 
         } else if (e.getKeyCode() == KeyEvent.VK_UP && isGameOn) {
-            PLAYER.setRot(0);
+            PLAYER.setRot(Rotation.UP);
             if (PLAYER.getYPosition() <= 0) {
                 return true;
             }
@@ -149,7 +150,7 @@ public class GameController {
             checkFruitTaken();
 
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN && isGameOn) {
-            PLAYER.setRot(2);
+            PLAYER.setRot(Rotation.DOWN);
             if (PLAYER.getYPosition() >= numOfFields - 1) {
                 return true;
             }
@@ -271,11 +272,11 @@ public class GameController {
                     PLAYER.setXPosition(i);
                     PLAYER.setYPosition(j);
                 } else if (gameBoard[i][j] == 3) {
-                    MONSTERS.add(new StupidMonster(i, j, 0));
+                    MONSTERS.add(new StupidMonster(i, j, Rotation.UP));
                 } else if (gameBoard[i][j] == 4) {
-                    MONSTERS.add(new CleverMonster(i, j, 0));
+                    MONSTERS.add(new CleverMonster(i, j, Rotation.UP));
                 } else if (gameBoard[i][j] == 5) {
-                    MONSTERS.add(new StrongMonster(i, j, 0));
+                    MONSTERS.add(new StrongMonster(i, j, Rotation.UP));
                 } else if (gameBoard[i][j] == 6) {
                     REWARD.add(new Fruit(i, j));
                 } else if (gameBoard[i][j] == 7) {

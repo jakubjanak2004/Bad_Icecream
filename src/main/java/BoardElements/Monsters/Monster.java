@@ -1,7 +1,7 @@
 package BoardElements.Monsters;
 
 import BoardElements.BoardElement;
-import BoardElements.Player;
+import BoardElements.Rotation;
 import Logic.GameController;
 
 import java.awt.*;
@@ -10,9 +10,11 @@ import java.awt.*;
  * Abstract representation of a monster in the game.
  */
 public abstract class Monster extends BoardElement implements SelfMovable {
+    public static final int MAX_TRIALS = 3;
+
     protected Color color;
 
-    protected Monster(int xPosition, int yPosition, int rot) {
+    protected Monster(int xPosition, int yPosition, Rotation rot) {
         super(xPosition, yPosition, rot);
     }
 
@@ -27,35 +29,35 @@ public abstract class Monster extends BoardElement implements SelfMovable {
         g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
     }
 
-    protected void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, int tries) {
-        if (tries > 3) return;
-        if (rot == 0) {
+    protected void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, int numberOfTries) {
+        if (numberOfTries > Monster.MAX_TRIALS) return;
+        if (rot == Rotation.UP) {
             if (canUp) {
                 super.yPosition -= 1;
             } else {
-                super.rot = 1;
-                move(canUp, canRight, canDown, canLeft, (tries + 1));
+                super.rot = Rotation.RIGHT;
+                move(false, canRight, canDown, canLeft, (numberOfTries + 1));
             }
-        } else if (rot == 1) {
+        } else if (rot == Rotation.RIGHT) {
             if (canRight) {
                 super.xPosition += 1;
             } else {
-                super.rot = 2;
-                move(canUp, canRight, canDown, canLeft, (tries + 1));
+                super.rot = Rotation.DOWN;
+                move(canUp, false, canDown, canLeft, (numberOfTries + 1));
             }
-        } else if (rot == 2) {
+        } else if (rot == Rotation.DOWN) {
             if (canDown) {
                 super.yPosition += 1;
             } else {
-                super.rot = 3;
-                move(canUp, canRight, canDown, canLeft, (tries + 1));
+                super.rot = Rotation.LEFT;
+                move(canUp, canRight, false, canLeft, (numberOfTries + 1));
             }
-        } else if (rot == 3) {
+        } else if (rot == Rotation.LEFT) {
             if (canLeft) {
                 super.xPosition -= 1;
             } else {
-                super.rot = 0;
-                move(canUp, canRight, canDown, canLeft, (tries + 1));
+                super.rot = Rotation.UP;
+                move(canUp, canRight, canDown, false, (numberOfTries + 1));
             }
         }
     }
@@ -63,16 +65,16 @@ public abstract class Monster extends BoardElement implements SelfMovable {
     protected void moveTo(char positionChar) {
         switch (positionChar) {
             case 'u':
-                this.rot = 0;
+                this.rot = Rotation.UP;
                 break;
             case 'r':
-                this.rot = 1;
+                this.rot = Rotation.RIGHT;
                 break;
             case 'd':
-                this.rot = 2;
+                this.rot = Rotation.DOWN;
                 break;
             case 'l':
-                this.rot = 3;
+                this.rot = Rotation.LEFT;
                 break;
         }
         move(true, true, true, true, 0);

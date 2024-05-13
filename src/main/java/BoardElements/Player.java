@@ -6,7 +6,7 @@ import java.awt.*;
  * Player class is used as an object representation of player playing the game.
  */
 public class Player extends BoardElement {
-    public Player(int xPosition, int yPosition, int rot) {
+    public Player(int xPosition, int yPosition, Rotation rot) {
         super(xPosition, yPosition, rot);
         super.color = Color.BLACK;
     }

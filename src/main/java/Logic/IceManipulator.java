@@ -5,6 +5,7 @@ import BoardElements.Blocks.SolidBlock;
 import BoardElements.BoardElement;
 import BoardElements.Reward.Reward;
 import BoardElements.Monsters.SelfMovable;
+import BoardElements.Rotation;
 
 /**
  * Ice Manipulator class is used for manipulating the ice, it is used by player and monsters.
@@ -44,16 +45,16 @@ public class IceManipulator {
         int millis = 100;
 
         switch (gLabel.getPLAYER().getRot()) {
-            case 0:
+            case UP:
                 playeryFreezingPosition -= 1;
                 break;
-            case 1:
+            case RIGHT:
                 playerxFreezingPosition += 1;
                 break;
-            case 2:
+            case DOWN:
                 playeryFreezingPosition += 1;
                 break;
-            case 3:
+            case LEFT:
                 playerxFreezingPosition -= 1;
                 break;
         }
@@ -71,7 +72,7 @@ public class IceManipulator {
             }
         }
 
-        if (gLabel.getPLAYER().getRot() == 0) {
+        if (gLabel.getPLAYER().getRot() == Rotation.UP) {
             for (int row = playeryFreezingPosition; row >= 0; row--) {
                 if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
                     return;
@@ -81,7 +82,7 @@ public class IceManipulator {
 
                 sleep(millis);
             }
-        } else if (gLabel.getPLAYER().getRot() == 1) {
+        } else if (gLabel.getPLAYER().getRot() == Rotation.RIGHT) {
             for (int column = playerxFreezingPosition; column < gLabel.getNumOfFields(); column++) {
                 if (!checkIceLoop(column, playeryFreezingPosition, settingInt)) {
                     return;
@@ -91,7 +92,7 @@ public class IceManipulator {
 
                 sleep(millis);
             }
-        } else if (gLabel.getPLAYER().getRot() == 2) {
+        } else if (gLabel.getPLAYER().getRot() == Rotation.DOWN) {
             for (int row = playeryFreezingPosition; row < gLabel.getNumOfFields(); row++) {
                 if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
                     return;
@@ -101,7 +102,7 @@ public class IceManipulator {
 
                 sleep(millis);
             }
-        } else if (gLabel.getPLAYER().getRot() == 3) {
+        } else if (gLabel.getPLAYER().getRot() == Rotation.LEFT) {
             for (int column = playerxFreezingPosition; column >= 0; column--) {
                 if (!checkIceLoop(column, playeryFreezingPosition, settingInt)) {
                     return;

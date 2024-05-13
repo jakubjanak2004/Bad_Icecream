@@ -2,6 +2,7 @@ package BoardElements.Monsters;
 
 import BoardElements.BoardElement;
 import BoardElements.Player;
+import BoardElements.Rotation;
 import Logic.GameController;
 import Logic.ShortestPath;
 
@@ -11,7 +12,7 @@ import java.awt.*;
  * Strong monster represents a monster that is strong and can break through ice.
  */
 public class StrongMonster extends Monster {
-    public StrongMonster(int xPosition, int yPosition, int rot) {
+    public StrongMonster(int xPosition, int yPosition, Rotation rot) {
         super(xPosition, yPosition, rot);
         super.color = Color.ORANGE;
     }

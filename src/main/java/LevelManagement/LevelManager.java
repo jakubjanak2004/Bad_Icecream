@@ -1,6 +1,8 @@
 package LevelManagement;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,8 +17,8 @@ import java.util.logging.Logger;
  * This class is for management of levels and is communicating with the game as well as levels folder structure.
  */
 public class LevelManager {
-    private static final String LEVELS_FOLDER_PATH = "src/main/java/LevelManagement/Levels";
-    private static final String SCORE_FOLDER_PATH = "src/main/java/LevelManagement/LevelsScore";
+    private static final URL LEVELS_FOLDER_PATH = LevelManager.class.getClassLoader().getResource("levels");
+    private static final URL SCORE_FOLDER_PATH = LevelManager.class.getClassLoader().getResource("levelsScore");
 
     private final ArrayList<File> allLevelsFiles = new ArrayList<>();
     private final ArrayList<Level> allLevels = new ArrayList<>();
@@ -33,7 +35,7 @@ public class LevelManager {
      */
 
     public void readAllFromDir() {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LEVELS_FOLDER_PATH))) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(LEVELS_FOLDER_PATH.toURI()))) {
             for (Path path : stream) {
                 if (!Files.isDirectory(path) && path.toString().endsWith(".csv")) {
                     File file = new File(path.toString());
@@ -43,7 +45,7 @@ public class LevelManager {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
         allLevelsFiles.sort(Comparator.naturalOrder());
@@ -94,7 +96,13 @@ public class LevelManager {
     }
 
     public void setScoreOfLevel(int levelNum, boolean status) {
-        File file = new File(SCORE_FOLDER_PATH + "/" + "level_" + levelNum + ".csv");
+        File file;
+
+        try {
+            file = new File(Paths.get(SCORE_FOLDER_PATH.toURI()) + "/" + "level_" + levelNum + ".csv");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
 
         if (!file.exists()) {
             try {
@@ -123,7 +131,13 @@ public class LevelManager {
     }
 
     public boolean getScoreOfLevel(int levelNum) {
-        File file = new File(SCORE_FOLDER_PATH + "/" + "level_" + levelNum + ".csv");
+        File file;
+
+        try {
+            file = new File(Paths.get(SCORE_FOLDER_PATH.toURI()) + "/" + "level_" + levelNum + ".csv");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         BufferedReader bReader = null;
 
         if (!file.exists()) {
@@ -141,8 +155,6 @@ public class LevelManager {
                 }
             }
             bReader.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

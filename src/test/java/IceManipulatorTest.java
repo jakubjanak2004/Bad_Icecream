@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -18,7 +19,7 @@ public class IceManipulatorTest {
     private IceManipulator iceManipulator;
     private GameController gameController;
     private Player player;
-    private BoardElement[][] boardArrayObject;
+    private Optional<BoardElement>[][] boardArrayObjectOptional;
 
     private final BoardElement[][] boardArrayObjectAtStart = {
             {new BoardElement(0, 0), new BoardElement(0, 1), new IceBlock(0, 2), new BoardElement(0, 3)},
@@ -29,12 +30,21 @@ public class IceManipulatorTest {
 
     @BeforeEach
     public void setUp() {
-        boardArrayObject = new BoardElement[][]{
+        BoardElement[][] boardArrayObject = new BoardElement[][]{
                 {new BoardElement(0, 0), new BoardElement(0, 1), new IceBlock(0, 2), new BoardElement(0, 3)},
                 {new IceBlock(1, 0), new BoardElement(1, 1), new BoardElement(1, 2), new BoardElement(1, 3)},
                 {new BoardElement(2, 0), new BoardElement(2, 1), new BoardElement(2, 2), new BoardElement(2, 3)},
                 {new BoardElement(3, 0), new BoardElement(3, 1), new BoardElement(3, 2), new BoardElement(3, 3)}
         };
+
+        boardArrayObjectOptional = new Optional[boardArrayObject.length][boardArrayObject[0].length];
+
+        for (int i = 0; i < boardArrayObjectOptional.length; i++) {
+            for (int j = 0; j < boardArrayObjectOptional[i].length; j++) {
+                boardArrayObjectOptional[i][j] = Optional.ofNullable(boardArrayObject[i][j]);
+            }
+        }
+
         player = new Player(0, 0, Rotation.UP);
 
         // mocking the gameController
@@ -42,7 +52,7 @@ public class IceManipulatorTest {
 
         // returning desired objects from the mocked controller class
         when(gameController.getPlayer()).thenReturn(player);
-        when(gameController.getBoardArrayObject()).thenReturn(boardArrayObject);
+        when(gameController.getBoardArrayObject()).thenReturn(boardArrayObjectOptional);
         when(gameController.getNumOfFields()).thenReturn(boardArrayObject.length);
 
         // creating the IceManipulator class instance
@@ -55,7 +65,15 @@ public class IceManipulatorTest {
 
         iceManipulator.manipulateIce();
 
-        assertTrue(Arrays.deepEquals(boardArrayObjectAtStart, boardArrayObject));
+        BoardElement[][] boardArrayObjectToBeAsserted = new BoardElement[boardArrayObjectOptional.length][boardArrayObjectOptional[0].length];
+
+        for (int i = 0; i < boardArrayObjectOptional.length; i++) {
+            for (int j = 0; j < boardArrayObjectOptional[i].length; j++) {
+                boardArrayObjectToBeAsserted[i][j] = boardArrayObjectOptional[i][j].get();
+            }
+        }
+
+        assertTrue(Arrays.deepEquals(boardArrayObjectAtStart, boardArrayObjectToBeAsserted));
     }
 
     @Test
@@ -64,7 +82,7 @@ public class IceManipulatorTest {
 
         iceManipulator.manipulateIce();
 
-        assertFalse(boardArrayObject[1][0] instanceof IceBlock);
+        assertFalse(boardArrayObjectOptional[1][0].get() instanceof IceBlock);
     }
 
     @Test
@@ -75,9 +93,9 @@ public class IceManipulatorTest {
 
         iceManipulator.manipulateIce();
 
-        assertEquals(new IceBlock(3, 1), boardArrayObject[3][1]);
-        assertEquals(new IceBlock(3, 2), boardArrayObject[3][2]);
-        assertEquals(new IceBlock(3, 3), boardArrayObject[3][3]);
+        assertEquals(new IceBlock(3, 1), boardArrayObjectOptional[3][1].get());
+        assertEquals(new IceBlock(3, 2), boardArrayObjectOptional[3][2].get());
+        assertEquals(new IceBlock(3, 3), boardArrayObjectOptional[3][3].get());
     }
 
     @Test
@@ -88,8 +106,8 @@ public class IceManipulatorTest {
 
         iceManipulator.manipulateIce();
 
-        assertEquals(new IceBlock(2, 3), boardArrayObject[2][3]);
-        assertEquals(new IceBlock(1, 3), boardArrayObject[1][3]);
-        assertEquals(new IceBlock(0, 3), boardArrayObject[0][3]);
+        assertEquals(new IceBlock(2, 3), boardArrayObjectOptional[2][3].get());
+        assertEquals(new IceBlock(1, 3), boardArrayObjectOptional[1][3].get());
+        assertEquals(new IceBlock(0, 3), boardArrayObjectOptional[0][3].get());
     }
 }

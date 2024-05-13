@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.awt.event.KeyEvent;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,8 +32,16 @@ public class GameControllerTest {
                 {new BoardElement(3, 0), new BoardElement(3, 1), new BoardElement(3, 2), new BoardElement(3, 3)}
         };
 
+        Optional<BoardElement>[][] boardArrayObjectOptional = new Optional[boardArrayObject.length][boardArrayObject[0].length];
+
+        for (int i = 0; i < boardArrayObjectOptional.length; i++) {
+            for (int j = 0; j < boardArrayObjectOptional[i].length; j++) {
+                boardArrayObjectOptional[i][j] = Optional.ofNullable(boardArrayObject[i][j]);
+            }
+        }
+
         // pass the level to the Controller
-        gameController.setBoardArrayObject(boardArrayObject);
+        gameController.setBoardArrayObject(boardArrayObjectOptional);
         gameController.setNumOfFields(boardArrayObject.length);
     }
 
@@ -221,7 +230,7 @@ public class GameControllerTest {
         int y = 0;
         gameController.beatIce(x, y);
 
-        BoardElement bElement = gameController.getBoardArrayObject()[x][y];
+        BoardElement bElement = (BoardElement) gameController.getBoardArrayObject()[x][y].get();
 
         assertSame(bElement.getClass(), IceBlock.class);
         assertEquals(1, ((IceBlock) bElement).getStability());
@@ -234,7 +243,7 @@ public class GameControllerTest {
         gameController.beatIce(x, y);
         gameController.beatIce(x, y);
 
-        BoardElement bElement = gameController.getBoardArrayObject()[x][y];
+        BoardElement bElement = (BoardElement) gameController.getBoardArrayObject()[x][y].get();
 
         assertTrue(bElement != null && bElement.getClass() == BoardElement.class);
     }

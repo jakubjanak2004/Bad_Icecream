@@ -59,13 +59,13 @@ public class GameController {
     private TimerTask gameLoopTimerTask;
 
     // Objects Array
-    private BoardElement[][] boardArrayObject;
+    private Optional<BoardElement>[][] boardArrayObject;
 
     // Constructor
     public GameController() {
         this.levelManager = new LevelManager();
 
-        this.boardArrayObject = new BoardElement[numOfFields][numOfFields];
+        this.boardArrayObject = createEmptyArray(numOfFields, numOfFields);
 
         this.player = new Player(0, 0, Rotation.UP);
 
@@ -77,7 +77,7 @@ public class GameController {
     public GameController(LevelManager levelManager) {
         this.levelManager = levelManager;
 
-        this.boardArrayObject = new BoardElement[numOfFields][numOfFields];
+        this.boardArrayObject = createEmptyArray(numOfFields, numOfFields);
 
         this.player = new Player(0, 0, Rotation.UP);
 
@@ -192,8 +192,8 @@ public class GameController {
             return false;
         }
 
-        if (boardArrayObject[x][y] != null) {
-            return boardArrayObject[x][y].getClass() != IceBlock.class && boardArrayObject[x][y].getClass() != SolidBlock.class;
+        if (boardArrayObject[x][y].isPresent()) {
+            return boardArrayObject[x][y].get().getClass() != IceBlock.class && boardArrayObject[x][y].get().getClass() != SolidBlock.class;
         }
         return true;
     }
@@ -211,8 +211,8 @@ public class GameController {
             return false;
         }
 
-        return (boardArrayObject[x][y] != null
-                && boardArrayObject[x][y].getClass() == IceBlock.class);
+        return (boardArrayObject[x][y].isPresent()
+                && boardArrayObject[x][y].get().getClass() == IceBlock.class);
     }
 
     /**
@@ -222,8 +222,8 @@ public class GameController {
      * @return is frozen at the location the monster is moving to
      */
     public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
-        return (boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove] != null
-                && boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove].getClass() == IceBlock.class);
+        return (boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove].isPresent()
+                && boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove].get().getClass() == IceBlock.class);
     }
 
     /**
@@ -240,13 +240,13 @@ public class GameController {
             return;
         }
 
-        if (getBoardArrayObject()[x][y] != null && getBoardArrayObject()[x][y].getClass() == IceBlock.class) {
-            IceBlock iceBlock = (IceBlock) getBoardArrayObject()[x][y];
+        if (getBoardArrayObject()[x][y].isPresent() && getBoardArrayObject()[x][y].get().getClass() == IceBlock.class) {
+            IceBlock iceBlock = (IceBlock) getBoardArrayObject()[x][y].get();
             iceBlock.destabilize();
 
             if (iceBlock.getStability() <= 0) {
                 BoardElement replacement = new BoardElement(x, y);
-                getBoardArrayObject()[x][y] = replacement;
+                getBoardArrayObject()[x][y] = Optional.of(replacement);
             }
         }
     }
@@ -266,7 +266,7 @@ public class GameController {
 
         numOfFields = gameBoard.length;
 
-        boardArrayObject = new BoardElement[gameBoard.length][gameBoard[0].length];
+        boardArrayObject = createEmptyArray(gameBoard.length, gameBoard[0].length);
 
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[i].length; j++) {
@@ -286,11 +286,11 @@ public class GameController {
                 } else if (gameBoard[i][j] == 8) {
                     rewards.add(new Key(i, j));
                 } else if (gameBoard[i][j] == 1) {
-                    boardArrayObject[i][j] = new IceBlock(i, j);
+                    boardArrayObject[i][j] = Optional.of(new IceBlock(i, j));
                 } else if (gameBoard[i][j] == 2) {
-                    boardArrayObject[i][j] = new SolidBlock(i, j);
+                    boardArrayObject[i][j] = Optional.of(new SolidBlock(i, j));
                 } else if (gameBoard[i][j] == 0) {
-                    boardArrayObject[i][j] = new BoardElement(i, j);
+                    boardArrayObject[i][j] = Optional.of(new BoardElement(i, j));
                 }
             }
         }
@@ -380,6 +380,16 @@ public class GameController {
         return levelManager;
     }
 
+    private static Optional<BoardElement>[][] createEmptyArray(int rows, int columns) {
+        Optional<BoardElement>[][] array = new Optional[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                array[i][j] = Optional.empty();
+            }
+        }
+        return array;
+    }
+
     // Getters and Setters
     public void setLevelManager(LevelManager levelManager) {
         this.levelManager = levelManager;
@@ -421,11 +431,11 @@ public class GameController {
         this.numOfFields = numOfFields;
     }
 
-    public BoardElement[][] getBoardArrayObject() {
+    public Optional<BoardElement>[][] getBoardArrayObject() {
         return boardArrayObject;
     }
 
-    public void setBoardArrayObject(BoardElement[][] boardArrayObject) {
+    public void setBoardArrayObject(Optional<BoardElement>[][] boardArrayObject) {
         this.boardArrayObject = boardArrayObject;
     }
 

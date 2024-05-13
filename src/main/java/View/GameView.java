@@ -1,5 +1,6 @@
 package View;
 
+import BoardElements.BoardElement;
 import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.SelfMovable;
 import BoardElements.Reward.Reward;
@@ -124,8 +125,9 @@ public class GameView extends JLabel {
     private void paintGameBlocks(Graphics2D g2, int step, int widthPadding, int heightPadding) {
         for (int i = 0; i < gameController.getBoardArrayObject().length; i++) {
             for (int j = 0; j < gameController.getBoardArrayObject()[i].length; j++) {
-                if (gameController.getBoardArrayObject()[i][j] != null) {
-                    gameController.getBoardArrayObject()[i][j].paint(g2, step, widthPadding, heightPadding);
+                if (gameController.getBoardArrayObject()[i][j].isPresent()) {
+                    BoardElement element = gameController.getBoardArrayObject()[i][j].get();
+                    element.paint(g2, step, widthPadding, heightPadding);
                 }
             }
         }

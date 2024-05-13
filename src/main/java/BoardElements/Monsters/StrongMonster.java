@@ -7,6 +7,7 @@ import Logic.GameController;
 import Logic.ShortestPath;
 
 import java.awt.*;
+import java.util.Optional;
 
 /**
  * Strong monster represents a monster that is strong and can break through ice.
@@ -20,7 +21,7 @@ public class StrongMonster extends Monster {
     @Override
     public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         Player player = gameController.getPlayer();
-        BoardElement[][] boardElements = gameController.getBoardArrayObject();
+        Optional[][] boardElements = gameController.getBoardArrayObject();
 
         String shortestPath = ShortestPath.getShortestMazePathStart(getXPosition(), getYPosition(), player.getXPosition(),
                 player.getYPosition(), "", 's', boardElements, boardElements.length);

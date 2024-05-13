@@ -7,6 +7,8 @@ import BoardElements.Reward.Reward;
 import BoardElements.Monsters.SelfMovable;
 import BoardElements.Rotation;
 
+import java.util.Optional;
+
 /**
  * Ice Manipulator class is used for manipulating the ice, it is used by player and monsters.
  */
@@ -66,8 +68,8 @@ public class IceManipulator {
             return;
         }
 
-        if (gLabel.getBoardArrayObject()[playerxFreezingPosition][playeryFreezingPosition] != null) {
-            if (gLabel.getBoardArrayObject()[playerxFreezingPosition][playeryFreezingPosition].getClass() != BoardElement.class) {
+        if (gLabel.getBoardArrayObject()[playerxFreezingPosition][playeryFreezingPosition].isPresent()) {
+            if (gLabel.getBoardArrayObject()[playerxFreezingPosition][playeryFreezingPosition].get().getClass() != BoardElement.class) {
                 settingInt = 0;
             }
         }
@@ -116,25 +118,25 @@ public class IceManipulator {
     }
 
     private void changeArray(int x, int y, int settingInt) {
-        if (gLabel.getBoardArrayObject()[x][y] != null && gLabel.getBoardArrayObject()[x][y].getClass() == IceBlock.class && settingInt == 0) {
+        if (gLabel.getBoardArrayObject()[x][y].isPresent() && gLabel.getBoardArrayObject()[x][y].get().getClass() == IceBlock.class && settingInt == 0) {
             //gLabel.getBoardArrayObject()[x][y] = null;
             BoardElement replacement = new BoardElement(x, y);
-            gLabel.getBoardArrayObject()[x][y] = replacement;
+            gLabel.getBoardArrayObject()[x][y] = Optional.of(replacement);
         } else {
-            gLabel.getBoardArrayObject()[x][y] = new IceBlock(x, y);
+            gLabel.getBoardArrayObject()[x][y] = Optional.of(new IceBlock(x, y));
         }
     }
 
     private boolean checkIceLoop(int x, int y, int settingInt) {
         // checking if next tile is or is not an ice, according to the settingInt
         if (settingInt == 0) {
-            if (gLabel.getBoardArrayObject()[x][y] == null || gLabel.getBoardArrayObject()[x][y].getClass() == SolidBlock.class
-                    || gLabel.getBoardArrayObject()[x][y].getClass() == BoardElement.class) {
+            if (gLabel.getBoardArrayObject()[x][y].isEmpty() || gLabel.getBoardArrayObject()[x][y].get().getClass() == SolidBlock.class
+                    || gLabel.getBoardArrayObject()[x][y].get().getClass() == BoardElement.class) {
                 return false;
             }
         } else if (settingInt == 1) {
-            if (gLabel.getBoardArrayObject()[x][y] != null) {
-                if (gLabel.getBoardArrayObject()[x][y].getClass() != BoardElement.class) {
+            if (gLabel.getBoardArrayObject()[x][y].isPresent()) {
+                if (gLabel.getBoardArrayObject()[x][y].get().getClass() != BoardElement.class) {
                     return false;
                 }
             }

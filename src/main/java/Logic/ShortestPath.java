@@ -6,6 +6,7 @@ import BoardElements.BoardElement;
 import BoardElements.VisitedNode;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Shortest Path Algorithm class, this class contains algorithms for finding the shortest path in the game board,
@@ -18,7 +19,7 @@ public class ShortestPath {
     static String shortestPathThruMaze = "";
     static String shortestPath = "";
 
-    private static void getShortestPath(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
+    private static void getShortestPath(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
 
         if (x1 == x2 && y1 == y2) {
             if (shortestPath.isEmpty() || shortestPath.length() > subPath.length()) {
@@ -57,7 +58,7 @@ public class ShortestPath {
         }
     }
 
-    private static void getShortestPathThruMaze(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
+    private static void getShortestPathThruMaze(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
 
         if (x1 == x2 && y1 == y2) {
             if (shortestPathThruMaze.isEmpty() || shortestPathThruMaze.length() > subPath.length()) {
@@ -110,7 +111,7 @@ public class ShortestPath {
      * @param numOfFields number of fields in rectangular board array
      * @return the first direction the board element should move
      */
-    public static String getShortestPathStart(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
+    public static String getShortestPathStart(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
         shortestPath = "";
         VISITED_NOTES_SHORTEST_SOLID_BLOCKS.clear();
 
@@ -131,7 +132,7 @@ public class ShortestPath {
      * @param numOfFields number of fields in rectangular board array
      * @return the first direction the board element should move
      */
-    public static String getShortestMazePathStart(int x1, int y1, int x2, int y2, String subPath, char was, BoardElement[][] boardArray, int numOfFields) {
+    public static String getShortestMazePathStart(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
         shortestPathThruMaze = "";
         VISITED_NODES_SHORTEST.clear();
 
@@ -148,12 +149,12 @@ public class ShortestPath {
      * @param boardArrayObject the array containing the game Board as objects
      * @return true if there is no solid block on certain location
      */
-    public static boolean isNotSolidBlockOnLoc(int x, int y, BoardElement[][] boardArrayObject) {
+    public static boolean isNotSolidBlockOnLoc(int x, int y, Optional[][] boardArrayObject) {
         if (x < 0 || x >= boardArrayObject.length || y < 0 || y >= boardArrayObject[0].length) {
             return true;
         }
 
-        if (boardArrayObject[x][y] != null && boardArrayObject[x][y].getClass() == SolidBlock.class) {
+        if (boardArrayObject[x][y].isPresent() && boardArrayObject[x][y].get().getClass() == SolidBlock.class) {
             return false;
         }
         return true;
@@ -167,12 +168,12 @@ public class ShortestPath {
      * @param boardArrayObject the array containing the game Board as objects
      * @return true if there is no ice block on certain location
      */
-    public static boolean isNotIceBlockOnLoc(int x, int y, BoardElement[][] boardArrayObject) {
+    public static boolean isNotIceBlockOnLoc(int x, int y, Optional[][] boardArrayObject) {
         if (x < 0 || x >= boardArrayObject.length || y < 0 || y >= boardArrayObject[0].length) {
             return false;
         }
 
-        if (boardArrayObject[x][y] != null && boardArrayObject[x][y].getClass() == IceBlock.class) {
+        if (boardArrayObject[x][y].isPresent() && boardArrayObject[x][y].get().getClass() == IceBlock.class) {
             return false;
         }
         return true;

@@ -1,17 +1,23 @@
 package BoardElements.Reward;
 
+import BoardElements.Blocks.IceBlock;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Key is an item that has to be collected in order to open chests.
  */
 public class Key extends Reward {
+    private BufferedImage img;
+
     public Key(int xPosition, int yPosition) {
         super(xPosition, yPosition);
+
+        loadImage();
     }
 
     @Override
@@ -23,13 +29,17 @@ public class Key extends Reward {
         int y = getYPosition() * step + heightPadding;
         int xPaddingInBlock = (step - width) / 2;
         int yPaddingInBlock = (step - height) / 2;
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File("/Users/jakubjanak/Desktop/SIT/S2/PJV/BadIcecream/src/main/java/Assets/key.png"));
+
+        g.drawImage(img, x + xPaddingInBlock, y + yPaddingInBlock, width, height, null);
+    }
+
+    private void loadImage() {
+        try (InputStream inputStream = IceBlock.class.getClassLoader().getResourceAsStream("assets/Key.png")) {
+            if (inputStream != null) {
+                img = ImageIO.read(inputStream);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        g.drawImage(img, x + xPaddingInBlock, y + yPaddingInBlock, width, height, null);
     }
 }

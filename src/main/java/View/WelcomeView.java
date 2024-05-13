@@ -1,5 +1,6 @@
 package View;
 
+import BoardElements.Blocks.IceBlock;
 import main.Main;
 
 import javax.imageio.ImageIO;
@@ -10,13 +11,17 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * WelcomeView serves as a window that is being shown when the game is run at first. After this window is closed it can be opened only by turning the game off and on.
+ * WelcomeView serves as a window that is being shown when the game is run at first.
+ * After this window is closed it can be opened only by turning the game off and on.
  */
 public class WelcomeView extends JFrame {
+    private BufferedImage img;
+
     private int moduloCounter = 0;
 
     private Timer refreshTimer;
@@ -28,6 +33,8 @@ public class WelcomeView extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+
+        loadImage();
 
         this.refreshTimer = new Timer();
         this.refreshTimerTask = new TimerTask() {
@@ -89,12 +96,6 @@ public class WelcomeView extends JFrame {
 
     private void paintSnowflake(Graphics g){
         int snowFlakesOnScreen = 5;
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File("/Users/jakubjanak/Desktop/SIT/S2/PJV/BadIcecream/src/main/java/Assets/snowflake_3.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         for (int i = 0; i < snowFlakesOnScreen * 2; i++) {
             for (int j = 0; j < snowFlakesOnScreen * 2; j++) {
@@ -125,5 +126,15 @@ public class WelcomeView extends JFrame {
         g.fillRect(startX, startY - stringHeight + 15, stringLength, stringHeight);
         g.setColor(Color.WHITE);
         g.drawString(gameOverString, startX, startY);
+    }
+
+    public void loadImage() {
+        try (InputStream inputStream = IceBlock.class.getClassLoader().getResourceAsStream("assets/snowflake_3.png")) {
+            if (inputStream != null) {
+                img = ImageIO.read(inputStream);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

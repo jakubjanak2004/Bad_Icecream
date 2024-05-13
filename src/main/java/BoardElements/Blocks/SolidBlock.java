@@ -3,15 +3,19 @@ package BoardElements.Blocks;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * SolidBlock class representing the Block that is solid and cannot be broken on the map.
  */
 public class SolidBlock extends Block {
+    private BufferedImage img;
+
     public SolidBlock(int xPosition, int yPosition) {
         super(xPosition, yPosition);
+
+        loadImage();
     }
 
     @Override
@@ -20,13 +24,16 @@ public class SolidBlock extends Block {
         int x = getXPosition() * step + widthPadding;
         int y = getYPosition() * step + heightPadding;
 
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File("/Users/jakubjanak/Desktop/SIT/S2/PJV/BadIcecream/src/main/java/Assets/MetalTile.png"));
+        g.drawImage(img, x, y, step, step, null);
+    }
+
+    public void loadImage() {
+        try (InputStream inputStream = IceBlock.class.getClassLoader().getResourceAsStream("assets/MetalTile.png")) {
+            if (inputStream != null) {
+                img = ImageIO.read(inputStream);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        g.drawImage(img, x, y, step, step, null);
     }
 }

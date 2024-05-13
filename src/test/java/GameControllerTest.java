@@ -40,13 +40,97 @@ public class GameControllerTest {
         assertTrue(gameController.isRefreshing());
     }
 
+    // We wont be using this table as it is not such a good test as te one below
+    // | test number | xPosition | yPosition | result |
+    // |------|-----------|-----------|-----------|
+    // | 0    | 1         | 2 | true |
+    // | 1    | 1         | 3 | true |
+    // | 2    | 2         | 2 | true |
+    // | 3    | 2         | 3 | true |
+    // | 4    | 3         | 2 | true |
+    // | 5    | 3         | 3 | true |
+    // | 6    | 1         | -1 | false |
+    // | 7    | 1         | 4 | false |
+    // | 8    | 2         | -1 | false |
+    // | 9    | 2         | 4 | false |
+    // | 10   | 3         | -1 | false |
+    // | 11   | 3         | 4 | false |
+    // | 12   | -1        | 2 | false |
+    // | 13   | -1        | 3 | false |
+    // | 14   | 4         | 2 | false |
+    // | 15   | 4         | 3 | false |
+    //
+    // We will be using the table below
+    //
+    // | test number | xPosition | yPosition | result |
+    // |-----------|-----------|-----------|-----------|
+    // | 0 | 0 | 0 | true |
+    // | 1 | 0 | 1 | true |
+    // | 2 | 0 | 2 | false |
+    // | 3 | 0 | 3 | true |
+    // | 4 | 1 | 0 | false |
+    // | 5 | 1 | 1 | true|
+    // | 6 | 1 | 2 | true |
+    // | 7 | 1 | 3 | true |
+    // | 8 | 2 | 0 | true |
+    // | 9 | 2 | 1 | true |
+    // | 10 | 2 | 2 | true |
+    // | 11 | 2 | 3 | true |
+    // | 12 | 3 | 0 | true |
+    // | 13 | 3 | 1 | true |
+    // | 14 | 3 | 2 | true |
+    // | 15 | 3 | 3 | true |
+    // | 16 | 0 | -1 | false |
+    // | 17 | 0 | 4 | false |
+    // | 18 | 1 | -1 | false |
+    // | 19 | 1 | 4 | false |
+    // | 20 | 2 | -1 | false |
+    // | 21 | 2 | 4 | false |
+    // | 22 | 3 | -1 | false |
+    // | 23 | 3 | 4 | false |
+    // | 34 | -1 | 0 | false|
+    // | 35 | -1 | 1 | false |
+    // | 36 | -1 | 2 | false |
+    // | 37 | -1 | 3 | false |
+    // | 38 | 4 | 0 | false |
+    // | 39 | 4 | 1 | false |
+    // | 40 | 4 | 2 | false |
+    // | 41 | 4 | 3 | false |
+
     @ParameterizedTest(name = "isVisitable at: x={0}, y={1}, expected={2}")
     @CsvSource({
-            "-1, -1, false",
-            "0, -1, false",
-            "-1, 0, false",
             "0, 0, true",
-            "0, 1, true"
+            "0, 1, true",
+            "0, 2, false",
+            "0, 3, true",
+            "1, 0, false",
+            "1, 1, true",
+            "1, 2, true",
+            "1, 3, true",
+            "2, 0, true",
+            "2, 1, true",
+            "2, 2, true",
+            "2, 3, true",
+            "3, 0, true",
+            "3, 1, true",
+            "3, 2, true",
+            "3, 3, true",
+            "0, -1, false",
+            "0, 4, false",
+            "1, -1, false",
+            "1, 4, false",
+            "2, -1, false",
+            "2, 4, false",
+            "3, -1, false",
+            "3, 4, false",
+            "-1, 0, false",
+            "-1, 1, false",
+            "-1, 2, false",
+            "-1, 3, false",
+            "4, 0, false",
+            "4, 1, false",
+            "4, 2, false",
+            "4, 3, false"
     })
     public void isVisitableParametrized_getsValues_shouldNotCauseException(int x, int y, boolean expected) {
         assertEquals(expected, gameController.isVisitable(x, y));
@@ -54,10 +138,38 @@ public class GameControllerTest {
 
     @ParameterizedTest(name = "Get is block frozen at: x={0}, y={1}")
     @CsvSource({
-            "-1, -1, false",
+            "0, 0, false",
+            "0, 1, false",
+            "0, 2, true",
+            "0, 3, false",
+            "1, 0, true",
+            "1, 1, false",
+            "1, 2, false",
+            "1, 3, false",
+            "2, 0, false",
+            "2, 1, false",
+            "2, 2, false",
+            "2, 3, false",
+            "3, 0, false",
+            "3, 1, false",
+            "3, 2, false",
+            "3, 3, false",
             "0, -1, false",
+            "0, 4, false",
+            "1, -1, false",
+            "1, 4, false",
+            "2, -1, false",
+            "2, 4, false",
+            "3, -1, false",
+            "3, 4, false",
             "-1, 0, false",
-            "1, 0, true"
+            "-1, 1, false",
+            "-1, 2, false",
+            "-1, 3, false",
+            "4, 0, false",
+            "4, 1, false",
+            "4, 2, false",
+            "4, 3, false"
     })
     public void isFrozenAtLocParametrized_getsValues_shouldNotCauseException(int x, int y, boolean expected) {
         assertEquals(expected, gameController.isFrozenAtLoc(x, y));
@@ -65,16 +177,45 @@ public class GameControllerTest {
 
     @ParameterizedTest(name = "Break the Ice at: x={0}, y={1}")
     @CsvSource({
-            "-1, -1",
+            "0, 0",
+            "0, 1",
+            "0, 2",
+            "0, 3",
+            "1, 0",
+            "1, 1",
+            "1, 2",
+            "1, 3",
+            "2, 0",
+            "2, 1",
+            "2, 2",
+            "2, 3",
+            "3, 0",
+            "3, 1",
+            "3, 2",
+            "3, 3",
             "0, -1",
-            "-1, 0"
+            "0, 4",
+            "1, -1",
+            "1, 4",
+            "2, -1",
+            "2, 4",
+            "3, -1",
+            "3, 4",
+            "-1, 0",
+            "-1, 1",
+            "-1, 2",
+            "-1, 3",
+            "4, 0",
+            "4, 1",
+            "4, 2",
+            "4, 3"
     })
-    public void beatIceTestParametrized_beatIceAtNegativeLog_shouldNotCauseException(int x, int y) {
+    public void beatIceTestParametrized_beatIceAtInvalidLoc_shouldNotCauseException(int x, int y) {
         gameController.beatIce(x, y);
     }
 
     @Test
-    public void beatIce_beatIceAt00Loc_iceShouldBeDamaged() {
+    public void beatIce_beatIceAt10Loc_iceShouldBeDamaged() {
         int x = 1;
         int y = 0;
         gameController.beatIce(x, y);
@@ -86,7 +227,7 @@ public class GameControllerTest {
     }
 
     @Test
-    public void beatIce_beatIceAt00LocTwice_iceShouldBeBroken() {
+    public void beatIce_beatIceAt10LocTwice_iceShouldBeBroken() {
         int x = 1;
         int y = 0;
         gameController.beatIce(x, y);

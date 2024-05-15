@@ -21,6 +21,11 @@ import java.util.TimerTask;
 public class GameView extends JLabel {
     private static final int REFRESH_IN_MILLISECONDS = 25;
 
+    // singleton variables
+    private static boolean instanceExists = false;
+    private static GameView instance;
+
+    // GameView variables
     private int mousePressedX = -1;
     private int mousePressedY = -1;
     private boolean painting = false;
@@ -30,7 +35,7 @@ public class GameView extends JLabel {
     private Timer refreshTimer;
     private TimerTask refreshTimerTask;
 
-    public GameView(GameController gameController) {
+    private GameView(GameController gameController) {
 
         this.setFocusable(true);
 
@@ -51,6 +56,20 @@ public class GameView extends JLabel {
         });
 
         gameRefreshTimerSetMethod();
+    }
+
+    /**
+     * The Singleton implementation method, if the single instance does not exist it will be created by this method and returned back.
+     * If the singleton implementation does exist it will be returned without creating new instance.
+     *
+     * @return single possible instance of the Welcome View
+     */
+    public static GameView getInstance(GameController gameController) {
+        if (!instanceExists) {
+            GameView.instance = new GameView(gameController);
+            GameView.instanceExists = true;
+        }
+        return GameView.instance;
     }
 
     // handler related methods
@@ -275,5 +294,13 @@ public class GameView extends JLabel {
         int startY2 = getHeight() - stringHeight2;
 
         g2d.drawString(instructions, startX2, startY2 - 100);
+    }
+
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
     }
 }

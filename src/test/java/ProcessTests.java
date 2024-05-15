@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class ProcessTests {
 
     // set the pause between the steps as well as if the view will be Visible
-    int pause = 300;
+    int pause = 100;
     boolean showTest = true;
 
     GameView gameView;
@@ -56,12 +56,12 @@ public class ProcessTests {
         gameController.setLevelNum(0);
         gameController.setMonstersMove(false);
 
-        gameView = new GameView(gameController);
-        gameFrame = new GameFrame(500, gameController, showTest);
+        gameView = GameView.getInstance(gameController);
+        gameView.setGameController(gameController);
 
-        if (!showTest) {
-            gameFrame.setVisible(false);
-        }
+        gameFrame = GameFrame.getInstance(500, gameController, showTest);
+
+        gameFrame.setVisible(showTest);
 
         pause();
 
@@ -74,7 +74,7 @@ public class ProcessTests {
     public void afterEachTest() {
         if (showTest) {
             pause();
-            gameFrame.dispose();
+            gameFrame.setVisible(false);
         }
         pause();
     }
@@ -252,6 +252,6 @@ public class ProcessTests {
 
         pause();
 
-         assertTrue(gameController.isMenuOpened());
+        assertTrue(gameController.isMenuOpened());
     }
 }

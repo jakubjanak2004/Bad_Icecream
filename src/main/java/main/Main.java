@@ -4,12 +4,6 @@ import View.GameFrame;
 import View.WelcomeView;
 
 import javax.swing.*;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
@@ -22,10 +16,11 @@ import java.util.logging.Logger;
  */
 public class Main {
     public static final int DIMENSION = 1000;
-
-    static WelcomeView welcomePage;
-    static GameFrame gameBoard;
     private static final Logger logger = Logger.getLogger(Main.class.getName());
+
+    // has to be implemented wih singleton pattern
+    private static WelcomeView welcomePage;
+    private static GameFrame gameBoard;
 
     /**
      * Main method will be run as first when app is being run
@@ -41,7 +36,7 @@ public class Main {
         setLogsForApp(verbose);
 
         logger.config("Opening the Welcome Window");
-        welcomePage = new WelcomeView(DIMENSION);
+        welcomePage = WelcomeView.getInstance(DIMENSION);
     }
 
     /**
@@ -50,7 +45,7 @@ public class Main {
     public static void gameStarted() {
         logger.warning("GameFrame is being Opened");
 
-        gameBoard = new GameFrame(DIMENSION);
+        gameBoard = GameFrame.getInstance(DIMENSION);
     }
 
     /**

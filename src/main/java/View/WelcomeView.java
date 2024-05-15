@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Timer;
@@ -27,7 +26,25 @@ public class WelcomeView extends JFrame {
     private Timer refreshTimer;
     private TimerTask refreshTimerTask;
 
-    public WelcomeView(int dimension) {
+    // singleton variables
+    private static boolean instanceExists = false;
+    private static WelcomeView instance;
+
+    /**
+     * The Singleton implementation method, if the single instance does not exist it will be created by this method and returned back.
+     * If the singleton implementation does exist it will be returned without creating new instance.
+     * @param dimension -> The Constructor needs the dimension parameter
+     * @return single possible instance of the Welcome View
+     */
+    public static WelcomeView getInstance(int dimension) {
+        if (!instanceExists) {
+            WelcomeView.instance = new WelcomeView(dimension);
+            WelcomeView.instanceExists = true;
+        }
+        return WelcomeView.instance;
+    }
+
+    private WelcomeView(int dimension) {
         this.setTitle("Bad Ice cream Welcome Page");
         this.setSize(dimension, dimension);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

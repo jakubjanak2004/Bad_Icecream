@@ -69,7 +69,7 @@ public class GameController {
 
         this.player = new Player(0, 0, Rotation.UP);
 
-        gameView = new GameView(this);
+        gameView = GameView.getInstance(this);
 
         setGameLoopTimer();
     }
@@ -81,7 +81,7 @@ public class GameController {
 
         this.player = new Player(0, 0, Rotation.UP);
 
-        gameView = new GameView(this);
+        gameView = GameView.getInstance(this);
 
         setGameLoopTimer();
     }

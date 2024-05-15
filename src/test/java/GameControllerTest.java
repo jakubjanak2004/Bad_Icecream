@@ -50,63 +50,6 @@ public class GameControllerTest {
         assertTrue(gameController.isRefreshing());
     }
 
-    // We wont be using this table as it is not such a good test as te one below
-    // | test number | xPosition | yPosition | result |
-    // |------|-----------|-----------|-----------|
-    // | 0    | 1         | 2 | true |
-    // | 1    | 1         | 3 | true |
-    // | 2    | 2         | 2 | true |
-    // | 3    | 2         | 3 | true |
-    // | 4    | 3         | 2 | true |
-    // | 5    | 3         | 3 | true |
-    // | 6    | 1         | -1 | false |
-    // | 7    | 1         | 4 | false |
-    // | 8    | 2         | -1 | false |
-    // | 9    | 2         | 4 | false |
-    // | 10   | 3         | -1 | false |
-    // | 11   | 3         | 4 | false |
-    // | 12   | -1        | 2 | false |
-    // | 13   | -1        | 3 | false |
-    // | 14   | 4         | 2 | false |
-    // | 15   | 4         | 3 | false |
-    //
-    // We will be using the table below
-    //
-    // | test number | xPosition | yPosition | result |
-    // |-----------|-----------|-----------|-----------|
-    // | 0 | 0 | 0 | true |
-    // | 1 | 0 | 1 | true |
-    // | 2 | 0 | 2 | false |
-    // | 3 | 0 | 3 | true |
-    // | 4 | 1 | 0 | false |
-    // | 5 | 1 | 1 | true|
-    // | 6 | 1 | 2 | true |
-    // | 7 | 1 | 3 | true |
-    // | 8 | 2 | 0 | true |
-    // | 9 | 2 | 1 | true |
-    // | 10 | 2 | 2 | true |
-    // | 11 | 2 | 3 | true |
-    // | 12 | 3 | 0 | true |
-    // | 13 | 3 | 1 | true |
-    // | 14 | 3 | 2 | true |
-    // | 15 | 3 | 3 | true |
-    // | 16 | 0 | -1 | false |
-    // | 17 | 0 | 4 | false |
-    // | 18 | 1 | -1 | false |
-    // | 19 | 1 | 4 | false |
-    // | 20 | 2 | -1 | false |
-    // | 21 | 2 | 4 | false |
-    // | 22 | 3 | -1 | false |
-    // | 23 | 3 | 4 | false |
-    // | 34 | -1 | 0 | false|
-    // | 35 | -1 | 1 | false |
-    // | 36 | -1 | 2 | false |
-    // | 37 | -1 | 3 | false |
-    // | 38 | 4 | 0 | false |
-    // | 39 | 4 | 1 | false |
-    // | 40 | 4 | 2 | false |
-    // | 41 | 4 | 3 | false |
-
     @ParameterizedTest(name = "isVisitable at: x={0}, y={1}, expected={2}")
     @CsvSource({
             "0, 0, true",
@@ -230,7 +173,7 @@ public class GameControllerTest {
         int y = 0;
         gameController.beatIce(x, y);
 
-        BoardElement bElement = (BoardElement) gameController.getBoardArrayObject()[x][y].get();
+        BoardElement bElement = gameController.getBoardArrayObject()[x][y].get();
 
         assertSame(bElement.getClass(), IceBlock.class);
         assertEquals(1, ((IceBlock) bElement).getStability());
@@ -243,9 +186,9 @@ public class GameControllerTest {
         gameController.beatIce(x, y);
         gameController.beatIce(x, y);
 
-        BoardElement bElement = (BoardElement) gameController.getBoardArrayObject()[x][y].get();
+        BoardElement bElement = gameController.getBoardArrayObject()[x][y].get();
 
-        assertTrue(bElement != null && bElement.getClass() == BoardElement.class);
+        assertTrue(bElement.getClass() == BoardElement.class);
     }
 
     // described by the Test Scenario

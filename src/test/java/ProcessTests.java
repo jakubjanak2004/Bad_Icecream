@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class ProcessTests {
 
     // set the pause between the steps as well as if the view will be Visible
-    int pause = 100;
+    int pause = 500;
     boolean showTest = true;
 
     GameView gameView;

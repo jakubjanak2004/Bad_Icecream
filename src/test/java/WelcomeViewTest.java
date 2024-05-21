@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class WelcomeViewTest {
 
     @Test
-    public void WelcomeViewTest_windowWillBeInstatiatedTwice_TheTwoInstancesShouldBeTheSameObject() {
+    public void WelcomeViewConstructorTest_windowWillBeInstatiatedTwice_TheTwoInstancesShouldBeTheSameObject() {
         int dimension = 400;
         WelcomeView welcomeView1 = WelcomeView.getInstance(dimension);
         WelcomeView welcomeView2 = WelcomeView.getInstance(dimension);

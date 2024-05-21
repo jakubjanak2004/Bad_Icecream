@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GameViewTest {
 
     @Test
-    public void GameViewTest_windowWillBeInstatiatedTwice_TheTwoInstancesShouldBeTheSameObject() {
+    public void GameViewConstructorTest_windowWillBeInstatiatedTwice_TheTwoInstancesShouldBeTheSameObject() {
         GameController gameController = new GameController();
 
         GameView gameView1 = GameView.getInstance(gameController);

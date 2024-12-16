@@ -39,3 +39,4 @@ build/
 .DS_Store
 /out/
 /src/main/resources/levels/
+/src/main/resources/levelsScore/

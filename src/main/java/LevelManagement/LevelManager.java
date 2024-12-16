@@ -80,7 +80,7 @@ public class LevelManager {
         }
 
         String[][] array = records.stream()
-                .map(l -> l.stream().toArray(String[]::new))
+                .map(l -> l.toArray(String[]::new))
                 .toArray(String[][]::new);
 
         int[][] returnArray = new int[array.length][array[0].length];

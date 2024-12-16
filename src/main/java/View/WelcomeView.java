@@ -36,7 +36,7 @@ public class WelcomeView extends JFrame {
      * @param dimension -> The Constructor needs the dimension parameter
      * @return single possible instance of the Welcome View
      */
-    public static WelcomeView getInstance(int dimension) {
+    public synchronized static  WelcomeView getInstance(int dimension) {
         if (!instanceExists) {
             WelcomeView.instance = new WelcomeView(dimension);
             WelcomeView.instanceExists = true;

@@ -12,6 +12,8 @@ public class WelcomeViewTest {
         WelcomeView welcomeView2 = WelcomeView.getInstance(dimension);
 
         assertEquals(welcomeView1.hashCode(), welcomeView2.hashCode());
+
+        welcomeView1.dispose();
     }
 
 }

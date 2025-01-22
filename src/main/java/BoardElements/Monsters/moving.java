@@ -14,7 +14,7 @@ public interface moving {
      * @param canLeft can the monster go left
      * @param gameController the game Controller on which the game is running
      */
-    void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController);
+    void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController);
 
     /**
      * The object must have an x position

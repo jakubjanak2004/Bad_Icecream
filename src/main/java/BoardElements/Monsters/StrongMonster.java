@@ -19,7 +19,7 @@ public class StrongMonster extends Monster {
     }
 
     @Override
-    public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
+    public void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         Player player = gameController.getPlayer();
         Optional<BoardElement>[][] boardElements = gameController.getBoardArrayObject();
 

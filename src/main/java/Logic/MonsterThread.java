@@ -54,7 +54,7 @@ public class MonsterThread extends Thread {
                     }
                 }
 
-                monster.selfMove(canUp, canRight, canDown, canLeft, gameController);
+                monster.move(canUp, canRight, canDown, canLeft, gameController);
             }
         }
     }

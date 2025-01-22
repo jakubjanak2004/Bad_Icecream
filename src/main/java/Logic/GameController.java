@@ -33,7 +33,7 @@ public class GameController {
     private final GameView gameView;
     private final Player player;
     private final IceManipulator iceManipulator = new IceManipulator(this);
-    private final List<SelfMovable> monsters = Collections.synchronizedList(new ArrayList<>());
+    private final List<moving> monsters = Collections.synchronizedList(new ArrayList<>());
     private final List<Reward> rewards = Collections.synchronizedList(new ArrayList<>());
 
     //Threading Classes
@@ -322,7 +322,7 @@ public class GameController {
     }
 
     private void checkDeath() {
-        for (SelfMovable m : monsters) {
+        for (moving m : monsters) {
             if (Math.abs(m.getXPosition() - player.getXPosition()) <= 1 && m.getYPosition() == player.getYPosition()) {
                 gameOver();
             } else if (Math.abs(m.getYPosition() - player.getYPosition()) <= 1 && m.getXPosition() == player.getXPosition()) {
@@ -411,7 +411,7 @@ public class GameController {
         return wasLevelWon;
     }
 
-    public List<SelfMovable> getMonsters() {
+    public List<moving> getMonsters() {
         return monsters;
     }
 

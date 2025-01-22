@@ -9,7 +9,7 @@ import java.awt.*;
 /**
  * Abstract representation of a monster in the game.
  */
-public abstract class Monster extends BoardElement implements SelfMovable {
+public abstract class Monster extends BoardElement implements moving {
     public static final int MAX_TRIALS = 3;
 
     protected Color color;
@@ -25,7 +25,7 @@ public abstract class Monster extends BoardElement implements SelfMovable {
 
     @Override
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
-        g.setColor(getColor());
+        g.setColor(color);
         g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
     }
 

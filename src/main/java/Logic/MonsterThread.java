@@ -1,7 +1,7 @@
 package Logic;
 
 import BoardElements.Monsters.Monster;
-import BoardElements.Monsters.SelfMovable;
+import BoardElements.Monsters.moving;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +27,7 @@ public class MonsterThread extends Thread {
                 throw new RuntimeException(e);
             }
 
-            List<SelfMovable> Monsters = gameController.getMonsters();
+            List<moving> Monsters = gameController.getMonsters();
             for (int i = 0; i < Monsters.size(); i++) {
 
                 if (!(Monsters.get(i) instanceof Monster)) {

@@ -13,7 +13,7 @@ import java.io.InputStream;
  * Abstract representation of a class that can be grabbed by the player and have to be collected i order to win a level.
  */
 public abstract class Reward extends BoardElement implements Grabbable {
-    private BufferedImage img;
+    protected BufferedImage img;
     private boolean taken = false;
 
     public Reward(int xPosition, int yPosition) {
@@ -45,13 +45,5 @@ public abstract class Reward extends BoardElement implements Grabbable {
         return taken;
     }
 
-    private void loadImage() {
-        try (InputStream inputStream = IceBlock.class.getClassLoader().getResourceAsStream("assets/Orange.png")) {
-            if (inputStream != null) {
-                img = ImageIO.read(inputStream);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    abstract void loadImage();
 }

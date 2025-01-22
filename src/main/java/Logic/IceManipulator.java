@@ -4,7 +4,7 @@ import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
 import BoardElements.BoardElement;
 import BoardElements.Reward.Reward;
-import BoardElements.Monsters.SelfMovable;
+import BoardElements.Monsters.moving;
 import BoardElements.Rotation;
 
 import java.util.Optional;
@@ -142,7 +142,7 @@ public class IceManipulator {
             }
         }
 
-        for (SelfMovable m : gLabel.getMonsters()) {
+        for (moving m : gLabel.getMonsters()) {
             if (m.getXPosition() == x && m.getYPosition() == y) {
                 return false;
             }

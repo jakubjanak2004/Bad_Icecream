@@ -2,7 +2,7 @@ package View;
 
 import BoardElements.BoardElement;
 import BoardElements.Monsters.Monster;
-import BoardElements.Monsters.SelfMovable;
+import BoardElements.Monsters.moving;
 import BoardElements.Reward.Reward;
 import Logic.GameController;
 
@@ -153,7 +153,7 @@ public class GameView extends JLabel {
     }
 
     private void paintMonsters(Graphics2D g2, int step, int widthPadding, int heightPadding) {
-        for (SelfMovable m : gameController.getMonsters()) {
+        for (moving m : gameController.getMonsters()) {
             Monster monster = (Monster) m;
             monster.paint(g2, step, widthPadding, heightPadding);
         }

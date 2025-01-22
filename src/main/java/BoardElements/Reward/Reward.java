@@ -1,13 +1,9 @@
 package BoardElements.Reward;
 
-import BoardElements.Blocks.IceBlock;
 import BoardElements.BoardElement;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Abstract representation of a class that can be grabbed by the player and have to be collected i order to win a level.

@@ -9,5 +9,6 @@ public enum Rotation {
     UP,
     RIGHT,
     DOWN,
-    LEFT
+    LEFT,
+    NEUTRAL
 }

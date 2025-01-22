@@ -22,11 +22,12 @@ public class StrongMonster extends Monster {
         Player player = gameController.getPlayer();
         Optional[][] boardElements = gameController.getBoardArrayObject();
 
-        String shortestPath = ShortestPath.getShortestMazePathStart(getXPosition(), getYPosition(), player.getXPosition(),
+        Rotation rot = ShortestPath.getShortestMazePathStart(getXPosition(), getYPosition(), player.getXPosition(),
                 player.getYPosition(), "", 's', boardElements, boardElements.length);
 
-        if (!shortestPath.isEmpty()) {
-            moveTo(shortestPath.charAt(0));
+        if (rot != Rotation.NEUTRAL) {
+            setRot(rot);
+            move(canUp, canRight, canDown, canLeft, 0);
         } else {
             String path = ShortestPath.getShortestPathStart(getXPosition(), getYPosition(), player.getXPosition(),
                     player.getYPosition(), "", 's', boardElements, boardElements.length);

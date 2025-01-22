@@ -34,32 +34,34 @@ public abstract class Monster extends BoardElement implements moving {
         if (rot == Rotation.UP) {
             if (canUp) {
                 super.yPosition -= 1;
+                return;
             } else {
                 super.rot = Rotation.RIGHT;
-                move(false, canRight, canDown, canLeft, (numberOfTries + 1));
             }
         } else if (rot == Rotation.RIGHT) {
             if (canRight) {
                 super.xPosition += 1;
+                return;
             } else {
                 super.rot = Rotation.DOWN;
-                move(canUp, false, canDown, canLeft, (numberOfTries + 1));
             }
         } else if (rot == Rotation.DOWN) {
             if (canDown) {
                 super.yPosition += 1;
+                return;
             } else {
                 super.rot = Rotation.LEFT;
-                move(canUp, canRight, false, canLeft, (numberOfTries + 1));
             }
         } else if (rot == Rotation.LEFT) {
             if (canLeft) {
                 super.xPosition -= 1;
+                return;
             } else {
                 super.rot = Rotation.UP;
-                move(canUp, canRight, canDown, false, (numberOfTries + 1));
             }
         }
+
+        move(canUp, canRight, canDown, canLeft, (numberOfTries + 1));
     }
 
     protected void moveTo(char positionChar) {

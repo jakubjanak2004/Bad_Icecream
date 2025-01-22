@@ -3,6 +3,7 @@ package Logic;
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
 import BoardElements.BoardElement;
+import BoardElements.Rotation;
 import BoardElements.VisitedNode;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class ShortestPath {
 
     static String shortestPathThruMaze = "";
     static String shortestPath = "";
+    static Rotation shortestPathThrueMazeRotation = Rotation.UP;
+    static Rotation shortestPathRotation = Rotation.UP;
 
     private static void getShortestPath(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
 
@@ -98,6 +101,16 @@ public class ShortestPath {
 
     }
 
+    public static Rotation convertCharToRotation(char positionChar) {
+        return switch (positionChar) {
+            case 'u' -> Rotation.UP;
+            case 'r' -> Rotation.RIGHT;
+            case 'd' -> Rotation.DOWN;
+            case 'l' -> Rotation.LEFT;
+            default -> Rotation.NEUTRAL;
+        };
+    }
+
     /**
      * Returns the start of the shortest path. Used by strong monster to see what`s the shortest path.
      *
@@ -132,13 +145,16 @@ public class ShortestPath {
      * @param numOfFields number of fields in rectangular board array
      * @return the first direction the board element should move
      */
-    public static String getShortestMazePathStart(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
+    public static Rotation getShortestMazePathStart(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
         shortestPathThruMaze = "";
         VISITED_NODES_SHORTEST.clear();
 
         getShortestPathThruMaze(x1, y1, x2, y2, subPath, was, boardArray, numOfFields);
 
-        return shortestPathThruMaze;
+        if (shortestPathThruMaze.isEmpty()) {
+            return Rotation.NEUTRAL;
+        }
+        return convertCharToRotation(shortestPathThruMaze.charAt(0));
     }
 
     /**
@@ -154,10 +170,7 @@ public class ShortestPath {
             return true;
         }
 
-        if (boardArrayObject[x][y].isPresent() && boardArrayObject[x][y].get().getClass() == SolidBlock.class) {
-            return false;
-        }
-        return true;
+        return boardArrayObject[x][y].isEmpty() || boardArrayObject[x][y].get().getClass() != SolidBlock.class;
     }
 
     /**
@@ -173,10 +186,7 @@ public class ShortestPath {
             return false;
         }
 
-        if (boardArrayObject[x][y].isPresent() && boardArrayObject[x][y].get().getClass() == IceBlock.class) {
-            return false;
-        }
-        return true;
+        return boardArrayObject[x][y].isEmpty() || boardArrayObject[x][y].get().getClass() != IceBlock.class;
     }
 
 }

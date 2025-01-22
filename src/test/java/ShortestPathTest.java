@@ -1,6 +1,7 @@
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
 import BoardElements.BoardElement;
+import BoardElements.Rotation;
 import Logic.ShortestPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -63,14 +64,14 @@ public class ShortestPathTest {
 
     @ParameterizedTest(name = "getShortestMazePathStart at: x1={0}, y1={1}, x2={2}, y2={3}, path={4}")
     @CsvSource({
-            "0, 0, 0, 0, ''",
-            "3, 0, 0, 0, ldllu",
-            "0, 0, 3, 1, drrr"
+            "0, 0, 0, 0, NEUTRAL",
+            "3, 0, 0, 0, LEFT",
+            "0, 0, 3, 1, DOWN"
     })
-    public void getShortestMazePathStart_StartAndFinishGiven_PathShouldMatch(int x1, int y1, int x2, int y2, String path) {
-        String pathFromAlgo = ShortestPath.getShortestMazePathStart(x1, y1, x2, y2, "", 'e', boardArrayObjectOptional, boardArrayObjectOptional.length);
+    public void getShortestMazePathStart_StartAndFinishGiven_PathShouldMatch(int x1, int y1, int x2, int y2, Rotation path) {
+        Rotation rot = ShortestPath.getShortestMazePathStart(x1, y1, x2, y2, "", 'e', boardArrayObjectOptional, boardArrayObjectOptional.length);
 
-        assertEquals(path, pathFromAlgo);
+        assertEquals(path, rot);
     }
 
     @ParameterizedTest(name = "getShortestMazePathStart at: x1={0}, y1={1}, x2={2}, y2={3}, path={4}")

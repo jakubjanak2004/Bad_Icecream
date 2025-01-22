@@ -1,5 +1,6 @@
 package BoardElements.Monsters;
 
+import BoardElements.BoardElement;
 import BoardElements.Player;
 import BoardElements.Rotation;
 import Logic.GameController;
@@ -20,14 +21,13 @@ public class StrongMonster extends Monster {
     @Override
     public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         Player player = gameController.getPlayer();
-        Optional[][] boardElements = gameController.getBoardArrayObject();
+        Optional<BoardElement>[][] boardElements = gameController.getBoardArrayObject();
 
         Rotation rot = ShortestPath.getShortestMazePathStart(getXPosition(), getYPosition(), player.getXPosition(),
                 player.getYPosition(), "", 's', boardElements, boardElements.length);
 
         if (rot != Rotation.NEUTRAL) {
             setRot(rot);
-            move(canUp, canRight, canDown, canLeft, 0);
         } else {
             String path = ShortestPath.getShortestPathStart(getXPosition(), getYPosition(), player.getXPosition(),
                     player.getYPosition(), "", 's', boardElements, boardElements.length);
@@ -46,7 +46,8 @@ public class StrongMonster extends Monster {
                 return;
             }
 
-            moveTo(path.charAt(0));
+            setRot(ShortestPath.convertCharToRotation(path.charAt(0)));
         }
+        move(canUp, canRight, canDown, canLeft, 0);
     }
 }

@@ -64,24 +64,6 @@ public abstract class Monster extends BoardElement implements moving {
         move(canUp, canRight, canDown, canLeft, (numberOfTries + 1));
     }
 
-    protected void moveTo(char positionChar) {
-        switch (positionChar) {
-            case 'u':
-                this.rot = Rotation.UP;
-                break;
-            case 'r':
-                this.rot = Rotation.RIGHT;
-                break;
-            case 'd':
-                this.rot = Rotation.DOWN;
-                break;
-            case 'l':
-                this.rot = Rotation.LEFT;
-                break;
-        }
-        move(true, true, true, true, 0);
-    }
-
     public Color getColor() {
         return this.color;
     }

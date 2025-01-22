@@ -1,5 +1,6 @@
 package BoardElements.Monsters;
 
+import BoardElements.BoardElement;
 import BoardElements.Player;
 import BoardElements.Rotation;
 import Logic.GameController;
@@ -20,7 +21,7 @@ public class CleverMonster extends Monster {
     @Override
     public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         Player player = gameController.getPlayer();
-        Optional[][] boardElements = gameController.getBoardArrayObject();
+        Optional<BoardElement>[][] boardElements = gameController.getBoardArrayObject();
 
         Rotation rot = ShortestPath.getShortestMazePathStart(getXPosition(), getYPosition(), player.getXPosition(),
                 player.getYPosition(), "", 's', boardElements, boardElements.length);
@@ -29,6 +30,5 @@ public class CleverMonster extends Monster {
             setRot(rot);
         }
         move(canUp, canRight, canDown, canLeft, 0);
-
     }
 }

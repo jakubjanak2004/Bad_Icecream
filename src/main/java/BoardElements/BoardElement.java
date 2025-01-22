@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Board element is a class representing all elements that can be placed on our gameBoard. Many other objects will be extending it.
  */
-public class BoardElement implements IsOn2DimensionalBoard, isPaintable {
+public class BoardElement implements on2DBoard, paintable {
     protected int xPosition;
     protected int yPosition;
     protected Rotation rot;

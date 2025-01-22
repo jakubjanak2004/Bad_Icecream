@@ -4,7 +4,7 @@ package BoardElements;
  * Visited node is an object representation of an node on the graph that the Shortest Path Algo already visited.
  * This graph represents the game board and is used to find the shortest path.
  */
-public class VisitedNode implements IsOn2DimensionalBoard {
+public class VisitedNode implements on2DBoard {
     private final int xPosition;
     private final int yPosition;
     private int pathLength;

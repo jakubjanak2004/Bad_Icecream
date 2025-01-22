@@ -14,19 +14,20 @@ import java.awt.*;
 public class BoardElement implements on2DBoard, paintable {
     protected int xPosition;
     protected int yPosition;
-    protected Rotation rot;
     protected RotationState rotationState;
     protected Color color;
 
     public BoardElement(int xPosition, int yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+
+        // setting the state to up when no rotation is set
+        setRotationState(new UpState(this));
     }
 
     public BoardElement(int xPosition, int yPosition, Rotation rot) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        this.rot = rot;
 
         setRotationStateFromRotation(rot);
     }
@@ -50,7 +51,7 @@ public class BoardElement implements on2DBoard, paintable {
     }
 
     /**
-     * Will paint the object at location that it is on
+     * Will paint the object at location that it is on, letting the rotation state paint for rotation specific painting
      *
      * @param g             Graphics2D Object for painting
      * @param step          the step of the game Board, it is the with between the lines on the GameBoard
@@ -58,6 +59,22 @@ public class BoardElement implements on2DBoard, paintable {
      * @param heightPadding the Height Padding the GameBoard is moved by from the upper side of the window
      */
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+        rotationState.paint(g, step, widthPadding, heightPadding);
+    }
+
+    public void rightDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+
+    }
+
+    public void leftDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+
+    }
+
+    public void upDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+
+    }
+
+    public void downDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
 
     }
 
@@ -94,13 +111,7 @@ public class BoardElement implements on2DBoard, paintable {
         this.yPosition = yPosition;
     }
 
-    public Rotation getRot() {
-        return rot;
-    }
-
     public void setRot(Rotation rot) {
         setRotationStateFromRotation(rot);
-        this.rot = rot;
-
     }
 }

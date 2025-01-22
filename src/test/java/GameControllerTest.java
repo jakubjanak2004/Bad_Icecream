@@ -2,6 +2,10 @@ import BoardElements.Blocks.IceBlock;
 import BoardElements.BoardElement;
 import BoardElements.Player;
 import BoardElements.Rotation;
+import BoardElements.rotationState.DownState;
+import BoardElements.rotationState.LeftState;
+import BoardElements.rotationState.RightState;
+import BoardElements.rotationState.UpState;
 import Logic.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -204,7 +208,7 @@ public class GameControllerTest {
         Player player = gameController.getPlayer();
 
         assertEquals(0, player.getXPosition());
-        assertEquals(Rotation.RIGHT, player.getRot());
+        assertEquals(RightState.class, player.getRotationState().getClass());
     }
 
     @Test
@@ -218,7 +222,7 @@ public class GameControllerTest {
         Player player = gameController.getPlayer();
 
         assertEquals(1, player.getYPosition());
-        assertEquals(Rotation.DOWN, player.getRot());
+        assertEquals(DownState.class, player.getRotationState().getClass());
     }
 
     @Test
@@ -232,7 +236,7 @@ public class GameControllerTest {
         Player player = gameController.getPlayer();
 
         assertEquals(0, player.getXPosition());
-        assertEquals(Rotation.LEFT, player.getRot());
+        assertEquals(LeftState.class, player.getRotationState().getClass());
     }
 
     @Test
@@ -246,6 +250,6 @@ public class GameControllerTest {
         Player player = gameController.getPlayer();
 
         assertEquals(0, player.getYPosition());
-        assertEquals(Rotation.UP, player.getRot());
+        assertEquals(UpState.class, player.getRotationState().getClass());
     }
 }

@@ -6,6 +6,10 @@ import BoardElements.BoardElement;
 import BoardElements.Reward.Reward;
 import BoardElements.Monsters.moving;
 import BoardElements.Rotation;
+import BoardElements.rotationState.DownState;
+import BoardElements.rotationState.LeftState;
+import BoardElements.rotationState.RightState;
+import BoardElements.rotationState.UpState;
 
 import java.util.Optional;
 
@@ -46,19 +50,14 @@ public class IceManipulator {
         int settingInt = 1;
         int millis = 100;
 
-        switch (gLabel.getPlayer().getRot()) {
-            case UP:
-                playeryFreezingPosition -= 1;
-                break;
-            case RIGHT:
-                playerxFreezingPosition += 1;
-                break;
-            case DOWN:
-                playeryFreezingPosition += 1;
-                break;
-            case LEFT:
-                playerxFreezingPosition -= 1;
-                break;
+        if (gLabel.getPlayer().getRotationState().getClass().equals(UpState.class)) {
+            playeryFreezingPosition -= 1;
+        } else if (gLabel.getPlayer().getRotationState().getClass().equals(RightState.class)) {
+            playerxFreezingPosition += 1;
+        } else if (gLabel.getPlayer().getRotationState().getClass().equals(DownState.class)) {
+            playeryFreezingPosition += 1;
+        } else if (gLabel.getPlayer().getRotationState().getClass().equals(LeftState.class)) {
+            playerxFreezingPosition -= 1;
         }
 
         if (playerxFreezingPosition < 0 || playerxFreezingPosition >= gLabel.getNumOfFields()) {
@@ -74,7 +73,7 @@ public class IceManipulator {
             }
         }
 
-        if (gLabel.getPlayer().getRot() == Rotation.UP) {
+        if (gLabel.getPlayer().getRotationState().getClass().equals(UpState.class)) {
             for (int row = playeryFreezingPosition; row >= 0; row--) {
                 if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
                     return;
@@ -84,7 +83,7 @@ public class IceManipulator {
 
                 sleep(millis);
             }
-        } else if (gLabel.getPlayer().getRot() == Rotation.RIGHT) {
+        } else if (gLabel.getPlayer().getRotationState().getClass().equals(RightState.class)) {
             for (int column = playerxFreezingPosition; column < gLabel.getNumOfFields(); column++) {
                 if (!checkIceLoop(column, playeryFreezingPosition, settingInt)) {
                     return;
@@ -94,7 +93,7 @@ public class IceManipulator {
 
                 sleep(millis);
             }
-        } else if (gLabel.getPlayer().getRot() == Rotation.DOWN) {
+        } else if (gLabel.getPlayer().getRotationState().getClass().equals(DownState.class)) {
             for (int row = playeryFreezingPosition; row < gLabel.getNumOfFields(); row++) {
                 if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
                     return;
@@ -104,7 +103,7 @@ public class IceManipulator {
 
                 sleep(millis);
             }
-        } else if (gLabel.getPlayer().getRot() == Rotation.LEFT) {
+        } else if (gLabel.getPlayer().getRotationState().getClass().equals(LeftState.class)) {
             for (int column = playerxFreezingPosition; column >= 0; column--) {
                 if (!checkIceLoop(column, playeryFreezingPosition, settingInt)) {
                     return;

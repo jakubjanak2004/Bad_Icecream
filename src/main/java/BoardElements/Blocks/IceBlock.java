@@ -1,7 +1,6 @@
 package BoardElements.Blocks;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,8 +16,6 @@ public class IceBlock extends Block {
 
     public IceBlock(int xPosition, int yPosition) {
         super(xPosition, yPosition);
-
-        loadImage();
     }
 
     /**
@@ -38,23 +35,26 @@ public class IceBlock extends Block {
     }
 
     @Override
-    public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
-        // Ice Block size: 36 * 52
-        int x = getXPosition() * step + widthPadding;
-        int y = getYPosition() * step + heightPadding;
-        BufferedImage img;
-
-        if (getStability() >= 2) {
-            img = imgStable;
-        } else {
-            img = imgCracked;
+    protected BufferedImage getImage() {
+        if (stability >= 2) {
+            return imgStable;
         }
-
-        double h = 52.0 * ((double) step / 36.0);
-        y -= (int) (h - step);
-        g.drawImage(img, x, y, (int) (double) step, (int) h, null);
+        return imgCracked;
     }
 
+    @Override
+    protected double calcHeight(int x, int y, int step) {
+        return 52.0 * ((double) step / 36.0);
+    }
+
+    @Override
+    protected double calcYPos(int x, int y, int step) {
+        double h = calcHeight(x, y, step);
+        y -= (int) (h - step);
+        return y;
+    }
+
+    @Override
     public void loadImage() {
         try (InputStream inputStream = IceBlock.class.getClassLoader().getResourceAsStream("assets/Ice_Block.png")) {
             if (inputStream != null) {

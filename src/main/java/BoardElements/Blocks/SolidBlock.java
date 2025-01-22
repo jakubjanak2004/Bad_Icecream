@@ -14,19 +14,14 @@ public class SolidBlock extends Block {
 
     public SolidBlock(int xPosition, int yPosition) {
         super(xPosition, yPosition);
-
-        loadImage();
     }
 
     @Override
-    public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
-        // Metal Tile size: 36 * 36
-        int x = getXPosition() * step + widthPadding;
-        int y = getYPosition() * step + heightPadding;
-
-        g.drawImage(img, x, y, step, step, null);
+    protected BufferedImage getImage() {
+        return img;
     }
 
+    @Override
     public void loadImage() {
         try (InputStream inputStream = IceBlock.class.getClassLoader().getResourceAsStream("assets/MetalTile.png")) {
             if (inputStream != null) {

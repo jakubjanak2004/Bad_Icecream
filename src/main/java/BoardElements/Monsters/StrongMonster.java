@@ -48,6 +48,6 @@ public class StrongMonster extends Monster {
 
             setRot(ShortestPath.convertCharToRotation(path.charAt(0)));
         }
-        move(canUp, canRight, canDown, canLeft, 0);
+        this.getRotationState().move(canUp, canRight, canDown, canLeft, 0);
     }
 }

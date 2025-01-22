@@ -20,48 +20,13 @@ public abstract class Monster extends BoardElement implements moving {
 
     @Override
     public void selfMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
-        move(canUp, canRight, canDown, canLeft, 0);
+        this.getRotationState().move(canUp, canRight, canDown, canLeft, 0);
     }
 
     @Override
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
         g.setColor(color);
         g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
-    }
-
-    protected void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, int numberOfTries) {
-        if (numberOfTries > Monster.MAX_TRIALS) return;
-        if (rot == Rotation.UP) {
-            if (canUp) {
-                super.yPosition -= 1;
-                return;
-            } else {
-                super.rot = Rotation.RIGHT;
-            }
-        } else if (rot == Rotation.RIGHT) {
-            if (canRight) {
-                super.xPosition += 1;
-                return;
-            } else {
-                super.rot = Rotation.DOWN;
-            }
-        } else if (rot == Rotation.DOWN) {
-            if (canDown) {
-                super.yPosition += 1;
-                return;
-            } else {
-                super.rot = Rotation.LEFT;
-            }
-        } else if (rot == Rotation.LEFT) {
-            if (canLeft) {
-                super.xPosition -= 1;
-                return;
-            } else {
-                super.rot = Rotation.UP;
-            }
-        }
-
-        move(canUp, canRight, canDown, canLeft, (numberOfTries + 1));
     }
 
     public Color getColor() {

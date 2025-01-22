@@ -29,6 +29,6 @@ public class CleverMonster extends Monster {
         if (rot != Rotation.NEUTRAL) {
             setRot(rot);
         }
-        move(canUp, canRight, canDown, canLeft, 0);
+        this.getRotationState().move(canUp, canRight, canDown, canLeft, 0);
     }
 }

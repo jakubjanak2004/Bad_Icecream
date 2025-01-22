@@ -2,6 +2,8 @@ package BoardElements.rotationState;
 
 import BoardElements.BoardElement;
 
+import java.awt.*;
+
 public class RightState implements RotationState {
     BoardElement boardElement;
 
@@ -19,6 +21,11 @@ public class RightState implements RotationState {
             boardElement.setRotationState(new DownState(boardElement));
             boardElement.getRotationState().move(canUp, false, canDown, canLeft, numberOfTries + 1);
         }
+    }
+
+    @Override
+    public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+        boardElement.rightDirectionPaint(g, step, widthPadding, heightPadding);
     }
 
     @Override

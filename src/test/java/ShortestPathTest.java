@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ShortestPathTest {
 
@@ -46,7 +46,7 @@ public class ShortestPathTest {
             "0, 2, false"
     })
     public void isNotIceBlockOnLocTest_Parametrized(int x, int y, boolean expected) {
-        assertEquals(expected, ShortestPath.isNotIceBlockOnLoc(x, y, boardArrayObjectOptional));
+        assertEquals(expected, ShortestPath.isNotIceBlockOnLocation(x, y, boardArrayObjectOptional));
     }
 
     @ParameterizedTest(name = "isNotIceBlockOnLoc at: x={0}, y={1}, expected={2}")
@@ -59,7 +59,7 @@ public class ShortestPathTest {
             "3, 3, false"
     })
     public void isNotSolidBlockOnLocTest_Parametrized(int x, int y, boolean expected) {
-        assertEquals(expected, ShortestPath.isNotSolidBlockOnLoc(x, y, boardArrayObjectOptional));
+        assertEquals(expected, ShortestPath.isNotSolidBlockOnLocation(x, y, boardArrayObjectOptional));
     }
 
     @ParameterizedTest(name = "getShortestMazePathStart at: x1={0}, y1={1}, x2={2}, y2={3}, path={4}")
@@ -69,21 +69,21 @@ public class ShortestPathTest {
             "0, 0, 3, 1, DOWN"
     })
     public void getShortestMazePathStart_StartAndFinishGiven_PathShouldMatch(int x1, int y1, int x2, int y2, Rotation path) {
-        Rotation rot = ShortestPath.getShortestMazePathStart(x1, y1, x2, y2, "", 'e', boardArrayObjectOptional, boardArrayObjectOptional.length);
+        Rotation rot = ShortestPath.getShortestPathWithIceStart(x1, y1, x2, y2, boardArrayObjectOptional);
 
         assertEquals(path, rot);
     }
 
     @ParameterizedTest(name = "getShortestMazePathStart at: x1={0}, y1={1}, x2={2}, y2={3}, path={4}")
     @CsvSource({
-            "0, 0, 0, 0, ''",
-            "3, 0, 0, 0, lll",
-            "0, 0, 3, 1, rrrd"
+            "0, 0, 0, 0, NEUTRAL",
+            "3, 0, 0, 0, LEFT",
+            "0, 0, 3, 1, RIGHT"
     })
-    public void getShortestPathStart_StartAndFinishGiven_PathShouldMatch(int x1, int y1, int x2, int y2, String path) {
-        String pathFromAlgo = ShortestPath.getShortestPathStart(x1, y1, x2, y2, "", 'e', boardArrayObjectOptional, boardArrayObjectOptional.length);
+    public void getShortestPathStart_StartAndFinishGiven_PathShouldMatch(int x1, int y1, int x2, int y2, Rotation path) {
+        Rotation rotation = ShortestPath.getShortestPathNoIceStart(x1, y1, x2, y2, boardArrayObjectOptional);
 
-        assertEquals(path, pathFromAlgo);
+        assertEquals(path, rotation);
     }
 
 }

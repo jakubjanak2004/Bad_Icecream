@@ -86,6 +86,19 @@ public class GameController {
         setGameLoopTimer();
     }
 
+    public boolean canUp(int x, int y) {
+        return y > 0 && isVisitable(x, y - 1);
+    }
+    public boolean canRight(int x, int y) {
+        return x < getNumOfFields() - 1 && isVisitable(x + 1, y);
+    }
+    public boolean canDown(int x, int y) {
+        return y < getNumOfFields() - 1 && isVisitable(x, y + 1);
+    }
+    public boolean canLeft(int x, int y) {
+        return x > 0 && isVisitable(x - 1, y);
+    }
+
     /**
      * setGameLoopTimer method
      * is a method starts th gameLoop timer,

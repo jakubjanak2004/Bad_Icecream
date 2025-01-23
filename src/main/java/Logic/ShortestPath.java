@@ -1,160 +1,57 @@
 package Logic;
 
+import BoardElements.Blocks.Block;
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
 import BoardElements.BoardElement;
 import BoardElements.Rotation;
-import BoardElements.VisitedNode;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.function.Function;
 
 /**
  * Shortest Path Algorithm class, this class contains algorithms for finding the shortest path in the game board,
  * taking ice into account.
  */
 public class ShortestPath {
-    private static final ArrayList<VisitedNode> VISITED_NOTES_SHORTEST_SOLID_BLOCKS = new ArrayList<>();
-    private static final ArrayList<VisitedNode> VISITED_NODES_SHORTEST = new ArrayList<>();
+    private static Rotation AStartRotation = Rotation.NEUTRAL;
 
-    static String shortestPathThruMaze = "";
-    static String shortestPath = "";
-    static Rotation shortestPathThrueMazeRotation = Rotation.UP;
-    static Rotation shortestPathRotation = Rotation.UP;
-
-    private static void getShortestPath(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
-
-        if (x1 == x2 && y1 == y2) {
-            if (shortestPath.isEmpty() || shortestPath.length() > subPath.length()) {
-                shortestPath = subPath;
-            }
-            return;
-        }
-
-        boolean haveOverwritten = false;
-        for (VisitedNode node : VISITED_NOTES_SHORTEST_SOLID_BLOCKS) {
-            if (node.getXPosition() == x1 && node.getYPosition() == y1) {
-                if (subPath.length() < node.getPathLength()) {
-                    node.setPath(subPath);
-                    haveOverwritten = true;
-                } else {
-                    return;
-                }
-            }
-        }
-
-        if (!haveOverwritten) {
-            VISITED_NOTES_SHORTEST_SOLID_BLOCKS.add(new VisitedNode(x1, y1, subPath));
-        }
-
-        if (x1 - 1 >= 0 && isNotSolidBlockOnLoc(x1 - 1, y1, boardArray) && was != 'r') {
-            getShortestPath(x1 - 1, y1, x2, y2, subPath + "l", 'l', boardArray, numOfFields);
-        }
-        if (x1 + 1 < numOfFields && isNotSolidBlockOnLoc(x1 + 1, y1, boardArray) && was != 'l') {
-            getShortestPath(x1 + 1, y1, x2, y2, subPath + "r", 'r', boardArray, numOfFields);
-        }
-        if (y1 - 1 >= 0 && isNotSolidBlockOnLoc(x1, y1 - 1, boardArray) && was != 'd') {
-            getShortestPath(x1, y1 - 1, x2, y2, subPath + "u", 'u', boardArray, numOfFields);
-        }
-        if (y1 + 1 < numOfFields && isNotSolidBlockOnLoc(x1, y1 + 1, boardArray) && was != 'u') {
-            getShortestPath(x1, y1 + 1, x2, y2, subPath + "d", 'd', boardArray, numOfFields);
-        }
-    }
-
-    private static void getShortestPathThruMaze(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
-
-        if (x1 == x2 && y1 == y2) {
-            if (shortestPathThruMaze.isEmpty() || shortestPathThruMaze.length() > subPath.length()) {
-                shortestPathThruMaze = subPath;
-            }
-            return;
-        }
-
-        boolean haveOverwritten = false;
-        for (VisitedNode node : VISITED_NODES_SHORTEST) {
-            if (node.getXPosition() == x1 && node.getYPosition() == y1) {
-                if (subPath.length() < node.getPathLength()) {
-                    node.setPath(subPath);
-                    haveOverwritten = true;
-                } else {
-                    return;
-                }
-            }
-        }
-
-        if (!haveOverwritten) {
-            VISITED_NODES_SHORTEST.add(new VisitedNode(x1, y1, subPath));
-        }
-
-        if (x1 - 1 >= 0 && isNotIceBlockOnLoc(x1 - 1, y1, boardArray) && isNotSolidBlockOnLoc(x1 - 1, y1, boardArray) && was != 'r') {
-            getShortestPathThruMaze(x1 - 1, y1, x2, y2, subPath + "l", 'l', boardArray, numOfFields);
-        }
-        if (x1 + 1 < numOfFields && isNotIceBlockOnLoc(x1 + 1, y1, boardArray) && isNotSolidBlockOnLoc(x1 + 1, y1, boardArray) && was != 'l') {
-            getShortestPathThruMaze(x1 + 1, y1, x2, y2, subPath + "r", 'r', boardArray, numOfFields);
-        }
-        if (y1 - 1 >= 0 && isNotIceBlockOnLoc(x1, y1 - 1, boardArray) && isNotSolidBlockOnLoc(x1, y1 - 1, boardArray) && was != 'd') {
-            getShortestPathThruMaze(x1, y1 - 1, x2, y2, subPath + "u", 'u', boardArray, numOfFields);
-        }
-        if (y1 + 1 < numOfFields && isNotIceBlockOnLoc(x1, y1 + 1, boardArray) && isNotSolidBlockOnLoc(x1, y1 + 1, boardArray) && was != 'u') {
-            getShortestPathThruMaze(x1, y1 + 1, x2, y2, subPath + "d", 'd', boardArray, numOfFields);
-        }
-
-    }
-
-    public static Rotation convertCharToRotation(char positionChar) {
-        return switch (positionChar) {
-            case 'u' -> Rotation.UP;
-            case 'r' -> Rotation.RIGHT;
-            case 'd' -> Rotation.DOWN;
-            case 'l' -> Rotation.LEFT;
-            default -> Rotation.NEUTRAL;
-        };
+    /**
+     * Shortest path with ice
+     *
+     * @param x1         x position on player board, source
+     * @param y1         y position on player board, source
+     * @param x2         x position on player board, target
+     * @param y2         y position on player board, target
+     * @param boardArray the board array used in this game
+     * @return the first direction the board element should move
+     */
+    public static Rotation getShortestPathNoIceStart(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray) {
+        AStartShortestPathConditional(x1, y1, x2, y2, boardArray, boardElement ->
+                (boardArray[boardElement.getXPosition()][boardElement.getYPosition()].get() instanceof Block)
+                        &&
+                        !(boardArray[boardElement.getXPosition()][boardElement.getYPosition()].get() instanceof IceBlock));
+        return AStartRotation;
     }
 
     /**
-     * Returns the start of the shortest path. Used by strong monster to see what`s the shortest path.
+     * Shortest path with no ice
      *
-     * @param x1          x position on player board, source
-     * @param y1          y position on player board, source
-     * @param x2          x position on player board, target
-     * @param y2          y position on player board, target
-     * @param subPath     the path we have already taken, used in recursion
-     * @param was         what was the last move
-     * @param boardArray  the board array used in this game
-     * @param numOfFields number of fields in rectangular board array
+     * @param x1         x position on player board, source
+     * @param y1         y position on player board, source
+     * @param x2         x position on player board, target
+     * @param y2         y position on player board, target
+     * @param boardArray the board array used in this game
      * @return the first direction the board element should move
      */
-    public static String getShortestPathStart(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
-        shortestPath = "";
-        VISITED_NOTES_SHORTEST_SOLID_BLOCKS.clear();
-
-        ShortestPath.getShortestPath(x1, y1, x2, y2, subPath, was, boardArray, numOfFields);
-        return ShortestPath.shortestPath;
-    }
-
-    /**
-     * Returns the start of the shortest path. Used by the clever monster to see if there is a path that leads to player.
-     *
-     * @param x1          x position on player board, source
-     * @param y1          y position on player board, source
-     * @param x2          x position on player board, target
-     * @param y2          y position on player board, target
-     * @param subPath     the path we have already taken, used in recursion
-     * @param was         what was the last move
-     * @param boardArray  the board array used in this game
-     * @param numOfFields number of fields in rectangular board array
-     * @return the first direction the board element should move
-     */
-    public static Rotation getShortestMazePathStart(int x1, int y1, int x2, int y2, String subPath, char was, Optional[][] boardArray, int numOfFields) {
-        shortestPathThruMaze = "";
-        VISITED_NODES_SHORTEST.clear();
-
-        getShortestPathThruMaze(x1, y1, x2, y2, subPath, was, boardArray, numOfFields);
-
-        if (shortestPathThruMaze.isEmpty()) {
-            return Rotation.NEUTRAL;
-        }
-        return convertCharToRotation(shortestPathThruMaze.charAt(0));
+    public static Rotation getShortestPathWithIceStart(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray) {
+        AStartShortestPathConditional(x1, y1, x2, y2, boardArray, boardElement -> boardArray[boardElement.getXPosition()][boardElement.getYPosition()].get() instanceof Block);
+        return AStartRotation;
     }
 
     /**
@@ -165,7 +62,7 @@ public class ShortestPath {
      * @param boardArrayObject the array containing the game Board as objects
      * @return true if there is no solid block on certain location
      */
-    public static boolean isNotSolidBlockOnLoc(int x, int y, Optional[][] boardArrayObject) {
+    public static boolean isNotSolidBlockOnLocation(int x, int y, Optional[][] boardArrayObject) {
         if (x < 0 || x >= boardArrayObject.length || y < 0 || y >= boardArrayObject[0].length) {
             return true;
         }
@@ -181,7 +78,7 @@ public class ShortestPath {
      * @param boardArrayObject the array containing the game Board as objects
      * @return true if there is no ice block on certain location
      */
-    public static boolean isNotIceBlockOnLoc(int x, int y, Optional[][] boardArrayObject) {
+    public static boolean isNotIceBlockOnLocation(int x, int y, Optional[][] boardArrayObject) {
         if (x < 0 || x >= boardArrayObject.length || y < 0 || y >= boardArrayObject[0].length) {
             return false;
         }
@@ -189,4 +86,69 @@ public class ShortestPath {
         return boardArrayObject[x][y].isEmpty() || boardArrayObject[x][y].get().getClass() != IceBlock.class;
     }
 
+    private static void AStartShortestPathConditional(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray, Function<Node, Boolean> boardElementConditions) {
+        List<Node> visitedNodes = new ArrayList<>();
+        Queue<Node> toBeVisitedNodes = new PriorityQueue<>(
+                Comparator.comparingDouble(node -> ShortestPath.fCost(x1, y1, node.getXPosition(), node.getYPosition(), x2, y2))
+        );
+        toBeVisitedNodes.add(new Node(x1, y1));
+
+        Node previousNode = null;
+        while (!toBeVisitedNodes.isEmpty()) {
+            Node visitingNode = toBeVisitedNodes.poll();
+            if (visitingNode.getXPosition() == x2 && visitingNode.getYPosition() == y2) {
+                setRotation(visitingNode);
+                return;
+            }
+            // adding not visited neighbour into toBeVisitedNodes
+            getAllNeighbours(visitingNode.getXPosition(), visitingNode.getYPosition(), boardArray).forEach(neighbour -> {
+                if (boardArray[neighbour.getXPosition()][neighbour.getYPosition()].isPresent()) {
+                    if (boardElementConditions.apply(neighbour)) {
+                        return;
+                    }
+                }
+                if (!visitedNodes.contains(new Node(neighbour.getXPosition(), neighbour.getYPosition()))) {
+                    toBeVisitedNodes.add(new Node(neighbour.getXPosition(), neighbour.getYPosition(), visitingNode));
+                }
+            });
+            Node addNode = new Node(visitingNode.getXPosition(), visitingNode.getYPosition(), previousNode);
+            visitedNodes.add(addNode);
+            previousNode = visitingNode;
+        }
+        AStartRotation = Rotation.NEUTRAL;
+    }
+
+    // helper functions for the A* algo
+    private static int gCost(int xStart, int yStart, int xCurrent, int yCurrent) {
+        return Math.abs(xStart - xCurrent) + Math.abs(yStart - yCurrent);
+    }
+
+    private static int hCost(int xCurrent, int yCurrent, int xFinish, int yFinish) {
+        return Math.abs(xCurrent - xFinish) + Math.abs(yCurrent - yFinish);
+    }
+
+    private static int fCost(int xStart, int yStart, int xCurrent, int yCurrent, int xFinish, int yFinish) {
+        return gCost(xStart, yStart, xCurrent, yCurrent) + hCost(xCurrent, yCurrent, xFinish, yFinish);
+    }
+
+    private static List<Node> getAllNeighbours(int x, int y, Optional<BoardElement>[][] boardArray) {
+        List<Node> neighbours = new ArrayList<>();
+        if (x + 1 < boardArray.length) neighbours.add(new Node(x + 1, y));
+        if (x - 1 >= 0) neighbours.add(new Node(x - 1, y));
+        if (y + 1 < boardArray[0].length) neighbours.add(new Node(x, y + 1));
+        if (y - 1 >= 0) neighbours.add(new Node(x, y - 1));
+        return neighbours;
+    }
+
+    private static void setRotation(Node previousNode) {
+        while (previousNode != null) {
+            if (previousNode.getPreviousNode() != null) {
+                if (previousNode.getPreviousNode().getPreviousNode() == null) {
+                    AStartRotation = previousNode.getPreviousNodeRotation();
+                    return;
+                }
+            }
+            previousNode = previousNode.getPreviousNode();
+        }
+    }
 }

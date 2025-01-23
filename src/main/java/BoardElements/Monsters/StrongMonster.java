@@ -23,30 +23,30 @@ public class StrongMonster extends Monster {
         Player player = gameController.getPlayer();
         Optional<BoardElement>[][] boardElements = gameController.getBoardArrayObject();
 
-        Rotation rot = ShortestPath.getShortestMazePathStart(getXPosition(), getYPosition(), player.getXPosition(),
-                player.getYPosition(), "", 's', boardElements, boardElements.length);
+        Rotation rot = ShortestPath.getShortestPathWithIceStart(getXPosition(), getYPosition(), player.getXPosition(),
+                player.getYPosition(), boardElements);
 
         if (rot != Rotation.NEUTRAL) {
             setRot(rot);
         } else {
-            String path = ShortestPath.getShortestPathStart(getXPosition(), getYPosition(), player.getXPosition(),
-                    player.getYPosition(), "", 's', boardElements, boardElements.length);
+            Rotation rotation = ShortestPath.getShortestPathNoIceStart(getXPosition(), getYPosition(), player.getXPosition(),
+                    player.getYPosition(), boardElements);
 
-            if (path.charAt(0) == 'u' && gameController.isFrozenAtLoc(0, -1, this)) {
+            if (rotation == Rotation.UP && gameController.isFrozenAtLoc(0, -1, this)) {
                 gameController.beatIce(getXPosition(), getYPosition() - 1);
                 return;
-            } else if (path.charAt(0) == 'r' && gameController.isFrozenAtLoc(1, 0, this)) {
+            } else if (rotation == Rotation.RIGHT && gameController.isFrozenAtLoc(1, 0, this)) {
                 gameController.beatIce(getXPosition() + 1, getYPosition());
                 return;
-            } else if (path.charAt(0) == 'd' && gameController.isFrozenAtLoc(0, 1, this)) {
+            } else if (rotation == Rotation.DOWN && gameController.isFrozenAtLoc(0, 1, this)) {
                 gameController.beatIce(getXPosition(), getYPosition() + 1);
                 return;
-            } else if (path.charAt(0) == 'l' && gameController.isFrozenAtLoc(-1, 0, this)) {
+            } else if (rotation == Rotation.LEFT && gameController.isFrozenAtLoc(-1, 0, this)) {
                 gameController.beatIce(getXPosition() - 1, getYPosition());
                 return;
             }
 
-            setRot(ShortestPath.convertCharToRotation(path.charAt(0)));
+            setRot(rotation);
         }
         this.getRotationState().move(canUp, canRight, canDown, canLeft, 0);
     }

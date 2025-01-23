@@ -7,6 +7,7 @@ import Logic.GameController;
 import Logic.ShortestPath;
 
 import java.awt.*;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -19,29 +20,47 @@ public class StrongMonster extends Monster {
     }
 
     @Override
-    public void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
+    protected boolean shouldMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         Player player = gameController.getPlayer();
         Optional<BoardElement>[][] boardElements = gameController.getBoardArrayObject();
 
         Rotation rotation = ShortestPath.getPathStartWithIce(getXPosition(), getYPosition(), player.getXPosition(), player.getYPosition(), boardElements);
 
-        if (rotation == Rotation.UP && gameController.isFrozenAtLoc(0, -1, this)) {
-            gameController.beatIce(getXPosition(), getYPosition() - 1);
-            return;
-        } else if (rotation == Rotation.RIGHT && gameController.isFrozenAtLoc(1, 0, this)) {
-            gameController.beatIce(getXPosition() + 1, getYPosition());
-            return;
-        } else if (rotation == Rotation.DOWN && gameController.isFrozenAtLoc(0, 1, this)) {
-            gameController.beatIce(getXPosition(), getYPosition() + 1);
-            return;
-        } else if (rotation == Rotation.LEFT && gameController.isFrozenAtLoc(-1, 0, this)) {
-            gameController.beatIce(getXPosition() - 1, getYPosition());
-            return;
+        // Mapping rotations to corresponding actions
+        Map<Rotation, Runnable> actions = Map.of(
+                Rotation.UP, () -> handleIce(gameController, 0, -1),
+                Rotation.RIGHT, () -> handleIce(gameController, 1, 0),
+                Rotation.DOWN, () -> handleIce(gameController, 0, 1),
+                Rotation.LEFT, () -> handleIce(gameController, -1, 0)
+        );
+
+        if (actions.containsKey(rotation) && gameController.isFrozenAtLoc(getDeltaX(rotation), getDeltaY(rotation), this)) {
+            actions.get(rotation).run();
+            return false;
         }
 
-        if (rotation != Rotation.NEUTRAL) {
-            setRot(rotation);
-        }
-        this.getRotationState().move(canUp, canRight, canDown, canLeft, 0);
+        setRot(rotation);
+
+        return true;
+    }
+
+    private void handleIce(GameController gameController, int deltaX, int deltaY) {
+        gameController.beatIce(getXPosition() + deltaX, getYPosition() + deltaY);
+    }
+
+    private int getDeltaX(Rotation rotation) {
+        return switch (rotation) {
+            case RIGHT -> 1;
+            case LEFT -> -1;
+            default -> 0;
+        };
+    }
+
+    private int getDeltaY(Rotation rotation) {
+        return switch (rotation) {
+            case UP -> -1;
+            case DOWN -> 1;
+            default -> 0;
+        };
     }
 }

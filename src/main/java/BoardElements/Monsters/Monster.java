@@ -20,6 +20,9 @@ public abstract class Monster extends BoardElement implements moving {
 
     @Override
     public void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
+        if (!shouldMove(canUp, canRight, canDown, canLeft, gameController)){
+            return;
+        }
         this.getRotationState().move(canUp, canRight, canDown, canLeft, 0);
     }
 
@@ -31,5 +34,9 @@ public abstract class Monster extends BoardElement implements moving {
 
     public Color getColor() {
         return this.color;
+    }
+
+    protected boolean shouldMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
+        return true;
     }
 }

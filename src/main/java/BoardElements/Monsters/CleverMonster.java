@@ -23,7 +23,7 @@ public class CleverMonster extends Monster {
         Player player = gameController.getPlayer();
         Optional<BoardElement>[][] boardElements = gameController.getBoardArrayObject();
 
-        Rotation rot = ShortestPath.getShortestPathWithIceStart(getXPosition(), getYPosition(), player.getXPosition(), player.getYPosition(), boardElements);
+        Rotation rot = ShortestPath.getPathStartNoIce(getXPosition(), getYPosition(), player.getXPosition(), player.getYPosition(), boardElements);
 
         if (rot != Rotation.NEUTRAL) {
             setRot(rot);

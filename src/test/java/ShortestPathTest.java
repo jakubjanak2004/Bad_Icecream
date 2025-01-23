@@ -69,7 +69,7 @@ public class ShortestPathTest {
             "0, 0, 3, 1, DOWN"
     })
     public void getShortestMazePathStart_StartAndFinishGiven_PathShouldMatch(int x1, int y1, int x2, int y2, Rotation path) {
-        Rotation rot = ShortestPath.getShortestPathWithIceStart(x1, y1, x2, y2, boardArrayObjectOptional);
+        Rotation rot = ShortestPath.getPathStartNoIce(x1, y1, x2, y2, boardArrayObjectOptional);
 
         assertEquals(path, rot);
     }
@@ -81,7 +81,7 @@ public class ShortestPathTest {
             "0, 0, 3, 1, RIGHT"
     })
     public void getShortestPathStart_StartAndFinishGiven_PathShouldMatch(int x1, int y1, int x2, int y2, Rotation path) {
-        Rotation rotation = ShortestPath.getShortestPathNoIceStart(x1, y1, x2, y2, boardArrayObjectOptional);
+        Rotation rotation = ShortestPath.getPathStartWithIce(x1, y1, x2, y2, boardArrayObjectOptional);
 
         assertEquals(path, rotation);
     }

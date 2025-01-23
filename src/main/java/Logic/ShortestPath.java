@@ -31,8 +31,8 @@ public class ShortestPath {
      * @param boardArray the board array used in this game
      * @return the first direction the board element should move
      */
-    public static Rotation getShortestPathNoIceStart(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray) {
-        AStartShortestPathConditional(x1, y1, x2, y2, boardArray, boardElement ->
+    public static Rotation getPathStartWithIce(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray) {
+        AStarShortestPathConditional(x1, y1, x2, y2, boardArray, boardElement ->
                 (boardArray[boardElement.getXPosition()][boardElement.getYPosition()].get() instanceof Block)
                         &&
                         !(boardArray[boardElement.getXPosition()][boardElement.getYPosition()].get() instanceof IceBlock));
@@ -49,8 +49,8 @@ public class ShortestPath {
      * @param boardArray the board array used in this game
      * @return the first direction the board element should move
      */
-    public static Rotation getShortestPathWithIceStart(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray) {
-        AStartShortestPathConditional(x1, y1, x2, y2, boardArray, boardElement -> boardArray[boardElement.getXPosition()][boardElement.getYPosition()].get() instanceof Block);
+    public static Rotation getPathStartNoIce(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray) {
+        AStarShortestPathConditional(x1, y1, x2, y2, boardArray, boardElement -> boardArray[boardElement.getXPosition()][boardElement.getYPosition()].get() instanceof Block);
         return AStartRotation;
     }
 
@@ -62,7 +62,7 @@ public class ShortestPath {
      * @param boardArrayObject the array containing the game Board as objects
      * @return true if there is no solid block on certain location
      */
-    public static boolean isNotSolidBlockOnLocation(int x, int y, Optional[][] boardArrayObject) {
+    public static boolean isNotSolidBlockOnLocation(int x, int y, Optional<BoardElement>[][] boardArrayObject) {
         if (x < 0 || x >= boardArrayObject.length || y < 0 || y >= boardArrayObject[0].length) {
             return true;
         }
@@ -78,7 +78,7 @@ public class ShortestPath {
      * @param boardArrayObject the array containing the game Board as objects
      * @return true if there is no ice block on certain location
      */
-    public static boolean isNotIceBlockOnLocation(int x, int y, Optional[][] boardArrayObject) {
+    public static boolean isNotIceBlockOnLocation(int x, int y, Optional<BoardElement>[][] boardArrayObject) {
         if (x < 0 || x >= boardArrayObject.length || y < 0 || y >= boardArrayObject[0].length) {
             return false;
         }
@@ -86,7 +86,7 @@ public class ShortestPath {
         return boardArrayObject[x][y].isEmpty() || boardArrayObject[x][y].get().getClass() != IceBlock.class;
     }
 
-    private static void AStartShortestPathConditional(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray, Function<Node, Boolean> boardElementConditions) {
+    private static void AStarShortestPathConditional(int x1, int y1, int x2, int y2, Optional<BoardElement>[][] boardArray, Function<Node, Boolean> boardElementConditions) {
         List<Node> visitedNodes = new ArrayList<>();
         Queue<Node> toBeVisitedNodes = new PriorityQueue<>(
                 Comparator.comparingDouble(node -> ShortestPath.fCost(x1, y1, node.getXPosition(), node.getYPosition(), x2, y2))
@@ -144,7 +144,7 @@ public class ShortestPath {
         while (previousNode != null) {
             if (previousNode.getPreviousNode() != null) {
                 if (previousNode.getPreviousNode().getPreviousNode() == null) {
-                    AStartRotation = previousNode.getPreviousNodeRotation();
+                    AStartRotation = previousNode.getJumpToNodeRotation();
                     return;
                 }
             }

@@ -6,7 +6,7 @@ public class Node {
     private int xPosition;
     private int yPosition;
     private Node previousNode;
-    private Rotation previousNodeRotation;
+    private Rotation jumpToNodeRotation;
 
     public Node(int xPosition, int yPosition) {
         this.xPosition = xPosition;
@@ -25,10 +25,10 @@ public class Node {
         int xDifference = getXPosition() - previousNode.getXPosition();
         int yDifference = getYPosition() - previousNode.getYPosition();
 
-        if (xDifference == 1) previousNodeRotation = Rotation.RIGHT;
-        if (xDifference == -1) previousNodeRotation = Rotation.LEFT;
-        if (yDifference == 1) previousNodeRotation = Rotation.DOWN;
-        if (yDifference == -1) previousNodeRotation = Rotation.UP;
+        if (xDifference == 1) jumpToNodeRotation = Rotation.RIGHT;
+        if (xDifference == -1) jumpToNodeRotation = Rotation.LEFT;
+        if (yDifference == 1) jumpToNodeRotation = Rotation.DOWN;
+        if (yDifference == -1) jumpToNodeRotation = Rotation.UP;
     }
 
     @Override
@@ -65,8 +65,8 @@ public class Node {
         return previousNode;
     }
 
-    public Rotation getPreviousNodeRotation() {
-        return previousNodeRotation;
+    public Rotation getJumpToNodeRotation() {
+        return jumpToNodeRotation;
     }
 }
 

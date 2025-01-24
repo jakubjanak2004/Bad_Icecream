@@ -29,8 +29,8 @@ public abstract class Reward extends BoardElement implements Grabbable {
         int width = step / 2;
         int height = (int) (width / (35.0 / 31.0));
 
-        int x = getXPosition() * step + widthPadding;
-        int y = getYPosition() * step + heightPadding;
+        int x = calcX(step, widthPadding);
+        int y = calcY(step, heightPadding);
         int xPaddingInBlock = (step - width) / 2;
         int yPaddingInBlock = (step - height) / 2;
 

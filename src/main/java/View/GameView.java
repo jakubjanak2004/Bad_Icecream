@@ -134,7 +134,7 @@ public class GameView extends JLabel {
 
         paintReward(g2, step, widthPadding, heightPadding);
 
-        gameController.getPlayer().paint(g2, step, widthPadding, heightPadding);
+        gameController.getPlayer().paintTemplate(g2, step, widthPadding, heightPadding);
 
         paintMonsters(g2, step, widthPadding, heightPadding);
 
@@ -146,7 +146,7 @@ public class GameView extends JLabel {
             for (int j = 0; j < gameController.getBoardArrayObject()[i].length; j++) {
                 if (gameController.getBoardArrayObject()[i][j].isPresent()) {
                     BoardElement element = gameController.getBoardArrayObject()[i][j].get();
-                    element.paint(g2, step, widthPadding, heightPadding);
+                    element.paintTemplate(g2, step, widthPadding, heightPadding);
                 }
             }
         }
@@ -155,14 +155,14 @@ public class GameView extends JLabel {
     private void paintMonsters(Graphics2D g2, int step, int widthPadding, int heightPadding) {
         for (moving m : gameController.getMonsters()) {
             Monster monster = (Monster) m;
-            monster.paint(g2, step, widthPadding, heightPadding);
+            monster.paintTemplate(g2, step, widthPadding, heightPadding);
         }
     }
 
     private void paintReward(Graphics2D g2, int step, int widthPadding, int heightPadding) {
         for (Reward f : gameController.getRewards()) {
             if (f.isTaken()) continue;
-            f.paint(g2, step, widthPadding, heightPadding);
+            f.paintTemplate(g2, step, widthPadding, heightPadding);
         }
     }
 

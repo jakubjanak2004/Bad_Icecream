@@ -15,8 +15,6 @@ public class Key extends Reward {
 
     public Key(int xPosition, int yPosition) {
         super(xPosition, yPosition);
-
-        loadImage();
     }
 
     @Override

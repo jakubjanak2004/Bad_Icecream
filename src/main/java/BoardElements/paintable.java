@@ -14,5 +14,5 @@ public interface paintable {
      * @param widthPadding the Width Padding the GameBoard is moved by from the left side of the window
      * @param heightPadding the Height Padding the GameBoard is moved by from the upper side of the window
      */
-    void paint(Graphics2D g, int step, int widthPadding, int heightPadding);
+    void paintTemplate(Graphics2D g, int step, int widthPadding, int heightPadding);
 }

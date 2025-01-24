@@ -1,7 +1,5 @@
 package BoardElements;
 
-import BoardElements.rotationState.RotationState;
-
 import java.awt.*;
 
 /**
@@ -37,8 +35,6 @@ public class Player extends BoardElement {
         g.fillOval(getXPosition() * step + widthPadding, getYPosition() * step + heightPadding, step, step);
         // painting the rotation
         g.setColor(Color.WHITE);
-
-        super.paint(g, step, widthPadding, heightPadding);
     }
 
     @Override

@@ -58,24 +58,32 @@ public class BoardElement implements on2DBoard, paintable {
      * @param widthPadding  the Width Padding the GameBoard is moved by from the left side of the window
      * @param heightPadding the Height Padding the GameBoard is moved by from the upper side of the window
      */
-    public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+    public final void paintTemplate(Graphics2D g, int step, int widthPadding, int heightPadding) {
+        paint(g, step, widthPadding, heightPadding);
         rotationState.paint(g, step, widthPadding, heightPadding);
     }
 
-    public void rightDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+    protected void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+    }
 
+    public void rightDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
     }
 
     public void leftDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
-
     }
 
     public void upDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
-
     }
 
     public void downDirectionPaint(Graphics2D g, int step, int widthPadding, int heightPadding) {
+    }
 
+    protected int calcX(int step, int widthPadding) {
+        return getXPosition() * step + widthPadding;
+    }
+
+    protected int calcY(int step, int heightPadding) {
+        return getYPosition() * step + heightPadding;
     }
 
     @Override

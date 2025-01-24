@@ -403,11 +403,6 @@ public class GameController {
         return array;
     }
 
-    // Getters and Setters
-    public void setLevelManager(LevelManager levelManager) {
-        this.levelManager = levelManager;
-    }
-
     public boolean isGameOn() {
         return isGameOn;
     }

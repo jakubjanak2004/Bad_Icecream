@@ -16,8 +16,8 @@ public abstract class Block extends BoardElement {
 
     @Override
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
-        int x = getXPosition() * step + widthPadding;
-        int y = getYPosition() * step + heightPadding;
+        int x = calcX(step, widthPadding);
+        int y = calcY(step, heightPadding);
 
         int width = (int) calcWidth(x, y, step);
         int height = (int) calcHeight(x, y, step);

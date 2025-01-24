@@ -19,11 +19,10 @@ public abstract class Monster extends BoardElement implements moving {
     }
 
     @Override
-    public void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
-        if (!shouldMove(canUp, canRight, canDown, canLeft, gameController)){
-            return;
+    public final void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
+        if (shouldMove(canUp, canRight, canDown, canLeft, gameController)) {
+            this.getRotationState().move(canUp, canRight, canDown, canLeft, 0);
         }
-        this.getRotationState().move(canUp, canRight, canDown, canLeft, 0);
     }
 
     @Override

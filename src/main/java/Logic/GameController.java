@@ -3,7 +3,11 @@ package Logic;
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
 import BoardElements.BoardElement;
-import BoardElements.Monsters.*;
+import BoardElements.Monsters.CleverMonster;
+import BoardElements.Monsters.Monster;
+import BoardElements.Monsters.StrongMonster;
+import BoardElements.Monsters.StupidMonster;
+import BoardElements.Monsters.moving;
 import BoardElements.Player;
 import BoardElements.Reward.Chest;
 import BoardElements.Reward.Fruit;
@@ -11,17 +15,23 @@ import BoardElements.Reward.Key;
 import BoardElements.Reward.Reward;
 import BoardElements.Rotation;
 import LevelManagement.LevelManager;
+import Logic.observer.KeySubscriber;
 import View.GameView;
 
 import java.awt.event.KeyEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Logger;
 
 /**
  * The GameController class manages the game logic and coordinates interactions between various game elements.
  * It controls player movement, monster behavior, game state, and level progression.
  */
-public class GameController {
+public class GameController implements KeySubscriber {
     // Constants
     public static final int MONSTER_MOVE_REFRESH = 500;
     public static final int GAME_LOOP_REFRESH = 50;
@@ -40,7 +50,7 @@ public class GameController {
     MonsterThread monsterThread;
 
     // level management classes
-    private LevelManager levelManager;
+    private final LevelManager levelManager;
 
     // boolean fields
     private boolean isGameOn = false;
@@ -64,37 +74,42 @@ public class GameController {
     // Constructor
     public GameController() {
         this.levelManager = new LevelManager();
-
         this.boardArrayObject = createEmptyArray(numOfFields, numOfFields);
-
         this.player = new Player(0, 0, Rotation.UP);
-
         gameView = GameView.getInstance(this);
-
         setGameLoopTimer();
     }
 
     public GameController(LevelManager levelManager) {
         this.levelManager = levelManager;
-
         this.boardArrayObject = createEmptyArray(numOfFields, numOfFields);
-
         this.player = new Player(0, 0, Rotation.UP);
-
         gameView = GameView.getInstance(this);
-
         setGameLoopTimer();
+    }
+
+    private static Optional<BoardElement>[][] createEmptyArray(int rows, int columns) {
+        Optional<BoardElement>[][] array = new Optional[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                array[i][j] = Optional.empty();
+            }
+        }
+        return array;
     }
 
     public boolean canUp(int x, int y) {
         return y > 0 && isVisitable(x, y - 1);
     }
+
     public boolean canRight(int x, int y) {
         return x < getNumOfFields() - 1 && isVisitable(x + 1, y);
     }
+
     public boolean canDown(int x, int y) {
         return y < getNumOfFields() - 1 && isVisitable(x, y + 1);
     }
+
     public boolean canLeft(int x, int y) {
         return x > 0 && isVisitable(x - 1, y);
     }
@@ -105,7 +120,6 @@ public class GameController {
      * checking the conditions for death, fruit being taken and level being won
      */
     public void setGameLoopTimer() {
-
         logger.config("Graphics Refresh loop was started!");
 
         isRefreshing = true;
@@ -123,74 +137,99 @@ public class GameController {
         gameLoopTimer.schedule(gameLoopTimerTask, 800, GAME_LOOP_REFRESH);
     }
 
-    /**
-     * @param e KeyEvent received when user types
-     */
-    public boolean userTypeHandler(KeyEvent e) {
-
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT && isGameOn) {
-            player.setRot(Rotation.RIGHT);
-            if (player.getXPosition() >= numOfFields - 1) {
-                return true;
-            }
-            if (!isVisitable(player.getXPosition() + 1, player.getYPosition())) {
-                return true;
-            }
-            player.moveOnx(1);
-            checkDeath();
-            checkFruitTaken();
-
-        } else if (e.getKeyCode() == KeyEvent.VK_LEFT && isGameOn) {
-            player.setRot(Rotation.LEFT);
-            if (player.getXPosition() <= 0) {
-                return true;
-            }
-            if (!isVisitable(player.getXPosition() - 1, player.getYPosition())) {
-                return true;
-            }
-            player.moveOnx(-1);
-            checkDeath();
-            checkFruitTaken();
-
-        } else if (e.getKeyCode() == KeyEvent.VK_UP && isGameOn) {
-            player.setRot(Rotation.UP);
-            if (player.getYPosition() <= 0) {
-                return true;
-            }
-            if (!isVisitable(player.getXPosition(), player.getYPosition() - 1)) {
-                return true;
-            }
-            player.moveOny(-1);
-            checkDeath();
-            checkFruitTaken();
-
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN && isGameOn) {
-            player.setRot(Rotation.DOWN);
-            if (player.getYPosition() >= numOfFields - 1) {
-                return true;
-            }
-            if (!isVisitable(player.getXPosition(), player.getYPosition() + 1)) {
-                return true;
-            }
-            player.moveOny(1);
-            checkDeath();
-            checkFruitTaken();
-
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE && isGameOn) {
-            iceManipulator.manipulateIceAsync();
-        } else if (e.getKeyCode() == 82 && !isGameOn) {
-            isMenuOpened = true;
-        } else if (e.getKeyCode() == 71 && !isGameOn) {
-            isGameOn = true;
-            isMenuOpened = false;
-            return startGame();
-        }else{
-            // when unrecognised key is pressed
-            return false;
+    @Override
+    public void rightArrowPressed(KeyEvent event) {
+        if (!isGameOn) {
+            return;
         }
-        return true;
+        player.setRot(Rotation.RIGHT);
+        if (player.getXPosition() >= numOfFields - 1) {
+            return;
+        }
+        if (!isVisitable(player.getXPosition() + 1, player.getYPosition())) {
+            return;
+        }
+        player.moveOnx(1);
+        checkDeath();
+        checkFruitTaken();
     }
 
+    @Override
+    public void downArrowPressed(KeyEvent event) {
+        if (!isGameOn) {
+            return;
+        }
+        player.setRot(Rotation.DOWN);
+        if (player.getYPosition() >= numOfFields - 1) {
+            return;
+        }
+        if (!isVisitable(player.getXPosition(), player.getYPosition() + 1)) {
+            return;
+        }
+        player.moveOny(1);
+        checkDeath();
+        checkFruitTaken();
+    }
+
+    @Override
+    public void leftArrowPressed(KeyEvent event) {
+        if (!isGameOn) {
+            return;
+        }
+        player.setRot(Rotation.LEFT);
+        if (player.getXPosition() <= 0) {
+            return;
+        }
+        if (!isVisitable(player.getXPosition() - 1, player.getYPosition())) {
+            return;
+        }
+        player.moveOnx(-1);
+        checkDeath();
+        checkFruitTaken();
+    }
+
+    @Override
+    public void upArrowPressed(KeyEvent event) {
+        if (!isGameOn) {
+            return;
+        }
+        player.setRot(Rotation.UP);
+        if (player.getYPosition() <= 0) {
+            return;
+        }
+        if (!isVisitable(player.getXPosition(), player.getYPosition() - 1)) {
+            return;
+        }
+        player.moveOny(-1);
+        checkDeath();
+        checkFruitTaken();
+    }
+
+    @Override
+    public void spacePressed(KeyEvent event) {
+        if (!isGameOn) {
+            return;
+        }
+        iceManipulator.manipulateIceAsync();
+    }
+
+    @Override
+    public void rKeyPressed(KeyEvent event) {
+        if (isGameOn) {
+            return;
+        }
+        isMenuOpened = true;
+    }
+
+    @Override
+    public void gKeyPressed(KeyEvent event) {
+        if (isGameOn) {
+            return;
+        }
+        isGameOn = true;
+        isMenuOpened = false;
+        startGame();
+    }
 
     /**
      * @param x x location on board array
@@ -198,7 +237,6 @@ public class GameController {
      * @return true if is visitable by player or monster
      */
     public boolean isVisitable(int x, int y) {
-
         if (x < 0 || x >= boardArrayObject.length) {
             return false;
         } else if (y < 0 || y >= boardArrayObject[0].length) {
@@ -217,7 +255,6 @@ public class GameController {
      * @return true if there is ice at certain location
      */
     public boolean isFrozenAtLoc(int x, int y) {
-
         if (x < 0 || x >= boardArrayObject.length) {
             return false;
         } else if (y < 0 || y >= boardArrayObject[0].length) {
@@ -246,7 +283,6 @@ public class GameController {
      * @param y y coordinate
      */
     public void beatIce(int x, int y) {
-
         if (x < 0 || x >= getBoardArrayObject().length) {
             return;
         } else if (y < 0 || y >= getBoardArrayObject()[0].length) {
@@ -391,16 +427,6 @@ public class GameController {
 
     public LevelManager getLevelManager() {
         return levelManager;
-    }
-
-    private static Optional<BoardElement>[][] createEmptyArray(int rows, int columns) {
-        Optional<BoardElement>[][] array = new Optional[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                array[i][j] = Optional.empty();
-            }
-        }
-        return array;
     }
 
     public boolean isGameOn() {

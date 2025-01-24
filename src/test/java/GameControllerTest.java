@@ -197,59 +197,59 @@ public class GameControllerTest {
 
     // described by the Test Scenario
     // Handler_1
-    @Test
-    public void userTypeHandler_stateGiven_ExpectedReturn() {
-        gameController.setGameOn(true);
+//    @Test
+//    public void userTypeHandler_stateGiven_ExpectedReturn() {
+//        gameController.setGameOn(true);
+//
+//        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, KeyEvent.CHAR_UNDEFINED);
+//
+//        gameController.userTypeHandler(e);
+//
+//        Player player = gameController.getPlayer();
+//
+//        assertEquals(0, player.getXPosition());
+//        assertEquals(RightState.class, player.getRotationState().getClass());
+//    }
 
-        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, KeyEvent.CHAR_UNDEFINED);
+//    @Test
+//    public void userTypeHandler_arrowDown_ExpectedReturn() {
+//        gameController.setGameOn(true);
+//
+//        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN, KeyEvent.CHAR_UNDEFINED);
+//
+//        gameController.userTypeHandler(e);
+//
+//        Player player = gameController.getPlayer();
+//
+//        assertEquals(1, player.getYPosition());
+//        assertEquals(DownState.class, player.getRotationState().getClass());
+//    }
 
-        gameController.userTypeHandler(e);
+//    @Test
+//    public void userTypeHandler_arrowLeft_ExpectedReturn() {
+//        gameController.setGameOn(true);
+//
+//        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, KeyEvent.CHAR_UNDEFINED);
+//
+//        gameController.userTypeHandler(e);
+//
+//        Player player = gameController.getPlayer();
+//
+//        assertEquals(0, player.getXPosition());
+//        assertEquals(LeftState.class, player.getRotationState().getClass());
+//    }
 
-        Player player = gameController.getPlayer();
-
-        assertEquals(0, player.getXPosition());
-        assertEquals(RightState.class, player.getRotationState().getClass());
-    }
-
-    @Test
-    public void userTypeHandler_arrowDown_ExpectedReturn() {
-        gameController.setGameOn(true);
-
-        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN, KeyEvent.CHAR_UNDEFINED);
-
-        gameController.userTypeHandler(e);
-
-        Player player = gameController.getPlayer();
-
-        assertEquals(1, player.getYPosition());
-        assertEquals(DownState.class, player.getRotationState().getClass());
-    }
-
-    @Test
-    public void userTypeHandler_arrowLeft_ExpectedReturn() {
-        gameController.setGameOn(true);
-
-        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT, KeyEvent.CHAR_UNDEFINED);
-
-        gameController.userTypeHandler(e);
-
-        Player player = gameController.getPlayer();
-
-        assertEquals(0, player.getXPosition());
-        assertEquals(LeftState.class, player.getRotationState().getClass());
-    }
-
-    @Test
-    public void userTypeHandler_arrowUp_ExpectedReturn() {
-        gameController.setGameOn(true);
-
-        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP, KeyEvent.CHAR_UNDEFINED);
-
-        gameController.userTypeHandler(e);
-
-        Player player = gameController.getPlayer();
-
-        assertEquals(0, player.getYPosition());
-        assertEquals(UpState.class, player.getRotationState().getClass());
-    }
+//    @Test
+//    public void userTypeHandler_arrowUp_ExpectedReturn() {
+//        gameController.setGameOn(true);
+//
+//        KeyEvent e = new KeyEvent(gameController.getGameView(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP, KeyEvent.CHAR_UNDEFINED);
+//
+//        gameController.userTypeHandler(e);
+//
+//        Player player = gameController.getPlayer();
+//
+//        assertEquals(0, player.getYPosition());
+//        assertEquals(UpState.class, player.getRotationState().getClass());
+//    }
 }

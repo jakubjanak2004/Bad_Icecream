@@ -5,6 +5,7 @@ import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.moving;
 import BoardElements.Reward.Reward;
 import Logic.GameController;
+import Logic.observer.KeyObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,16 +36,17 @@ public class GameView extends JLabel {
     private Timer refreshTimer;
     private TimerTask refreshTimerTask;
 
+    private KeyObserver keyObserver;
+
     private GameView(GameController gameController) {
-
         this.setFocusable(true);
-
         this.gameController = gameController;
+        keyObserver = new KeyObserver(gameController);
 
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                gameController.userTypeHandler(e);
+                keyObserver.notify(e);
             }
         });
 
@@ -54,7 +56,6 @@ public class GameView extends JLabel {
                 userPressedHandler(e);
             }
         });
-
         gameRefreshTimerSetMethod();
     }
 
@@ -110,7 +111,6 @@ public class GameView extends JLabel {
     }
 
     private void paintGame(Graphics2D g2) {
-
         int height = this.getHeight();
         int width = this.getWidth();
         int widthPadding = 0;

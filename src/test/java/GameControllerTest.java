@@ -1,6 +1,6 @@
-import BoardElements.Blocks.IceBlock;
-import BoardElements.BoardElement.BoardElement;
-import Logic.GameController;
+import Model.Blocks.IceBlock;
+import Model.BoardElement.BoardElement;
+import Controller.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

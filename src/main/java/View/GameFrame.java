@@ -1,6 +1,6 @@
 package View;
 
-import Logic.GameController;
+import Controller.GameController;
 
 import javax.swing.*;
 

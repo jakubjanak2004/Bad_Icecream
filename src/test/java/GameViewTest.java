@@ -1,4 +1,4 @@
-import Logic.GameController;
+import Controller.GameController;
 import View.GameView;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
-import BoardElements.Player.Player;
-import LevelManagement.Level;
-import LevelManagement.LevelManager;
-import Logic.GameController;
+import Model.Player.Player;
+import Model.LevelManagement.Level;
+import Model.LevelManagement.LevelManager;
+import Controller.GameController;
 import View.GameFrame;
 import View.GameView;
 import org.junit.jupiter.api.*;

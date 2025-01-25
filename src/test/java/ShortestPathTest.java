@@ -1,8 +1,8 @@
-import BoardElements.Blocks.IceBlock;
-import BoardElements.Blocks.SolidBlock;
-import BoardElements.BoardElement.BoardElement;
-import BoardElements.Player.Rotation;
-import Logic.ShortestPath;
+import Model.Blocks.IceBlock;
+import Model.Blocks.SolidBlock;
+import Model.BoardElement.BoardElement;
+import Model.Player.Rotation;
+import Model.ShortestPath.ShortestPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

@@ -1,9 +1,9 @@
-import BoardElements.Blocks.IceBlock;
-import BoardElements.BoardElement.BoardElement;
-import BoardElements.Player.Player;
-import BoardElements.Player.Rotation;
-import Logic.GameController;
-import Logic.IceManipulator;
+import Model.Blocks.IceBlock;
+import Model.BoardElement.BoardElement;
+import Model.Player.Player;
+import Model.Player.Rotation;
+import Controller.GameController;
+import Model.GameBoard.IceManipulator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

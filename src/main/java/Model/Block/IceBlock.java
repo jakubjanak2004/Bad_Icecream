@@ -1,4 +1,4 @@
-package Model.Blocks;
+package Model.Block;
 
 import Model.BoardElement.BoardElement;
 import Model.GameBoard.GameBoard;
@@ -27,7 +27,7 @@ public class IceBlock extends Block {
     public void destabilize() {
         stability--;
         if (stability <= 0) {
-            gameBoard.replaceElement(xPosition, yPosition, new BoardElement(xPosition, yPosition, gameBoard));
+            gameBoard.setBoardElementAt(xPosition, yPosition, new BoardElement(xPosition, yPosition, gameBoard));
         }
     }
 

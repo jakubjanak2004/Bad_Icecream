@@ -1,7 +1,7 @@
 package Model.GameBoard;
 
-import Model.Blocks.IceBlock;
-import Model.Blocks.SolidBlock;
+import Model.Block.IceBlock;
+import Model.Block.SolidBlock;
 import Model.BoardElement.BoardElement;
 import Model.Monster.CleverMonster;
 import Model.Monster.Monster;
@@ -17,11 +17,10 @@ import Model.Player.Rotation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class GameBoardBuilder {
     GameBoard gameBoard;
-    private Optional<BoardElement>[][] boardElementArray;
+    private BoardElement[][] boardElementArray;
     private int[][] intGameBoardArray;
     private Player player;
     private final List<Monster> monsters = Collections.synchronizedList(new ArrayList<>());;
@@ -47,7 +46,7 @@ public class GameBoardBuilder {
 
     // TODO: refactor as is not readable
     private void constructBoardElementArray() {
-        this.boardElementArray = GameBoardBuilder.createEmptyArray(intGameBoardArray.length, intGameBoardArray[0].length);
+        this.boardElementArray = GameBoardBuilder.createEmptyArray(intGameBoardArray.length, intGameBoardArray[0].length, gameBoard);
         List<Chest> chests = new ArrayList<>();
         List<Key> keys = new ArrayList<>();
         for (int i = 0; i < intGameBoardArray.length; i++) {
@@ -72,11 +71,11 @@ public class GameBoardBuilder {
                     rewards.add(key);
                     keys.add(key);
                 } else if (intGameBoardArray[i][j] == 1) {
-                    this.boardElementArray[i][j] =  Optional.of(new IceBlock(i, j, gameBoard));
+                    this.boardElementArray[i][j] =  new IceBlock(i, j, gameBoard);
                 } else if (intGameBoardArray[i][j] == 2) {
-                    this.boardElementArray[i][j] =  Optional.of(new SolidBlock(i, j, gameBoard));
+                    this.boardElementArray[i][j] =  new SolidBlock(i, j, gameBoard);
                 } else if (intGameBoardArray[i][j] == 0) {
-                    this.boardElementArray[i][j] =  Optional.of(new BoardElement(i, j, gameBoard));
+                    this.boardElementArray[i][j] =  new BoardElement(i, j, gameBoard);
                 }
             }
         }
@@ -86,11 +85,11 @@ public class GameBoardBuilder {
         }
     }
 
-    private static Optional<BoardElement>[][] createEmptyArray(int rows, int columns) {
-        Optional<BoardElement>[][] array = new Optional[rows][columns];
+    private static BoardElement[][] createEmptyArray(int rows, int columns, GameBoard gameBoard) {
+        BoardElement[][] array = new BoardElement[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                array[i][j] = Optional.empty();
+                array[i][j] = new BoardElement(i, j, gameBoard);
             }
         }
         return array;

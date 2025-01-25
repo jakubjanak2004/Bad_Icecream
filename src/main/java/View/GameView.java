@@ -142,10 +142,10 @@ public class GameView extends JLabel {
     }
 
     private void paintGameBlocks(Graphics2D g2, int step, int widthPadding, int heightPadding) {
-        for (int i = 0; i < gameController.getGameBoard().getBoardElementArray().length; i++) {
-            for (int j = 0; j < gameController.getGameBoard().getBoardElementArray()[i].length; j++) {
-                if (gameController.getGameBoard().getBoardElementArray()[i][j].isPresent()) {
-                    BoardElement element = gameController.getGameBoard().getBoardElementArray()[i][j].get();
+        for (int i = 0; i < gameController.getGameBoard().getGameBoardLengthX(); i++) {
+            for (int j = 0; j < gameController.getGameBoard().getGameBoardLengthY(); j++) {
+                if (gameController.getGameBoard().getBoardElementAt(i, j).isPresent()) {
+                    BoardElement element = gameController.getGameBoard().getBoardElementAt(i, j).get();
                     element.paintTemplate(g2, step, widthPadding, heightPadding);
                 }
             }

@@ -1,6 +1,6 @@
 package View;
 
-import Model.Blocks.IceBlock;
+import Model.Block.IceBlock;
 import main.Main;
 
 import javax.imageio.ImageIO;

@@ -1,4 +1,4 @@
-package Model.Blocks;
+package Model.Block;
 
 import Model.GameBoard.GameBoard;
 

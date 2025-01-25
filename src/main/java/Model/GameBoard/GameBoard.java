@@ -1,9 +1,9 @@
 package Model.GameBoard;
 
-import Model.Blocks.IceBlock;
+import Model.Block.IceBlock;
 import Model.BoardElement.BoardElement;
-import Model.MonsterThread;
 import Model.Monster.Monster;
+import Model.MonsterThread;
 import Model.Player.Player;
 import Model.Player.Rotation;
 import Model.Reward.Reward;
@@ -17,9 +17,9 @@ public class GameBoard {
     private final List<Reward> rewards;
     private MonsterThread monsterThread;
     private Player player;
-    private Optional<BoardElement>[][] boardElementArray;
+    private BoardElement[][] boardElementArray;
 
-    public GameBoard(Optional<BoardElement>[][] boardElementArray, List<Reward> rewards, List<Monster> monsters) {
+    public GameBoard(BoardElement[][] boardElementArray, List<Reward> rewards, List<Monster> monsters) {
         this.boardElementArray = boardElementArray;
         this.monsters = monsters;
         this.rewards = rewards;
@@ -28,17 +28,21 @@ public class GameBoard {
         this.player = new Player(0, 0, Rotation.UP, this);
     }
 
-    public void replaceElement(int xPosition, int yPosition, BoardElement newElement) {
-        boardElementArray[xPosition][yPosition] = Optional.ofNullable(newElement);
+    public void setBoardElementAt(int xPosition, int yPosition, BoardElement newElement) {
+        boardElementArray[xPosition][yPosition] = newElement;
+    }
+
+    public Optional<BoardElement> getBoardElementAt(int x, int y) {
+        return Optional.ofNullable(boardElementArray[x][y]);
     }
 
     public boolean isVisitable(int x, int y) {
         if (isOutsideOfBoard(x, y)) return false;
 
-        if (boardElementArray[x][y].isPresent()) {
-            return boardElementArray[x][y].map(BoardElement::isVisitable).orElse(false);
-        }
-        return true;
+        // new code
+        return getBoardElementAt(x, y)
+                .map(BoardElement::isVisitable)
+                .orElse(false);
     }
 
     private boolean isOutsideOfBoard(int x, int y) {
@@ -49,7 +53,7 @@ public class GameBoard {
     }
 
     public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
-        return boardElementArray[monster.getXPosition() + xMove][monster.getYPosition() + yMove]
+        return getBoardElementAt(monster.getXPosition() + xMove, monster.getYPosition() + yMove)
                 .filter(boardElement -> boardElement.getClass() == IceBlock.class)
                 .isPresent();
     }
@@ -57,7 +61,7 @@ public class GameBoard {
     public void beatIce(int x, int y) {
         if (isOutsideOfBoard(x, y)) return;
 
-        boardElementArray[x][y]
+        getBoardElementAt(x, y)
                 .filter(boardElement -> boardElement instanceof IceBlock)
                 .map(boardElement -> (IceBlock) boardElement)
                 .ifPresent(IceBlock::destabilize);
@@ -106,11 +110,15 @@ public class GameBoard {
         return x > 0 && isVisitable(x - 1, y);
     }
 
-    public Optional<BoardElement>[][] getBoardElementArray() {
-        return boardElementArray;
+    public int getGameBoardLengthX() {
+        return boardElementArray.length;
     }
 
-    public void setBoardElementArray(Optional<BoardElement>[][] boardElementArray) {
+    public int getGameBoardLengthY() {
+        return boardElementArray[0].length;
+    }
+
+    public void setBoardElementArray(BoardElement[][] boardElementArray) {
         this.boardElementArray = boardElementArray;
     }
 

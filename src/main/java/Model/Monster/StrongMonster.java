@@ -21,7 +21,7 @@ public class StrongMonster extends Monster {
     protected boolean shouldMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameBoard gameBoard) {
         Player player = gameBoard.getPlayer();
 
-        Rotation rotation = ShortestPath.getPathStartWithIce(getXPosition(), getYPosition(), player.getXPosition(), player.getYPosition(), gameBoard.getBoardElementArray());
+        Rotation rotation = ShortestPath.getPathStartWithIce(getXPosition(), getYPosition(), player.getXPosition(), player.getYPosition(), gameBoard);
 
         // Mapping rotations to corresponding actions
         Map<Rotation, Runnable> actions = Map.of(

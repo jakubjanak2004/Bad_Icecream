@@ -37,7 +37,6 @@ public class GameController implements KeySubscriber {
     private boolean isGameOn = false;
     private boolean isMenuOpened = true;
     private boolean wasLevelWon = false;
-    private boolean isRefreshing = false;
     private boolean checkState = false;
 
     // Integer fields
@@ -72,7 +71,6 @@ public class GameController implements KeySubscriber {
     public void setGameLoopTimer() {
         logger.config("Graphics Refresh loop was started!");
 
-        isRefreshing = true;
         this.gameLoopTimer = new Timer();
         this.gameLoopTimerTask = new TimerTask() {
             @Override
@@ -207,7 +205,7 @@ public class GameController implements KeySubscriber {
                 .setBoardElementArray(levelManager.getAllLevels().get(levelNum).getGAME_BOARDCopy())
                 .build();
 
-        numOfFields = gameBoard.getBoardElementArray().length;
+        numOfFields = gameBoard.getGameBoardLengthX();
 
         isGameOn = true; // is game on moved so that the view fill fetch the game data later
         checkState = true;
@@ -275,10 +273,6 @@ public class GameController implements KeySubscriber {
         return numOfFields;
     }
 
-    public void setNumOfFields(int numOfFields) {
-        this.numOfFields = numOfFields;
-    }
-
     public GameBoard getGameBoard() {
         return gameBoard;
     }
@@ -287,9 +281,6 @@ public class GameController implements KeySubscriber {
         this.gameBoard = gameBoard;
     }
 
-    public boolean isRefreshing() {
-        return isRefreshing;
-    }
 
     public void setLevelNum(int levelNum) {
         this.levelNum = levelNum;

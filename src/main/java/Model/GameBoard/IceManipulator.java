@@ -1,7 +1,7 @@
 package Model.GameBoard;
 
-import Model.Blocks.IceBlock;
-import Model.Blocks.SolidBlock;
+import Model.Block.IceBlock;
+import Model.Block.SolidBlock;
 import Model.BoardElement.BoardElement;
 import Model.Monster.Monster;
 import Model.Reward.Reward;
@@ -9,8 +9,6 @@ import Model.RotationState.DownState;
 import Model.RotationState.LeftState;
 import Model.RotationState.RightState;
 import Model.RotationState.UpState;
-
-import java.util.Optional;
 
 /**
  * Ice Manipulator class is used for manipulating the ice, it is used by player and monsters.
@@ -59,15 +57,15 @@ public class IceManipulator {
             playerxFreezingPosition -= 1;
         }
 
-        if (playerxFreezingPosition < 0 || playerxFreezingPosition >= gameBoard.getBoardElementArray().length) {
+        if (playerxFreezingPosition < 0 || playerxFreezingPosition >= gameBoard.getGameBoardLengthX()) {
             return;
         }
-        if (playeryFreezingPosition < 0 || playeryFreezingPosition >= gameBoard.getBoardElementArray()[0].length) {
+        if (playeryFreezingPosition < 0 || playeryFreezingPosition >= gameBoard.getGameBoardLengthY()) {
             return;
         }
 
-        if (gameBoard.getBoardElementArray()[playerxFreezingPosition][playeryFreezingPosition].isPresent()) {
-            if (gameBoard.getBoardElementArray()[playerxFreezingPosition][playeryFreezingPosition].get().getClass() != BoardElement.class) {
+        if (gameBoard.getBoardElementAt(playerxFreezingPosition, playeryFreezingPosition).isPresent()) {
+            if (gameBoard.getBoardElementAt(playerxFreezingPosition, playeryFreezingPosition).get().getClass() != BoardElement.class) {
                 settingInt = 0;
             }
         }
@@ -83,7 +81,7 @@ public class IceManipulator {
                 sleep(millis);
             }
         } else if (gameBoard.getPlayer().getRotationState().getClass().equals(RightState.class)) {
-            for (int column = playerxFreezingPosition; column < gameBoard.getBoardElementArray().length; column++) {
+            for (int column = playerxFreezingPosition; column < gameBoard.getGameBoardLengthX(); column++) {
                 if (!checkIceLoop(column, playeryFreezingPosition, settingInt)) {
                     return;
                 }
@@ -93,7 +91,7 @@ public class IceManipulator {
                 sleep(millis);
             }
         } else if (gameBoard.getPlayer().getRotationState().getClass().equals(DownState.class)) {
-            for (int row = playeryFreezingPosition; row < gameBoard.getBoardElementArray().length; row++) {
+            for (int row = playeryFreezingPosition; row < gameBoard.getGameBoardLengthY(); row++) {
                 if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
                     return;
                 }
@@ -116,24 +114,24 @@ public class IceManipulator {
     }
 
     private void changeArray(int x, int y, int settingInt) {
-        if (gameBoard.getBoardElementArray()[x][y].isPresent() && gameBoard.getBoardElementArray()[x][y].get().getClass() == IceBlock.class && settingInt == 0) {
+        if (gameBoard.getBoardElementAt(x, y).isPresent() && gameBoard.getBoardElementAt(x, y).get().getClass() == IceBlock.class && settingInt == 0) {
             BoardElement replacement = new BoardElement(x, y, gameBoard);
-            gameBoard.getBoardElementArray()[x][y] = Optional.of(replacement);
+            gameBoard.setBoardElementAt(x, y, replacement);
         } else {
-            gameBoard.getBoardElementArray()[x][y] = Optional.of(new IceBlock(x, y, gameBoard));
+            gameBoard.setBoardElementAt(x, y, new IceBlock(x, y, gameBoard));
         }
     }
 
     private boolean checkIceLoop(int x, int y, int settingInt) {
         // checking if next tile is or is not an ice, according to the settingInt
         if (settingInt == 0) {
-            if (gameBoard.getBoardElementArray()[x][y].isEmpty() || gameBoard.getBoardElementArray()[x][y].get().getClass() == SolidBlock.class
-                    || gameBoard.getBoardElementArray()[x][y].get().getClass() == BoardElement.class) {
+            if (gameBoard.getBoardElementAt(x, y).isEmpty() || gameBoard.getBoardElementAt(x, y).get().getClass() == SolidBlock.class
+                    || gameBoard.getBoardElementAt(x, y).get().getClass() == BoardElement.class) {
                 return false;
             }
         } else if (settingInt == 1) {
-            if (gameBoard.getBoardElementArray()[x][y].isPresent()) {
-                if (gameBoard.getBoardElementArray()[x][y].get().getClass() != BoardElement.class) {
+            if (gameBoard.getBoardElementAt(x, y).isPresent()) {
+                if (gameBoard.getBoardElementAt(x, y).get().getClass() != BoardElement.class) {
                     return false;
                 }
             }

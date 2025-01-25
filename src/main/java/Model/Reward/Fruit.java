@@ -1,6 +1,6 @@
 package Model.Reward;
 
-import Model.Blocks.IceBlock;
+import Model.Block.IceBlock;
 import Model.GameBoard.GameBoard;
 
 import javax.imageio.ImageIO;

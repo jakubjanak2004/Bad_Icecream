@@ -52,7 +52,6 @@ public class ShortestPath {
         );
     }
 
-    // TODO: A* can end up in a loop, maybe try dijkstra again
     private static Rotation AStarShortestPathConditional(int x1, int y1, int x2, int y2, GameBoard gameBoard, Function<Node, Boolean> boardElementConditions) {
         List<Node> visitedNodes = new ArrayList<>();
         Queue<Node> toBeVisitedNodes = new PriorityQueue<>(
@@ -64,19 +63,16 @@ public class ShortestPath {
         while (!toBeVisitedNodes.isEmpty()) {
             Node visitingNode = toBeVisitedNodes.poll();
             if (visitingNode.getXPosition() == x2 && visitingNode.getYPosition() == y2) {
-                return setRotation(visitingNode);
+                return calculateRotation(visitingNode);
             }
-            // adding not visited neighbour into toBeVisitedNodes
-            getAllNeighbours(visitingNode.getXPosition(), visitingNode.getYPosition(), gameBoard).forEach(neighbour -> {
-                if (gameBoard.getBoardElementAt(neighbour.getXPosition(), neighbour.getYPosition()).isPresent()) {
-                    if (boardElementConditions.apply(neighbour)) {
-                        return;
-                    }
-                }
-                if (!visitedNodes.contains(new Node(neighbour.getXPosition(), neighbour.getYPosition()))) {
-                    toBeVisitedNodes.add(new Node(neighbour.getXPosition(), neighbour.getYPosition(), visitingNode));
-                }
-            });
+
+            // new code
+            getAllNeighbours(visitingNode.getXPosition(), visitingNode.getYPosition(), gameBoard).stream()
+                    .filter(neighbour -> !boardElementConditions.apply(neighbour))
+                    .filter(neighbour -> !visitedNodes.contains(new Node(neighbour.getXPosition(), neighbour.getYPosition())))
+                    .forEach(neighbour -> toBeVisitedNodes.add(new Node(neighbour.getXPosition(), neighbour.getYPosition(), visitingNode)));
+
+
             Node addNode = new Node(visitingNode.getXPosition(), visitingNode.getYPosition(), previousNode);
             visitedNodes.add(addNode);
             previousNode = visitingNode;
@@ -84,7 +80,6 @@ public class ShortestPath {
         return Rotation.NEUTRAL;
     }
 
-    // TODO: should calculate the steps taken
     private static int fromStartCost(Node node) {
         return node.getLength();
     }
@@ -106,7 +101,7 @@ public class ShortestPath {
         return neighbours;
     }
 
-    private static Rotation setRotation(Node previousNode) {
+    private static Rotation calculateRotation(Node previousNode) {
         while (previousNode != null) {
             if (previousNode.getPreviousNode() != null) {
                 if (previousNode.getPreviousNode().getPreviousNode() == null) {

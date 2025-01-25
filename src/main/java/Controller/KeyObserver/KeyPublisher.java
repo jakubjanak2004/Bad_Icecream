@@ -6,10 +6,10 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeyObserver {
+public class KeyPublisher {
     private final List<KeySubscriber> subscriberList;
 
-    public KeyObserver(GameController controller) {
+    public KeyPublisher(GameController controller) {
         subscriberList = new ArrayList<>();
         addSubscriber(controller);
     }

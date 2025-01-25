@@ -20,7 +20,7 @@ import java.util.function.Function;
  * taking ice into account.
  */
 public class ShortestPath {
-    private static Rotation AStartRotation = Rotation.NEUTRAL;
+//    private static Rotation AStartRotation = Rotation.NEUTRAL;
 
     /**
      * Shortest path with ice
@@ -32,11 +32,10 @@ public class ShortestPath {
      * @return the first direction the board element should move
      */
     public static Rotation getPathStartWithIce(int x1, int y1, int x2, int y2, GameBoard gameBoard) {
-        AStarShortestPathConditional(x1, y1, x2, y2, gameBoard, boardElement ->
+        return AStarShortestPathConditional(x1, y1, x2, y2, gameBoard, boardElement ->
                 (gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition()).get() instanceof Block)
                         &&
                         !(gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition()).get() instanceof IceBlock));
-        return AStartRotation;
     }
 
     /**
@@ -49,11 +48,11 @@ public class ShortestPath {
      * @return the first direction the board element should move
      */
     public static Rotation getPathStartNoIce(int x1, int y1, int x2, int y2, GameBoard gameBoard) {
-        AStarShortestPathConditional(x1, y1, x2, y2, gameBoard, boardElement -> gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition()).get() instanceof Block);
-        return AStartRotation;
+        return AStarShortestPathConditional(x1, y1, x2, y2, gameBoard, boardElement -> gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition()).get() instanceof Block);
     }
 
-    private static void AStarShortestPathConditional(int x1, int y1, int x2, int y2, GameBoard gameBoard, Function<Node, Boolean> boardElementConditions) {
+    // TODO: A* can end up in a loop, maybe try dijkstra again
+    private static Rotation AStarShortestPathConditional(int x1, int y1, int x2, int y2, GameBoard gameBoard, Function<Node, Boolean> boardElementConditions) {
         List<Node> visitedNodes = new ArrayList<>();
         Queue<Node> toBeVisitedNodes = new PriorityQueue<>(
                 Comparator.comparingDouble(node -> ShortestPath.fCost(x1, y1, node.getXPosition(), node.getYPosition(), x2, y2))
@@ -64,8 +63,7 @@ public class ShortestPath {
         while (!toBeVisitedNodes.isEmpty()) {
             Node visitingNode = toBeVisitedNodes.poll();
             if (visitingNode.getXPosition() == x2 && visitingNode.getYPosition() == y2) {
-                setRotation(visitingNode);
-                return;
+                return setRotation(visitingNode);
             }
             // adding not visited neighbour into toBeVisitedNodes
             getAllNeighbours(visitingNode.getXPosition(), visitingNode.getYPosition(), gameBoard).forEach(neighbour -> {
@@ -82,7 +80,7 @@ public class ShortestPath {
             visitedNodes.add(addNode);
             previousNode = visitingNode;
         }
-        AStartRotation = Rotation.NEUTRAL;
+        return Rotation.NEUTRAL;
     }
 
     // helper functions for the A* algo
@@ -107,15 +105,15 @@ public class ShortestPath {
         return neighbours;
     }
 
-    private static void setRotation(Node previousNode) {
+    private static Rotation setRotation(Node previousNode) {
         while (previousNode != null) {
             if (previousNode.getPreviousNode() != null) {
                 if (previousNode.getPreviousNode().getPreviousNode() == null) {
-                    AStartRotation = previousNode.getJumpToNodeRotation();
-                    return;
+                    return previousNode.getJumpToNodeRotation();
                 }
             }
             previousNode = previousNode.getPreviousNode();
         }
+        return Rotation.NEUTRAL;
     }
 }

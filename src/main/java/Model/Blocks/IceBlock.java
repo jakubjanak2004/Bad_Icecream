@@ -25,12 +25,10 @@ public class IceBlock extends Block {
      * Monsters will be using this method to partially break the ice.
      */
     public void destabilize() {
-        if (stability <= 0) {
-            // TODO: change this object to a new BoardElement(xPosition, yPosition)
-            gameBoard.replaceElement(xPosition, yPosition, new BoardElement(xPosition, yPosition, gameBoard));
-            return;
-        }
         stability--;
+        if (stability <= 0) {
+            gameBoard.replaceElement(xPosition, yPosition, new BoardElement(xPosition, yPosition, gameBoard));
+        }
     }
 
     @Override

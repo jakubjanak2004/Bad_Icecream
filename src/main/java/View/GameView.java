@@ -5,7 +5,7 @@ import Model.Monster.Monster;
 import Model.Monster.Movable;
 import Model.Reward.Reward;
 import Controller.GameController;
-import Controller.KeyObserver.KeyObserver;
+import Controller.KeyObserver.KeyPublisher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,12 +36,12 @@ public class GameView extends JLabel {
     private Timer refreshTimer;
     private TimerTask refreshTimerTask;
 
-    private KeyObserver keyObserver;
+    private KeyPublisher keyObserver;
 
     private GameView(GameController gameController) {
         this.setFocusable(true);
         this.gameController = gameController;
-        keyObserver = new KeyObserver(gameController);
+        keyObserver = new KeyPublisher(gameController);
 
         this.addKeyListener(new KeyAdapter() {
             @Override

@@ -53,36 +53,6 @@ public class ShortestPath {
         return AStartRotation;
     }
 
-    /**
-     * This method returns if there is a solid block on a certain location.
-     *
-     * @param x                x coordinate
-     * @param y                y coordinate
-     * @return true if there is no solid block on certain location
-     */
-    public static boolean isNotSolidBlockOnLocation(int x, int y, GameBoard gameBoard) {
-        if (x < 0 || x >= gameBoard.getGameBoardLengthX() || y < 0 || y >= gameBoard.getGameBoardLengthY()) {
-            return true;
-        }
-
-        return gameBoard.getBoardElementAt(x, y).isEmpty() || gameBoard.getBoardElementAt(x, y).get().getClass() != SolidBlock.class;
-    }
-
-    /**
-     * Returns if there is no ice block on location.
-     *
-     * @param x                x coordinate
-     * @param y                y coordinateza
-     * @return true if there is no ice block on certain location
-     */
-    public static boolean isNotIceBlockOnLocation(int x, int y, GameBoard gameBoard) {
-        if (x < 0 || x >= gameBoard.getGameBoardLengthX() || y < 0 || y >= gameBoard.getGameBoardLengthY()) {
-            return false;
-        }
-
-        return gameBoard.getBoardElementAt(x, y).isEmpty() || gameBoard.getBoardElementAt(x, y).get().getClass() != IceBlock.class;
-    }
-
     private static void AStarShortestPathConditional(int x1, int y1, int x2, int y2, GameBoard gameBoard, Function<Node, Boolean> boardElementConditions) {
         List<Node> visitedNodes = new ArrayList<>();
         Queue<Node> toBeVisitedNodes = new PriorityQueue<>(

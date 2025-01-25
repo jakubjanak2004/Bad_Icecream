@@ -2,7 +2,7 @@ package Controller;
 
 import Model.GameBoard.GameBoard;
 import Model.GameBoard.GameBoardBuilder;
-import Model.Monsters.Monster;
+import Model.Monster.Monster;
 import Model.Player.Player;
 import Model.Reward.Reward;
 import Model.Player.Rotation;

@@ -1,7 +1,7 @@
 package Model;
 
 import Model.GameBoard.GameBoard;
-import Model.Monsters.Monster;
+import Model.Monster.Monster;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

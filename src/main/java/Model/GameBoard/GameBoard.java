@@ -3,7 +3,7 @@ package Model.GameBoard;
 import Model.Blocks.IceBlock;
 import Model.BoardElement.BoardElement;
 import Model.MonsterThread;
-import Model.Monsters.Monster;
+import Model.Monster.Monster;
 import Model.Player.Player;
 import Model.Player.Rotation;
 import Model.Reward.Reward;

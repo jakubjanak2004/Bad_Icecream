@@ -1,4 +1,4 @@
-package Model.Monsters;
+package Model.Monster;
 
 import Model.BoardElement.BoardElement;
 import Model.GameBoard.GameBoard;

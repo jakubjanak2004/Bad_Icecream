@@ -1,8 +1,8 @@
 package View;
 
 import Model.BoardElement.BoardElement;
-import Model.Monsters.Monster;
-import Model.Monsters.Movable;
+import Model.Monster.Monster;
+import Model.Monster.Movable;
 import Model.Reward.Reward;
 import Controller.GameController;
 import Controller.KeyObserver.KeyObserver;

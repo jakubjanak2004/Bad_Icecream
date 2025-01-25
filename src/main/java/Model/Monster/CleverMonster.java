@@ -1,10 +1,9 @@
-package Model.Monsters;
+package Model.Monster;
 
 import Model.BoardElement.BoardElement;
 import Model.GameBoard.GameBoard;
 import Model.Player.Player;
 import Model.Player.Rotation;
-import Controller.GameController;
 import Model.ShortestPath.ShortestPath;
 
 import java.awt.*;

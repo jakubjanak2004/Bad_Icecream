@@ -3,6 +3,7 @@ package Model.ShortestPath;
 import Model.Player.Rotation;
 
 public class Node {
+    private int length;
     private int xPosition;
     private int yPosition;
     private Node previousNode;
@@ -11,6 +12,7 @@ public class Node {
     public Node(int xPosition, int yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        this.length = 0;
     }
 
     public Node(int xPosition, int yPosition, Node previousNode) {
@@ -21,6 +23,8 @@ public class Node {
         if (previousNode == null) {
             return;
         }
+
+        this.length = previousNode.length + 1;
 
         int xDifference = getXPosition() - previousNode.getXPosition();
         int yDifference = getYPosition() - previousNode.getYPosition();
@@ -67,6 +71,10 @@ public class Node {
 
     public Rotation getJumpToNodeRotation() {
         return jumpToNodeRotation;
+    }
+
+    public int getLength() {
+        return length;
     }
 }
 

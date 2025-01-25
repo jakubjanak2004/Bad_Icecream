@@ -56,7 +56,7 @@ public class ShortestPath {
     private static Rotation AStarShortestPathConditional(int x1, int y1, int x2, int y2, GameBoard gameBoard, Function<Node, Boolean> boardElementConditions) {
         List<Node> visitedNodes = new ArrayList<>();
         Queue<Node> toBeVisitedNodes = new PriorityQueue<>(
-                Comparator.comparingDouble(node -> ShortestPath.fCost(x1, y1, node.getXPosition(), node.getYPosition(), x2, y2))
+                Comparator.comparingDouble(node -> ShortestPath.finaCost(node, x2, y2))
         );
         toBeVisitedNodes.add(new Node(x1, y1));
 
@@ -84,17 +84,17 @@ public class ShortestPath {
         return Rotation.NEUTRAL;
     }
 
-    // helper functions for the A* algo
-    private static int gCost(int xStart, int yStart, int xCurrent, int yCurrent) {
-        return Math.abs(xStart - xCurrent) + Math.abs(yStart - yCurrent);
+    // TODO: should calculate the steps taken
+    private static int fromStartCost(Node node) {
+        return node.getLength();
     }
 
-    private static int hCost(int xCurrent, int yCurrent, int xFinish, int yFinish) {
+    private static int toFinishCost(int xCurrent, int yCurrent, int xFinish, int yFinish) {
         return Math.abs(xCurrent - xFinish) + Math.abs(yCurrent - yFinish);
     }
 
-    private static int fCost(int xStart, int yStart, int xCurrent, int yCurrent, int xFinish, int yFinish) {
-        return gCost(xStart, yStart, xCurrent, yCurrent) + hCost(xCurrent, yCurrent, xFinish, yFinish);
+    private static int finaCost(Node node, int xFinish, int yFinish) {
+        return fromStartCost(node) + toFinishCost(node.getXPosition(), node.getYPosition(), xFinish, yFinish);
     }
 
     private static List<Node> getAllNeighbours(int x, int y, GameBoard gameBoard) {

@@ -1,6 +1,7 @@
 package Model.Reward;
 
 import Model.Blocks.IceBlock;
+import Model.GameBoard.GameBoard;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -11,8 +12,8 @@ import java.io.InputStream;
  */
 public class Key extends Reward {
 
-    public Key(int xPosition, int yPosition) {
-        super(xPosition, yPosition);
+    public Key(int xPosition, int yPosition, GameBoard gameBoard) {
+        super(xPosition, yPosition, gameBoard);
     }
 
     @Override

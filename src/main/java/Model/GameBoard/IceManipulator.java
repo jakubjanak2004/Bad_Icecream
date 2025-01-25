@@ -3,8 +3,9 @@ package Model.GameBoard;
 import Model.Blocks.IceBlock;
 import Model.Blocks.SolidBlock;
 import Model.BoardElement.BoardElement;
+import Model.Monsters.Monster;
 import Model.Reward.Reward;
-import Model.Monsters.movable;
+import Model.Monsters.Movable;
 import Model.RotationState.DownState;
 import Model.RotationState.LeftState;
 import Model.RotationState.RightState;
@@ -117,11 +118,10 @@ public class IceManipulator {
 
     private void changeArray(int x, int y, int settingInt) {
         if (gameBoard.getBoardElementArray()[x][y].isPresent() && gameBoard.getBoardElementArray()[x][y].get().getClass() == IceBlock.class && settingInt == 0) {
-            //gLabel.getBoardArrayObject()[x][y] = null;
-            BoardElement replacement = new BoardElement(x, y);
+            BoardElement replacement = new BoardElement(x, y, gameBoard);
             gameBoard.getBoardElementArray()[x][y] = Optional.of(replacement);
         } else {
-            gameBoard.getBoardElementArray()[x][y] = Optional.of(new IceBlock(x, y));
+            gameBoard.getBoardElementArray()[x][y] = Optional.of(new IceBlock(x, y, gameBoard));
         }
     }
 
@@ -140,7 +140,7 @@ public class IceManipulator {
             }
         }
 
-        for (movable m : gameBoard.getMonsters()) {
+        for (Monster m : gameBoard.getMonsters()) {
             if (m.getXPosition() == x && m.getYPosition() == y) {
                 return false;
             }

@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Represents a element that can be painted onto a GameBoard
  */
-public interface paintable {
+public interface Paintable {
 
     /**
      * Paint method that can be used for painting the object onto the GameBoard

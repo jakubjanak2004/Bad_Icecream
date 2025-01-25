@@ -13,8 +13,8 @@ import java.util.Map;
  * Strong monster represents a monster that is strong and can break through ice.
  */
 public class StrongMonster extends Monster {
-    public StrongMonster(int xPosition, int yPosition, Rotation rot) {
-        super(xPosition, yPosition, rot);
+    public StrongMonster(int xPosition, int yPosition, Rotation rot, GameBoard gameBoard) {
+        super(xPosition, yPosition, rot, gameBoard);
         super.color = Color.ORANGE;
     }
 

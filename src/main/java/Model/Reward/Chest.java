@@ -1,5 +1,6 @@
 package Model.Reward;
 
+import Model.GameBoard.GameBoard;
 import Model.Player.Player;
 
 import java.util.List;
@@ -13,8 +14,8 @@ import java.awt.Color;
 public class Chest extends Fruit {
     private List<Key> keys;
 
-    public Chest(int xPosition, int yPosition) {
-        super(xPosition, yPosition);
+    public Chest(int xPosition, int yPosition, GameBoard gameBoard) {
+        super(xPosition, yPosition, gameBoard);
     }
 
     @Override

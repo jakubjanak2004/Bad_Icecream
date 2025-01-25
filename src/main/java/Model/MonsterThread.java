@@ -2,7 +2,6 @@ package Model;
 
 import Model.GameBoard.GameBoard;
 import Model.Monsters.Monster;
-import Model.Monsters.movable;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -13,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 public class MonsterThread extends Thread {
     private static final int MONSTER_MOVE_REFRESH = 500;
 
-//    GameController gameController;
     GameBoard gameBoard;
     boolean isRunning;
 
@@ -31,19 +29,14 @@ public class MonsterThread extends Thread {
                 throw new RuntimeException(e);
             }
 
-            List<movable> Monsters = gameBoard.getMonsters();
+            List<Monster> Monsters = gameBoard.getMonsters();
             for (int i = 0; i < Monsters.size(); i++) {
-
-                if (!(Monsters.get(i) instanceof Monster monster)) {
-                    continue;
-                }
-
-                moveMonster(monster, i, Monsters);
+                moveMonster(Monsters.get(i), i, Monsters);
             }
         }
     }
 
-    private void moveMonster(Monster monster, int i, List<movable> Monsters) {
+    private void moveMonster(Monster monster, int i, List<Monster> Monsters) {
         boolean canUp = gameBoard.canUp(monster.getXPosition(), monster.getYPosition());
         boolean canRight = gameBoard.canRight(monster.getXPosition(), monster.getYPosition());
         boolean canDown = gameBoard.canDown(monster.getXPosition(), monster.getYPosition());
@@ -51,7 +44,7 @@ public class MonsterThread extends Thread {
 
         // handle collisions with other monsters
         for (int j = 0; j < i; j++) {
-            Monster loopMonster = (Monster) Monsters.get(j);
+            Monster loopMonster = Monsters.get(j);
             if (loopMonster.getYPosition() == monster.getYPosition() + 1 && loopMonster.getXPosition() == monster.getXPosition()) {
                 canDown = false;
             } else if (loopMonster.getYPosition() == monster.getYPosition() - 1 && loopMonster.getXPosition() == monster.getXPosition()) {

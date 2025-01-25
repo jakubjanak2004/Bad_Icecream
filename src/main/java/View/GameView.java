@@ -2,7 +2,7 @@ package View;
 
 import Model.BoardElement.BoardElement;
 import Model.Monsters.Monster;
-import Model.Monsters.movable;
+import Model.Monsters.Movable;
 import Model.Reward.Reward;
 import Controller.GameController;
 import Controller.KeyObserver.KeyObserver;
@@ -153,7 +153,7 @@ public class GameView extends JLabel {
     }
 
     private void paintMonsters(Graphics2D g2, int step, int widthPadding, int heightPadding) {
-        for (movable m : gameController.getMonsters()) {
+        for (Movable m : gameController.getMonsters()) {
             Monster monster = (Monster) m;
             monster.paintTemplate(g2, step, widthPadding, heightPadding);
         }

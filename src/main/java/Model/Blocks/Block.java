@@ -1,6 +1,7 @@
 package Model.Blocks;
 
 import Model.BoardElement.BoardElement;
+import Model.GameBoard.GameBoard;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,8 +10,8 @@ import java.awt.image.BufferedImage;
  * Abstract class representing a block on the GameBoard.
  */
 public abstract class Block extends BoardElement {
-    public Block(int xPosition, int yPosition) {
-        super(xPosition, yPosition);
+    public Block(int xPosition, int yPosition, GameBoard gameBoard) {
+        super(xPosition, yPosition, gameBoard);
         loadImage();
     }
 

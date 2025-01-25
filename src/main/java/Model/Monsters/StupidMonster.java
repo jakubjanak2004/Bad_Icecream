@@ -1,5 +1,6 @@
 package Model.Monsters;
 
+import Model.GameBoard.GameBoard;
 import Model.Player.Rotation;
 
 import java.awt.*;
@@ -9,8 +10,8 @@ import java.awt.*;
  * But is still as deadly as other monsters.
  */
 public class StupidMonster extends Monster{
-    public StupidMonster(int xPosition, int yPosition, Rotation rot){
-        super(xPosition, yPosition, rot);
+    public StupidMonster(int xPosition, int yPosition, Rotation rot, GameBoard gameBoard){
+        super(xPosition, yPosition, rot, gameBoard);
         super.color = Color.GREEN;
     }
 }

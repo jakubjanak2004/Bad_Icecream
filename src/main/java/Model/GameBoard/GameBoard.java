@@ -4,29 +4,32 @@ import Model.Blocks.IceBlock;
 import Model.BoardElement.BoardElement;
 import Model.MonsterThread;
 import Model.Monsters.Monster;
-import Model.Monsters.movable;
 import Model.Player.Player;
-import Model.Reward.Reward;
 import Model.Player.Rotation;
+import Model.Reward.Reward;
 
 import java.util.List;
 import java.util.Optional;
 
 public class GameBoard {
     private final IceManipulator iceManipulator;
-    private MonsterThread monsterThread;
-    private final List<movable> monsters;
+    private final List<Monster> monsters;
     private final List<Reward> rewards;
+    private MonsterThread monsterThread;
     private Player player;
     private Optional<BoardElement>[][] boardElementArray;
 
-    public GameBoard(Optional<BoardElement>[][] boardElementArray, List<Reward> rewards, List<movable> monsters) {
+    public GameBoard(Optional<BoardElement>[][] boardElementArray, List<Reward> rewards, List<Monster> monsters) {
         this.boardElementArray = boardElementArray;
         this.monsters = monsters;
         this.rewards = rewards;
         this.monsterThread = new MonsterThread(this);
         this.iceManipulator = new IceManipulator(this);
-        this.player = new Player(0, 0, Rotation.UP);
+        this.player = new Player(0, 0, Rotation.UP, this);
+    }
+
+    public void replaceElement(int xPosition, int yPosition, BoardElement newElement) {
+        boardElementArray[xPosition][yPosition] = Optional.ofNullable(newElement);
     }
 
     public boolean isVisitable(int x, int y) {
@@ -46,22 +49,18 @@ public class GameBoard {
     }
 
     public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
-        return (boardElementArray[monster.getXPosition() + xMove][monster.getYPosition() + yMove].isPresent()
-                && boardElementArray[monster.getXPosition() + xMove][monster.getYPosition() + yMove].get().getClass() == IceBlock.class);
+        return boardElementArray[monster.getXPosition() + xMove][monster.getYPosition() + yMove]
+                .filter(boardElement -> boardElement.getClass() == IceBlock.class)
+                .isPresent();
     }
 
     public void beatIce(int x, int y) {
         if (isOutsideOfBoard(x, y)) return;
 
-        if (boardElementArray[x][y].isPresent() && boardElementArray[x][y].get().getClass() == IceBlock.class) {
-            IceBlock iceBlock = (IceBlock) boardElementArray[x][y].get();
-            iceBlock.destabilize();
-
-            if (iceBlock.getStability() <= 0) {
-                BoardElement replacement = new BoardElement(x, y);
-                boardElementArray[x][y] = Optional.of(replacement);
-            }
-        }
+        boardElementArray[x][y]
+                .filter(boardElement -> boardElement instanceof IceBlock)
+                .map(boardElement -> (IceBlock) boardElement)
+                .ifPresent(IceBlock::destabilize);
     }
 
     public void checkFruitTaken() {
@@ -87,17 +86,8 @@ public class GameBoard {
         monsterThread.setRunning(false);
     }
 
-    // TODO: change killing using killable interface. Monster should kill the player
     public boolean checkDeath() {
-        for (movable m : monsters) {
-            if (Math.abs(m.getXPosition() - player.getXPosition()) <= 1 && m.getYPosition() == player.getYPosition()) {
-                return true;
-            }
-            if (Math.abs(m.getYPosition() - player.getYPosition()) <= 1 && m.getXPosition() == player.getXPosition()) {
-                return true;
-            }
-        }
-        return false;
+        return monsters.stream().anyMatch(monster -> monster.tryKilling(player));
     }
 
     public boolean canUp(int x, int y) {
@@ -136,7 +126,7 @@ public class GameBoard {
         return iceManipulator;
     }
 
-    public List<movable> getMonsters() {
+    public List<Monster> getMonsters() {
         return monsters;
     }
 

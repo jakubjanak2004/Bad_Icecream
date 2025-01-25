@@ -1,5 +1,6 @@
 package Model.BoardElement;
 
+import Model.GameBoard.GameBoard;
 import Model.Player.Rotation;
 import Model.RotationState.DownState;
 import Model.RotationState.LeftState;
@@ -12,23 +13,26 @@ import java.awt.*;
 /**
  * Board element is a class representing all elements that can be placed on our gameBoard. Many other objects will be extending it.
  */
-public class BoardElement implements on2DBoard, paintable {
+public class BoardElement implements On2DBoard, Paintable {
     protected int xPosition;
     protected int yPosition;
+    protected GameBoard gameBoard;
     protected RotationState rotationState;
     protected Color color;
 
-    public BoardElement(int xPosition, int yPosition) {
+    public BoardElement(int xPosition, int yPosition, GameBoard gameBoard) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        this.gameBoard = gameBoard;
 
         // setting the state to up when no rotation is set
         setRotationState(new UpState(this));
     }
 
-    public BoardElement(int xPosition, int yPosition, Rotation rot) {
+    public BoardElement(int xPosition, int yPosition, Rotation rot, GameBoard gameBoard) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        this.gameBoard = gameBoard;
 
         setRotationStateFromRotation(rot);
     }

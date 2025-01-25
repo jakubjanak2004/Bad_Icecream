@@ -4,9 +4,9 @@ import Model.Blocks.IceBlock;
 import Model.Blocks.SolidBlock;
 import Model.BoardElement.BoardElement;
 import Model.Monsters.CleverMonster;
+import Model.Monsters.Monster;
 import Model.Monsters.StrongMonster;
 import Model.Monsters.StupidMonster;
-import Model.Monsters.movable;
 import Model.Player.Player;
 import Model.Reward.Chest;
 import Model.Reward.Fruit;
@@ -20,21 +20,33 @@ import java.util.List;
 import java.util.Optional;
 
 public class GameBoardBuilder {
+    GameBoard gameBoard;
     private Optional<BoardElement>[][] boardElementArray;
-    private final Player player;
-    private final List<movable> monsters = Collections.synchronizedList(new ArrayList<>());;
+    private int[][] intGameBoardArray;
+    private Player player;
+    private final List<Monster> monsters = Collections.synchronizedList(new ArrayList<>());;
     private final List<Reward> rewards = Collections.synchronizedList(new ArrayList<>());;
-
-    public GameBoardBuilder() {
-        this.player = new Player(0, 0, Rotation.UP);
-    }
 
     public static GameBoardBuilder builder(){
         return new GameBoardBuilder();
     }
 
-    // TODO: refactor as is not readable
     public GameBoardBuilder setBoardElementArray(int[][] intGameBoardArray){
+        this.intGameBoardArray = intGameBoardArray;
+        return this;
+    }
+
+    public GameBoard build(){
+        gameBoard = new GameBoard(boardElementArray, rewards, monsters);
+        this.player = new Player(0, 0, Rotation.UP, gameBoard);
+        gameBoard.setPlayer(player);
+        constructBoardElementArray();
+        gameBoard.setBoardElementArray(boardElementArray);
+        return gameBoard;
+    }
+
+    // TODO: refactor as is not readable
+    private void constructBoardElementArray() {
         this.boardElementArray = GameBoardBuilder.createEmptyArray(intGameBoardArray.length, intGameBoardArray[0].length);
         List<Chest> chests = new ArrayList<>();
         List<Key> keys = new ArrayList<>();
@@ -44,27 +56,27 @@ public class GameBoardBuilder {
                     player.setXPosition(i);
                     player.setYPosition(j);
                 } else if (intGameBoardArray[i][j] == 3) {
-                    monsters.add(new StupidMonster(i, j, Rotation.UP));
+                    monsters.add(new StupidMonster(i, j, Rotation.UP, gameBoard));
                 } else if (intGameBoardArray[i][j] == 4) {
-                    monsters.add(new CleverMonster(i, j, Rotation.UP));
+                    monsters.add(new CleverMonster(i, j, Rotation.UP, gameBoard));
                 } else if (intGameBoardArray[i][j] == 5) {
-                    monsters.add(new StrongMonster(i, j, Rotation.UP));
+                    monsters.add(new StrongMonster(i, j, Rotation.UP, gameBoard));
                 } else if (intGameBoardArray[i][j] == 6) {
-                    rewards.add(new Fruit(i, j));
+                    rewards.add(new Fruit(i, j, gameBoard));
                 } else if (intGameBoardArray[i][j] == 7) {
-                    Chest chest = new Chest(i, j);
+                    Chest chest = new Chest(i, j, gameBoard);
                     rewards.add(chest);
                     chests.add(chest);
                 } else if (intGameBoardArray[i][j] == 8) {
-                    Key key = new Key(i, j);
+                    Key key = new Key(i, j, gameBoard);
                     rewards.add(key);
                     keys.add(key);
                 } else if (intGameBoardArray[i][j] == 1) {
-                    this.boardElementArray[i][j] =  Optional.of(new IceBlock(i, j));
+                    this.boardElementArray[i][j] =  Optional.of(new IceBlock(i, j, gameBoard));
                 } else if (intGameBoardArray[i][j] == 2) {
-                    this.boardElementArray[i][j] =  Optional.of(new SolidBlock(i, j));
+                    this.boardElementArray[i][j] =  Optional.of(new SolidBlock(i, j, gameBoard));
                 } else if (intGameBoardArray[i][j] == 0) {
-                    this.boardElementArray[i][j] =  Optional.of(new BoardElement(i, j));
+                    this.boardElementArray[i][j] =  Optional.of(new BoardElement(i, j, gameBoard));
                 }
             }
         }
@@ -72,15 +84,6 @@ public class GameBoardBuilder {
         for (Chest chest : chests) {
             chest.setKeys(keys);
         }
-
-        return this;
-    }
-
-    public GameBoard build(){
-        GameBoard gameBoard = new GameBoard(boardElementArray, rewards, monsters);
-        gameBoard.setPlayer(player);
-        gameBoard.setBoardElementArray(boardElementArray);
-        return gameBoard;
     }
 
     private static Optional<BoardElement>[][] createEmptyArray(int rows, int columns) {

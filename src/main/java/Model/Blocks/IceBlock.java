@@ -1,5 +1,8 @@
 package Model.Blocks;
 
+import Model.BoardElement.BoardElement;
+import Model.GameBoard.GameBoard;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,15 +17,19 @@ public class IceBlock extends Block {
 
     private int stability = 2;
 
-    public IceBlock(int xPosition, int yPosition) {
-        super(xPosition, yPosition);
+    public IceBlock(int xPosition, int yPosition, GameBoard gameBoard) {
+        super(xPosition, yPosition, gameBoard);
     }
 
     /**
      * Monsters will be using this method to partially break the ice.
      */
     public void destabilize() {
-        if (stability <= 0) return;
+        if (stability <= 0) {
+            // TODO: change this object to a new BoardElement(xPosition, yPosition)
+            gameBoard.replaceElement(xPosition, yPosition, new BoardElement(xPosition, yPosition, gameBoard));
+            return;
+        }
         stability--;
     }
 

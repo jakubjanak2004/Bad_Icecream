@@ -1,6 +1,7 @@
 package Model.Reward;
 
 import Model.BoardElement.BoardElement;
+import Model.GameBoard.GameBoard;
 import Model.Player.Player;
 
 import java.awt.*;
@@ -13,8 +14,8 @@ public abstract class Reward extends BoardElement implements Grabbable {
     protected BufferedImage img;
     private boolean taken = false;
 
-    public Reward(int xPosition, int yPosition) {
-        super(xPosition, yPosition);
+    public Reward(int xPosition, int yPosition, GameBoard gameBoard) {
+        super(xPosition, yPosition, gameBoard);
 
         loadImage();
     }

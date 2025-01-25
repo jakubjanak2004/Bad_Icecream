@@ -3,7 +3,7 @@ package Model.BoardElement;
 /**
  * represents an element that is situated on a 2-dimensional board.
  */
-public interface on2DBoard {
+public interface On2DBoard {
     /**
      * The x position on GameBoard array
      * @return the integer position

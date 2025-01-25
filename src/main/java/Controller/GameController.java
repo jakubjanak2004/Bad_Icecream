@@ -2,8 +2,7 @@ package Controller;
 
 import Model.GameBoard.GameBoard;
 import Model.GameBoard.GameBoardBuilder;
-import Model.MonsterThread;
-import Model.Monsters.movable;
+import Model.Monsters.Monster;
 import Model.Player.Player;
 import Model.Reward.Reward;
 import Model.Player.Rotation;
@@ -260,7 +259,7 @@ public class GameController implements KeySubscriber {
         return wasLevelWon;
     }
 
-    public List<movable> getMonsters() {
+    public List<Monster> getMonsters() {
         return gameBoard.getMonsters();
     }
 

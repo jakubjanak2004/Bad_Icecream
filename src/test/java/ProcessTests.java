@@ -54,7 +54,6 @@ public class ProcessTests {
     public void setUp() {
         gameController = new GameController(levelManager);
         gameController.setLevelNum(0);
-        gameController.setMonstersMove(false);
 
         gameView = GameView.getInstance(gameController);
         gameView.setGameController(gameController);

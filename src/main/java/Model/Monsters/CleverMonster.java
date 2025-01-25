@@ -14,8 +14,8 @@ import java.util.Optional;
  * This class represents a monster that is clever and can find the player even if it is hiding.
  */
 public class CleverMonster extends Monster {
-    public CleverMonster(int xPosition, int yPosition, Rotation rot) {
-        super(xPosition, yPosition, rot);
+    public CleverMonster(int xPosition, int yPosition, Rotation rot, GameBoard gameBoard) {
+        super(xPosition, yPosition, rot, gameBoard);
         super.color = Color.RED;
     }
 

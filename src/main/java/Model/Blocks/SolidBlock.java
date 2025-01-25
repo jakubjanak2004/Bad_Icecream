@@ -1,5 +1,7 @@
 package Model.Blocks;
 
+import Model.GameBoard.GameBoard;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,8 +13,8 @@ import java.io.InputStream;
 public class SolidBlock extends Block {
     private BufferedImage img;
 
-    public SolidBlock(int xPosition, int yPosition) {
-        super(xPosition, yPosition);
+    public SolidBlock(int xPosition, int yPosition, GameBoard gameBoard) {
+        super(xPosition, yPosition, gameBoard);
     }
 
     @Override

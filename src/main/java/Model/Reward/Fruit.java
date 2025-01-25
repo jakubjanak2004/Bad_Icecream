@@ -1,6 +1,7 @@
 package Model.Reward;
 
 import Model.Blocks.IceBlock;
+import Model.GameBoard.GameBoard;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -11,8 +12,8 @@ import java.io.InputStream;
  */
 public class Fruit extends Reward {
 
-    public Fruit(int xPosition, int yPosition) {
-        super(xPosition, yPosition);
+    public Fruit(int xPosition, int yPosition, GameBoard gameBoard) {
+        super(xPosition, yPosition, gameBoard);
     }
 
     @Override

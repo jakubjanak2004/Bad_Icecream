@@ -1,6 +1,7 @@
 package Model.Player;
 
 import Model.BoardElement.BoardElement;
+import Model.GameBoard.GameBoard;
 
 import java.awt.*;
 
@@ -8,8 +9,8 @@ import java.awt.*;
  * Player class is used as an object representation of player playing the game.
  */
 public class Player extends BoardElement {
-    public Player(int xPosition, int yPosition, Rotation rot) {
-        super(xPosition, yPosition, rot);
+    public Player(int xPosition, int yPosition, Rotation rot, GameBoard gameBoard) {
+        super(xPosition, yPosition, rot, gameBoard);
         super.color = Color.BLACK;
     }
 

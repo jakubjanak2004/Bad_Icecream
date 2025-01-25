@@ -34,10 +34,7 @@ public abstract class Monster extends BoardElement implements Movable, Killer {
 
     @Override
     public boolean tryKilling(Player player) {
-        if (Math.abs(getXPosition() - player.getXPosition()) <= 1 && getYPosition() == player.getYPosition()) {
-            return true;
-        }
-        return Math.abs(getYPosition() - player.getYPosition()) <= 1 && getXPosition() == player.getXPosition();
+        return (player.getXPosition() == xPosition && player.getYPosition() == yPosition);
     }
 
     public Color getColor() {

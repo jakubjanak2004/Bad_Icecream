@@ -27,14 +27,4 @@ public class RightState implements RotationState {
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
         boardElement.rightDirectionPaint(g, step, widthPadding, heightPadding);
     }
-
-    @Override
-    public void rotateRight() {
-        this.boardElement.setRotationState(new DownState(boardElement));
-    }
-
-    @Override
-    public void rotateLeft() {
-        this.boardElement.setRotationState(new UpState(boardElement));
-    }
 }

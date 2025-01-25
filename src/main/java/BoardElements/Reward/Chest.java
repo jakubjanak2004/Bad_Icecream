@@ -1,6 +1,6 @@
 package BoardElements.Reward;
 
-import BoardElements.Player;
+import BoardElements.Player.Player;
 
 import java.util.List;
 

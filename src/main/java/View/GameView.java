@@ -1,6 +1,6 @@
 package View;
 
-import BoardElements.BoardElement;
+import BoardElements.BoardElement.BoardElement;
 import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.moving;
 import BoardElements.Reward.Reward;

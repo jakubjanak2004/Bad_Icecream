@@ -1,7 +1,6 @@
 package BoardElements.Monsters;
 
-import BoardElements.Rotation;
-import Logic.GameController;
+import BoardElements.Player.Rotation;
 
 import java.awt.*;
 

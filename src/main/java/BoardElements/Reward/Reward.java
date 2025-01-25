@@ -1,7 +1,7 @@
 package BoardElements.Reward;
 
-import BoardElements.BoardElement;
-import BoardElements.Player;
+import BoardElements.BoardElement.BoardElement;
+import BoardElements.Player.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

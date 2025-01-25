@@ -2,18 +2,17 @@ package BoardElements.GameBoard;
 
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
-import BoardElements.BoardElement;
+import BoardElements.BoardElement.BoardElement;
 import BoardElements.Monsters.CleverMonster;
 import BoardElements.Monsters.StrongMonster;
 import BoardElements.Monsters.StupidMonster;
 import BoardElements.Monsters.moving;
-import BoardElements.Player;
+import BoardElements.Player.Player;
 import BoardElements.Reward.Chest;
 import BoardElements.Reward.Fruit;
 import BoardElements.Reward.Key;
 import BoardElements.Reward.Reward;
-import BoardElements.Rotation;
-import Logic.IceManipulator;
+import BoardElements.Player.Rotation;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,7 +1,7 @@
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
-import BoardElements.BoardElement;
-import BoardElements.Rotation;
+import BoardElements.BoardElement.BoardElement;
+import BoardElements.Player.Rotation;
 import Logic.ShortestPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;

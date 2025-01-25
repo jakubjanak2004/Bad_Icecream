@@ -1,4 +1,4 @@
-package BoardElements;
+package BoardElements.Player;
 
 /**
  * Enumerator for Rotation.

@@ -1,5 +1,5 @@
 import BoardElements.Blocks.IceBlock;
-import BoardElements.BoardElement;
+import BoardElements.BoardElement.BoardElement;
 import Logic.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

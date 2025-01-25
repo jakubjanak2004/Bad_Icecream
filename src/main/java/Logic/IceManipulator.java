@@ -2,7 +2,7 @@ package Logic;
 
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
-import BoardElements.BoardElement;
+import BoardElements.BoardElement.BoardElement;
 import BoardElements.GameBoard.GameBoard;
 import BoardElements.Reward.Reward;
 import BoardElements.Monsters.moving;

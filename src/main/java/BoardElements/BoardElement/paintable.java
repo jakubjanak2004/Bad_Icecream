@@ -1,4 +1,4 @@
-package BoardElements;
+package BoardElements.BoardElement;
 
 import java.awt.*;
 

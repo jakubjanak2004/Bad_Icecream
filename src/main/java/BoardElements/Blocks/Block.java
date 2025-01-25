@@ -1,6 +1,6 @@
 package BoardElements.Blocks;
 
-import BoardElements.BoardElement;
+import BoardElements.BoardElement.BoardElement;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

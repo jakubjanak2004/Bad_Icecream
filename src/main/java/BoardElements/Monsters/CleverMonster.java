@@ -1,8 +1,8 @@
 package BoardElements.Monsters;
 
-import BoardElements.BoardElement;
-import BoardElements.Player;
-import BoardElements.Rotation;
+import BoardElements.BoardElement.BoardElement;
+import BoardElements.Player.Player;
+import BoardElements.Player.Rotation;
 import Logic.GameController;
 import Logic.ShortestPath;
 

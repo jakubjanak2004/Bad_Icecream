@@ -3,8 +3,8 @@ package Logic;
 import BoardElements.Blocks.Block;
 import BoardElements.Blocks.IceBlock;
 import BoardElements.Blocks.SolidBlock;
-import BoardElements.BoardElement;
-import BoardElements.Rotation;
+import BoardElements.BoardElement.BoardElement;
+import BoardElements.Player.Rotation;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,4 +1,4 @@
-import BoardElements.Player;
+import BoardElements.Player.Player;
 import LevelManagement.Level;
 import LevelManagement.LevelManager;
 import Logic.GameController;

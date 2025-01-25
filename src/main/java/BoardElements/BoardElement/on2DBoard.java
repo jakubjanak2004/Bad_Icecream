@@ -1,4 +1,4 @@
-package BoardElements;
+package BoardElements.BoardElement;
 
 /**
  * represents an element that is situated on a 2-dimensional board.

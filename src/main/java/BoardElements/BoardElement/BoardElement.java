@@ -1,5 +1,6 @@
-package BoardElements;
+package BoardElements.BoardElement;
 
+import BoardElements.Player.Rotation;
 import BoardElements.RotationState.DownState;
 import BoardElements.RotationState.LeftState;
 import BoardElements.RotationState.RightState;

@@ -1,12 +1,12 @@
 package BoardElements.GameBoard;
 
 import BoardElements.Blocks.IceBlock;
-import BoardElements.BoardElement;
+import BoardElements.BoardElement.BoardElement;
 import BoardElements.Monsters.Monster;
 import BoardElements.Monsters.moving;
-import BoardElements.Player;
+import BoardElements.Player.Player;
 import BoardElements.Reward.Reward;
-import BoardElements.Rotation;
+import BoardElements.Player.Rotation;
 import Logic.IceManipulator;
 
 import java.util.List;

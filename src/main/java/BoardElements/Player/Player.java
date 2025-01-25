@@ -1,4 +1,6 @@
-package BoardElements;
+package BoardElements.Player;
+
+import BoardElements.BoardElement.BoardElement;
 
 import java.awt.*;
 

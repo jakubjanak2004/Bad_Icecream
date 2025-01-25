@@ -1,6 +1,6 @@
 package BoardElements.RotationState;
 
-import BoardElements.BoardElement;
+import BoardElements.BoardElement.BoardElement;
 
 import java.awt.*;
 

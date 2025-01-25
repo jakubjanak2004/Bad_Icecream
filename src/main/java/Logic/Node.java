@@ -1,6 +1,6 @@
 package Logic;
 
-import BoardElements.Rotation;
+import BoardElements.Player.Rotation;
 
 public class Node {
     private int xPosition;

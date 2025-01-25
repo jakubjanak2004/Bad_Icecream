@@ -1,5 +1,7 @@
 package Model.ShortestPath;
 
+import Model.Block.IceBlock;
+import Model.BoardElement.BoardElement;
 import Model.Player.Rotation;
 
 public class Node {
@@ -9,22 +11,26 @@ public class Node {
     private Node previousNode;
     private Rotation jumpToNodeRotation;
 
-    public Node(int xPosition, int yPosition) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
+    public Node(BoardElement boardElement) {
+        this.xPosition = boardElement.getXPosition();
+        this.yPosition = boardElement.getYPosition();
         this.length = 0;
     }
 
-    public Node(int xPosition, int yPosition, Node previousNode) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
+    public Node(BoardElement boardElement, Node previousNode) {
+        this.xPosition = boardElement.getXPosition();
+        this.yPosition = boardElement.getYPosition();
         this.previousNode = previousNode;
 
         if (previousNode == null) {
             return;
         }
 
-        this.length = previousNode.length + 1;
+        if (boardElement instanceof IceBlock) {
+            this.length = previousNode.length + 2;
+        } else {
+            this.length = previousNode.length + 1;
+        }
 
         int xDifference = getXPosition() - previousNode.getXPosition();
         int yDifference = getYPosition() - previousNode.getYPosition();

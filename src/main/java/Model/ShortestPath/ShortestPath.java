@@ -57,7 +57,7 @@ public class ShortestPath {
         Queue<Node> toBeVisitedNodes = new PriorityQueue<>(
                 Comparator.comparingDouble(node -> ShortestPath.finaCost(node, x2, y2))
         );
-        toBeVisitedNodes.add(new Node(x1, y1));
+        toBeVisitedNodes.add(new Node(gameBoard.getBoardElementAt(x1, y1).get()));
 
         Node previousNode = null;
         while (!toBeVisitedNodes.isEmpty()) {
@@ -69,11 +69,11 @@ public class ShortestPath {
             // new code
             getAllNeighbours(visitingNode.getXPosition(), visitingNode.getYPosition(), gameBoard).stream()
                     .filter(neighbour -> !boardElementConditions.apply(neighbour))
-                    .filter(neighbour -> !visitedNodes.contains(new Node(neighbour.getXPosition(), neighbour.getYPosition())))
-                    .forEach(neighbour -> toBeVisitedNodes.add(new Node(neighbour.getXPosition(), neighbour.getYPosition(), visitingNode)));
+                    .filter(neighbour -> !visitedNodes.contains(new Node(gameBoard.getBoardElementAt(neighbour.getXPosition(), neighbour.getYPosition()).get())))
+                    .forEach(neighbour -> toBeVisitedNodes.add(new Node(gameBoard.getBoardElementAt(neighbour.getXPosition(), neighbour.getYPosition()).get(), visitingNode)));
 
 
-            Node addNode = new Node(visitingNode.getXPosition(), visitingNode.getYPosition(), previousNode);
+            Node addNode = new Node(gameBoard.getBoardElementAt(visitingNode.getXPosition(), visitingNode.getYPosition()).get(), previousNode);
             visitedNodes.add(addNode);
             previousNode = visitingNode;
         }
@@ -94,10 +94,10 @@ public class ShortestPath {
 
     private static List<Node> getAllNeighbours(int x, int y, GameBoard gameBoard) {
         List<Node> neighbours = new ArrayList<>();
-        if (x + 1 < gameBoard.getGameBoardLengthX()) neighbours.add(new Node(x + 1, y));
-        if (x - 1 >= 0) neighbours.add(new Node(x - 1, y));
-        if (y + 1 < gameBoard.getGameBoardLengthY()) neighbours.add(new Node(x, y + 1));
-        if (y - 1 >= 0) neighbours.add(new Node(x, y - 1));
+        if (x + 1 < gameBoard.getGameBoardLengthX()) neighbours.add(new Node(gameBoard.getBoardElementAt(x + 1, y).get()));
+        if (x - 1 >= 0) neighbours.add(new Node(gameBoard.getBoardElementAt(x - 1, y).get()));
+        if (y + 1 < gameBoard.getGameBoardLengthY()) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y + 1).get()));
+        if (y - 1 >= 0) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y - 1).get()));
         return neighbours;
     }
 

@@ -2,15 +2,12 @@ package Model.ShortestPath;
 
 import Model.Block.Block;
 import Model.Block.IceBlock;
-import Model.Block.SolidBlock;
-import Model.BoardElement.BoardElement;
 import Model.GameBoard.GameBoard;
 import Model.Player.Rotation;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.function.Function;
@@ -20,35 +17,39 @@ import java.util.function.Function;
  * taking ice into account.
  */
 public class ShortestPath {
-//    private static Rotation AStartRotation = Rotation.NEUTRAL;
-
     /**
      * Shortest path with ice
      *
-     * @param x1         x position on player board, source
-     * @param y1         y position on player board, source
-     * @param x2         x position on player board, target
-     * @param y2         y position on player board, target
+     * @param x1 x position on player board, source
+     * @param y1 y position on player board, source
+     * @param x2 x position on player board, target
+     * @param y2 y position on player board, target
      * @return the first direction the board element should move
      */
     public static Rotation getPathStartWithIce(int x1, int y1, int x2, int y2, GameBoard gameBoard) {
         return AStarShortestPathConditional(x1, y1, x2, y2, gameBoard, boardElement ->
-                (gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition()).get() instanceof Block)
-                        &&
-                        !(gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition()).get() instanceof IceBlock));
+                gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition())
+                        .filter(boardElementAt -> boardElementAt instanceof Block)
+                        .filter(boardElementAt -> !(boardElementAt instanceof IceBlock))
+                        .isPresent()
+        );
     }
 
     /**
      * Shortest path with no ice
      *
-     * @param x1         x position on player board, source
-     * @param y1         y position on player board, source
-     * @param x2         x position on player board, target
-     * @param y2         y position on player board, target
+     * @param x1 x position on player board, source
+     * @param y1 y position on player board, source
+     * @param x2 x position on player board, target
+     * @param y2 y position on player board, target
      * @return the first direction the board element should move
      */
     public static Rotation getPathStartNoIce(int x1, int y1, int x2, int y2, GameBoard gameBoard) {
-        return AStarShortestPathConditional(x1, y1, x2, y2, gameBoard, boardElement -> gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition()).get() instanceof Block);
+        return AStarShortestPathConditional(x1, y1, x2, y2, gameBoard, boardElement ->
+                gameBoard.getBoardElementAt(boardElement.getXPosition(), boardElement.getYPosition())
+                        .filter(boardElementAt -> boardElementAt instanceof Block)
+                        .isPresent()
+        );
     }
 
     // TODO: A* can end up in a loop, maybe try dijkstra again

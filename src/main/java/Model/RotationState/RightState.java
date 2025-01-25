@@ -1,10 +1,11 @@
 package Model.RotationState;
 
 import Model.BoardElement.BoardElement;
+import Model.GameBoard.IceManipulator;
 
 import java.awt.*;
 
-public class RightState implements RotationState {
+public class RightState extends RotationState {
     BoardElement boardElement;
 
     public RightState(BoardElement boardElement) {
@@ -26,5 +27,28 @@ public class RightState implements RotationState {
     @Override
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
         boardElement.rightDirectionPaint(g, step, widthPadding, heightPadding);
+    }
+
+    @Override
+    public void manipulateIce() {
+        int playerXFreezingPosition = boardElement.getGameBoard().getPlayer().getXPosition();
+        int playerYFreezingPosition = boardElement.getGameBoard().getPlayer().getYPosition();
+        boolean freeze = true;
+        playerXFreezingPosition += 1;
+        if (boardElement.getGameBoard().isFrozenAtLoc(playerXFreezingPosition, playerYFreezingPosition)) {
+            freeze = false;
+        }
+        if (playerXFreezingPosition >= boardElement.getGameBoard().getGameBoardLengthX()) {
+            return;
+        }
+        for (int column = playerXFreezingPosition; column < boardElement.getGameBoard().getGameBoardLengthX(); column++) {
+            if (!IceManipulator.checkIceLoop(column, playerYFreezingPosition, freeze, boardElement.getGameBoard())) {
+                return;
+            }
+
+            IceManipulator.changeArray(column, playerYFreezingPosition, freeze, boardElement.getGameBoard());
+
+            sleep();
+        }
     }
 }

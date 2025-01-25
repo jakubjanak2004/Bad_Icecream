@@ -17,6 +17,7 @@ public class BoardElement implements On2DBoard, Paintable {
     protected int xPosition;
     protected int yPosition;
     protected GameBoard gameBoard;
+
     protected RotationState rotationState;
     protected Color color;
 
@@ -130,5 +131,9 @@ public class BoardElement implements On2DBoard, Paintable {
 
     public void setRot(Rotation rot) {
         setRotationStateFromRotation(rot);
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 }

@@ -15,6 +15,7 @@ import Model.RotationState.UpState;
  */
 public class IceManipulator {
     private final GameBoard gameBoard;
+    public static final int MILLIS_WAIT = 100;
     private boolean isManipulating = false;
 
     public IceManipulator(GameBoard gameBoard) {
@@ -27,94 +28,16 @@ public class IceManipulator {
      */
     public void manipulateIceAsync() {
         if (isManipulating) return;
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                isManipulating = true;
-                manipulateIce();
-                isManipulating = false;
-            }
+        Thread t1 = new Thread(() -> {
+            isManipulating = true;
+            gameBoard.getPlayer().getRotationState().manipulateIce();
+            isManipulating = false;
         });
         t1.start();
     }
 
-    /**
-     * Manipulating the ice, used by monsters to break ice slowly.
-     */
-    public void manipulateIce() {
-        int playerxFreezingPosition = gameBoard.getPlayer().getXPosition();
-        int playeryFreezingPosition = gameBoard.getPlayer().getYPosition();
-        int settingInt = 1;
-        int millis = 100;
-
-        if (gameBoard.getPlayer().getRotationState().getClass().equals(UpState.class)) {
-            playeryFreezingPosition -= 1;
-        } else if (gameBoard.getPlayer().getRotationState().getClass().equals(RightState.class)) {
-            playerxFreezingPosition += 1;
-        } else if (gameBoard.getPlayer().getRotationState().getClass().equals(DownState.class)) {
-            playeryFreezingPosition += 1;
-        } else if (gameBoard.getPlayer().getRotationState().getClass().equals(LeftState.class)) {
-            playerxFreezingPosition -= 1;
-        }
-
-        if (playerxFreezingPosition < 0 || playerxFreezingPosition >= gameBoard.getGameBoardLengthX()) {
-            return;
-        }
-        if (playeryFreezingPosition < 0 || playeryFreezingPosition >= gameBoard.getGameBoardLengthY()) {
-            return;
-        }
-
-        if (gameBoard.getBoardElementAt(playerxFreezingPosition, playeryFreezingPosition).isPresent()) {
-            if (gameBoard.getBoardElementAt(playerxFreezingPosition, playeryFreezingPosition).get().getClass() != BoardElement.class) {
-                settingInt = 0;
-            }
-        }
-
-        if (gameBoard.getPlayer().getRotationState().getClass().equals(UpState.class)) {
-            for (int row = playeryFreezingPosition; row >= 0; row--) {
-                if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
-                    return;
-                }
-
-                changeArray(playerxFreezingPosition, row, settingInt);
-
-                sleep(millis);
-            }
-        } else if (gameBoard.getPlayer().getRotationState().getClass().equals(RightState.class)) {
-            for (int column = playerxFreezingPosition; column < gameBoard.getGameBoardLengthX(); column++) {
-                if (!checkIceLoop(column, playeryFreezingPosition, settingInt)) {
-                    return;
-                }
-
-                changeArray(column, playeryFreezingPosition, settingInt);
-
-                sleep(millis);
-            }
-        } else if (gameBoard.getPlayer().getRotationState().getClass().equals(DownState.class)) {
-            for (int row = playeryFreezingPosition; row < gameBoard.getGameBoardLengthY(); row++) {
-                if (!checkIceLoop(playerxFreezingPosition, row, settingInt)) {
-                    return;
-                }
-
-                changeArray(playerxFreezingPosition, row, settingInt);
-
-                sleep(millis);
-            }
-        } else if (gameBoard.getPlayer().getRotationState().getClass().equals(LeftState.class)) {
-            for (int column = playerxFreezingPosition; column >= 0; column--) {
-                if (!checkIceLoop(column, playeryFreezingPosition, settingInt)) {
-                    return;
-                }
-
-                changeArray(column, playeryFreezingPosition, settingInt);
-
-                sleep(millis);
-            }
-        }
-    }
-
-    private void changeArray(int x, int y, int settingInt) {
-        if (gameBoard.getBoardElementAt(x, y).isPresent() && gameBoard.getBoardElementAt(x, y).get().getClass() == IceBlock.class && settingInt == 0) {
+    public static void changeArray(int x, int y, boolean freeze, GameBoard gameBoard) {
+        if (gameBoard.getBoardElementAt(x, y).isPresent() && gameBoard.getBoardElementAt(x, y).get().getClass() == IceBlock.class && !freeze) {
             BoardElement replacement = new BoardElement(x, y, gameBoard);
             gameBoard.setBoardElementAt(x, y, replacement);
         } else {
@@ -122,14 +45,14 @@ public class IceManipulator {
         }
     }
 
-    private boolean checkIceLoop(int x, int y, int settingInt) {
+    public static boolean checkIceLoop(int x, int y, boolean freeze, GameBoard gameBoard) {
         // checking if next tile is or is not an ice, according to the settingInt
-        if (settingInt == 0) {
+        if (!freeze) {
             if (gameBoard.getBoardElementAt(x, y).isEmpty() || gameBoard.getBoardElementAt(x, y).get().getClass() == SolidBlock.class
                     || gameBoard.getBoardElementAt(x, y).get().getClass() == BoardElement.class) {
                 return false;
             }
-        } else if (settingInt == 1) {
+        } else {
             if (gameBoard.getBoardElementAt(x, y).isPresent()) {
                 if (gameBoard.getBoardElementAt(x, y).get().getClass() != BoardElement.class) {
                     return false;
@@ -149,13 +72,5 @@ public class IceManipulator {
             }
         }
         return true;
-    }
-
-    private void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

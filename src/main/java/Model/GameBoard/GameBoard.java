@@ -52,6 +52,12 @@ public class GameBoard {
         return y < 0 || y >= boardElementArray[0].length;
     }
 
+    public boolean isFrozenAtLoc(int x, int y) {
+        return getBoardElementAt(x, y)
+                .filter(boardElement -> boardElement.getClass() == IceBlock.class)
+                .isPresent();
+    }
+
     public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
         return getBoardElementAt(monster.getXPosition() + xMove, monster.getYPosition() + yMove)
                 .filter(boardElement -> boardElement.getClass() == IceBlock.class)

@@ -4,6 +4,8 @@ import Model.Block.IceBlock;
 import Model.BoardElement.BoardElement;
 import Model.Player.Rotation;
 
+import java.util.Optional;
+
 public class Node {
     private int length;
     private int xPosition;
@@ -11,26 +13,25 @@ public class Node {
     private Node previousNode;
     private Rotation jumpToNodeRotation;
 
-    public Node(BoardElement boardElement) {
-        this.xPosition = boardElement.getXPosition();
-        this.yPosition = boardElement.getYPosition();
+    public Node(Optional<BoardElement> boardElement) {
+        this.xPosition = boardElement.map(BoardElement::getXPosition).orElse(0);
+        this.yPosition = boardElement.map(BoardElement::getYPosition).orElse(0);
         this.length = 0;
     }
 
-    public Node(BoardElement boardElement, Node previousNode) {
-        this.xPosition = boardElement.getXPosition();
-        this.yPosition = boardElement.getYPosition();
+    public Node(Optional<BoardElement> boardElement, Node previousNode) {
+        this.xPosition = boardElement.map(BoardElement::getXPosition).orElse(0);
+        this.yPosition = boardElement.map(BoardElement::getYPosition).orElse(0);
         this.previousNode = previousNode;
 
         if (previousNode == null) {
             return;
         }
 
-        if (boardElement instanceof IceBlock) {
-            this.length = previousNode.length + 2;
-        } else {
-            this.length = previousNode.length + 1;
-        }
+        this.length = previousNode.length + boardElement
+                .filter(element -> element instanceof IceBlock)
+                .map(element -> 2)
+                .orElse(1);
 
         int xDifference = getXPosition() - previousNode.getXPosition();
         int yDifference = getYPosition() - previousNode.getYPosition();

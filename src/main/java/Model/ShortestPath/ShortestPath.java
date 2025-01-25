@@ -52,12 +52,22 @@ public class ShortestPath {
         );
     }
 
+    /**
+     * A* algorithm implementation
+     * @param x1 x from which start calculating
+     * @param y1 y from which start calculating
+     * @param x2 x to which calculate
+     * @param y2 y to which calculate
+     * @param gameBoard game board for calculations
+     * @param boardElementConditions conditions to exclude certain board elements
+     * @return the rotation of the monster to catch player
+     */
     private static Rotation AStarShortestPathConditional(int x1, int y1, int x2, int y2, GameBoard gameBoard, Function<Node, Boolean> boardElementConditions) {
         List<Node> visitedNodes = new ArrayList<>();
         Queue<Node> toBeVisitedNodes = new PriorityQueue<>(
                 Comparator.comparingDouble(node -> ShortestPath.finaCost(node, x2, y2))
         );
-        toBeVisitedNodes.add(new Node(gameBoard.getBoardElementAt(x1, y1).get()));
+        toBeVisitedNodes.add(new Node(gameBoard.getBoardElementAt(x1, y1)));
 
         Node previousNode = null;
         while (!toBeVisitedNodes.isEmpty()) {
@@ -69,11 +79,11 @@ public class ShortestPath {
             // new code
             getAllNeighbours(visitingNode.getXPosition(), visitingNode.getYPosition(), gameBoard).stream()
                     .filter(neighbour -> !boardElementConditions.apply(neighbour))
-                    .filter(neighbour -> !visitedNodes.contains(new Node(gameBoard.getBoardElementAt(neighbour.getXPosition(), neighbour.getYPosition()).get())))
-                    .forEach(neighbour -> toBeVisitedNodes.add(new Node(gameBoard.getBoardElementAt(neighbour.getXPosition(), neighbour.getYPosition()).get(), visitingNode)));
+                    .filter(neighbour -> !visitedNodes.contains(new Node(gameBoard.getBoardElementAt(neighbour.getXPosition(), neighbour.getYPosition()))))
+                    .forEach(neighbour -> toBeVisitedNodes.add(new Node(gameBoard.getBoardElementAt(neighbour.getXPosition(), neighbour.getYPosition()), visitingNode)));
 
 
-            Node addNode = new Node(gameBoard.getBoardElementAt(visitingNode.getXPosition(), visitingNode.getYPosition()).get(), previousNode);
+            Node addNode = new Node(gameBoard.getBoardElementAt(visitingNode.getXPosition(), visitingNode.getYPosition()), previousNode);
             visitedNodes.add(addNode);
             previousNode = visitingNode;
         }
@@ -94,10 +104,10 @@ public class ShortestPath {
 
     private static List<Node> getAllNeighbours(int x, int y, GameBoard gameBoard) {
         List<Node> neighbours = new ArrayList<>();
-        if (x + 1 < gameBoard.getGameBoardLengthX()) neighbours.add(new Node(gameBoard.getBoardElementAt(x + 1, y).get()));
-        if (x - 1 >= 0) neighbours.add(new Node(gameBoard.getBoardElementAt(x - 1, y).get()));
-        if (y + 1 < gameBoard.getGameBoardLengthY()) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y + 1).get()));
-        if (y - 1 >= 0) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y - 1).get()));
+        if (x + 1 < gameBoard.getGameBoardLengthX()) neighbours.add(new Node(gameBoard.getBoardElementAt(x + 1, y)));
+        if (x - 1 >= 0) neighbours.add(new Node(gameBoard.getBoardElementAt(x - 1, y)));
+        if (y + 1 < gameBoard.getGameBoardLengthY()) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y + 1)));
+        if (y - 1 >= 0) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y - 1)));
         return neighbours;
     }
 

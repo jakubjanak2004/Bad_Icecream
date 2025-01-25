@@ -21,7 +21,7 @@ public class CleverMonster extends Monster {
     @Override
     protected boolean shouldMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         Player player = gameController.getPlayer();
-        Optional<BoardElement>[][] boardElements = gameController.getBoardArrayObject();
+        Optional<BoardElement>[][] boardElements = gameController.getGameBoard().getBoardElementArray();
 
         Rotation rot = ShortestPath.getPathStartNoIce(getXPosition(), getYPosition(), player.getXPosition(), player.getYPosition(), boardElements);
 

@@ -1,4 +1,4 @@
-package Logic.observer;
+package Logic.KeyObserver;
 
 import Logic.GameController;
 
@@ -22,13 +22,13 @@ public class KeyObserver {
         int keyCode = event.getKeyCode();
         for (KeySubscriber subscriber : subscriberList) {
             switch (keyCode) {
-                case KeyEvent.VK_RIGHT -> subscriber.rightArrowPressed(event);
-                case KeyEvent.VK_LEFT -> subscriber.leftArrowPressed(event);
-                case KeyEvent.VK_UP -> subscriber.upArrowPressed(event);
-                case KeyEvent.VK_DOWN -> subscriber.downArrowPressed(event);
-                case KeyEvent.VK_SPACE -> subscriber.spacePressed(event);
-                case KeyEvent.VK_R -> subscriber.rKeyPressed(event);
-                case KeyEvent.VK_G -> subscriber.gKeyPressed(event);
+                case KeyEvent.VK_RIGHT -> subscriber.rightArrowPressed();
+                case KeyEvent.VK_LEFT -> subscriber.leftArrowPressed();
+                case KeyEvent.VK_UP -> subscriber.upArrowPressed();
+                case KeyEvent.VK_DOWN -> subscriber.downArrowPressed();
+                case KeyEvent.VK_SPACE -> subscriber.spacePressed();
+                case KeyEvent.VK_R -> subscriber.rKeyPressed();
+                case KeyEvent.VK_G -> subscriber.gKeyPressed();
             }
         }
     }

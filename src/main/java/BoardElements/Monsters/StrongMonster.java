@@ -1,6 +1,6 @@
 package BoardElements.Monsters;
 
-import BoardElements.BoardElement;
+import BoardElements.GameBoard.GameBoard;
 import BoardElements.Player;
 import BoardElements.Rotation;
 import Logic.GameController;
@@ -8,7 +8,6 @@ import Logic.ShortestPath;
 
 import java.awt.*;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Strong monster represents a monster that is strong and can break through ice.
@@ -22,9 +21,9 @@ public class StrongMonster extends Monster {
     @Override
     protected boolean shouldMove(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, GameController gameController) {
         Player player = gameController.getPlayer();
-        Optional<BoardElement>[][] boardElements = gameController.getBoardArrayObject();
+        GameBoard gameBoard = gameController.getGameBoard();
 
-        Rotation rotation = ShortestPath.getPathStartWithIce(getXPosition(), getYPosition(), player.getXPosition(), player.getYPosition(), boardElements);
+        Rotation rotation = ShortestPath.getPathStartWithIce(getXPosition(), getYPosition(), player.getXPosition(), player.getYPosition(), gameBoard.getBoardElementArray());
 
         // Mapping rotations to corresponding actions
         Map<Rotation, Runnable> actions = Map.of(
@@ -34,7 +33,7 @@ public class StrongMonster extends Monster {
                 Rotation.LEFT, () -> handleIce(gameController, -1, 0)
         );
 
-        if (actions.containsKey(rotation) && gameController.isFrozenAtLoc(getDeltaX(rotation), getDeltaY(rotation), this)) {
+        if (actions.containsKey(rotation) && gameController.getGameBoard().isFrozenAtLoc(getDeltaX(rotation), getDeltaY(rotation), this)) {
             actions.get(rotation).run();
             return false;
         }
@@ -45,7 +44,7 @@ public class StrongMonster extends Monster {
     }
 
     private void handleIce(GameController gameController, int deltaX, int deltaY) {
-        gameController.beatIce(getXPosition() + deltaX, getYPosition() + deltaY);
+        gameController.getGameBoard().beatIce(getXPosition() + deltaX, getYPosition() + deltaY);
     }
 
     private int getDeltaX(Rotation rotation) {

@@ -1,4 +1,4 @@
-package BoardElements.rotationState;
+package BoardElements.RotationState;
 
 import BoardElements.BoardElement;
 

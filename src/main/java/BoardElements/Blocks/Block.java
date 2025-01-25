@@ -27,6 +27,11 @@ public abstract class Block extends BoardElement {
         g.drawImage(getImage(), x, y, width, height, null);
     }
 
+    @Override
+    public boolean isVisitable() {
+        return false;
+    }
+
     protected double calcWidth(int x, int y, int step) {
         return step;
     }

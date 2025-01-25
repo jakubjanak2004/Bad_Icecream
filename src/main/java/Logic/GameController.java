@@ -1,28 +1,17 @@
 package Logic;
 
-import BoardElements.Blocks.IceBlock;
-import BoardElements.Blocks.SolidBlock;
-import BoardElements.BoardElement;
-import BoardElements.Monsters.CleverMonster;
-import BoardElements.Monsters.Monster;
-import BoardElements.Monsters.StrongMonster;
-import BoardElements.Monsters.StupidMonster;
+import BoardElements.GameBoard.GameBoard;
+import BoardElements.GameBoard.GameBoardBuilder;
 import BoardElements.Monsters.moving;
 import BoardElements.Player;
-import BoardElements.Reward.Chest;
-import BoardElements.Reward.Fruit;
-import BoardElements.Reward.Key;
 import BoardElements.Reward.Reward;
 import BoardElements.Rotation;
 import LevelManagement.LevelManager;
-import Logic.observer.KeySubscriber;
+import Logic.KeyObserver.KeySubscriber;
 import View.GameView;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -41,17 +30,11 @@ public class GameController implements KeySubscriber {
 
     // final fields
     private final GameView gameView;
-    private final Player player;
-    private final IceManipulator iceManipulator = new IceManipulator(this);
-    private final List<moving> monsters = Collections.synchronizedList(new ArrayList<>());
-    private final List<Reward> rewards = Collections.synchronizedList(new ArrayList<>());
-
-    //Threading Classes
-    MonsterThread monsterThread;
 
     // level management classes
     private final LevelManager levelManager;
-
+    //Threading Classes
+    MonsterThread monsterThread;
     // boolean fields
     private boolean isGameOn = false;
     private boolean isMenuOpened = true;
@@ -69,49 +52,35 @@ public class GameController implements KeySubscriber {
     private TimerTask gameLoopTimerTask;
 
     // Objects Array
-    private Optional<BoardElement>[][] boardArrayObject;
+    private GameBoard gameBoard;
 
     // Constructor
     public GameController() {
         this.levelManager = new LevelManager();
-        this.boardArrayObject = createEmptyArray(numOfFields, numOfFields);
-        this.player = new Player(0, 0, Rotation.UP);
         gameView = GameView.getInstance(this);
         setGameLoopTimer();
     }
 
     public GameController(LevelManager levelManager) {
         this.levelManager = levelManager;
-        this.boardArrayObject = createEmptyArray(numOfFields, numOfFields);
-        this.player = new Player(0, 0, Rotation.UP);
         gameView = GameView.getInstance(this);
         setGameLoopTimer();
     }
 
-    private static Optional<BoardElement>[][] createEmptyArray(int rows, int columns) {
-        Optional<BoardElement>[][] array = new Optional[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                array[i][j] = Optional.empty();
-            }
-        }
-        return array;
-    }
-
     public boolean canUp(int x, int y) {
-        return y > 0 && isVisitable(x, y - 1);
+        return y > 0 && gameBoard.isVisitable(x, y - 1);
     }
 
     public boolean canRight(int x, int y) {
-        return x < getNumOfFields() - 1 && isVisitable(x + 1, y);
+        return x < getNumOfFields() - 1 && gameBoard.isVisitable(x + 1, y);
     }
 
     public boolean canDown(int x, int y) {
-        return y < getNumOfFields() - 1 && isVisitable(x, y + 1);
+        return y < getNumOfFields() - 1 && gameBoard.isVisitable(x, y + 1);
     }
 
     public boolean canLeft(int x, int y) {
-        return x > 0 && isVisitable(x - 1, y);
+        return x > 0 && gameBoard.isVisitable(x - 1, y);
     }
 
     /**
@@ -130,7 +99,7 @@ public class GameController implements KeySubscriber {
                 if (!checkState) return;
 
                 checkDeath();
-                checkFruitTaken();
+                gameBoard.checkFruitTaken();
                 checkAllFruitGone();
             }
         };
@@ -138,83 +107,83 @@ public class GameController implements KeySubscriber {
     }
 
     @Override
-    public void rightArrowPressed(KeyEvent event) {
+    public void rightArrowPressed() {
         if (!isGameOn) {
             return;
         }
-        player.setRot(Rotation.RIGHT);
-        if (player.getXPosition() >= numOfFields - 1) {
+        gameBoard.getPlayer().setRot(Rotation.RIGHT);
+        if (gameBoard.getPlayer().getXPosition() >= numOfFields - 1) {
             return;
         }
-        if (!isVisitable(player.getXPosition() + 1, player.getYPosition())) {
+        if (!gameBoard.isVisitable(gameBoard.getPlayer().getXPosition() + 1, gameBoard.getPlayer().getYPosition())) {
             return;
         }
-        player.moveOnx(1);
+        gameBoard.getPlayer().moveOnx(1);
         checkDeath();
-        checkFruitTaken();
+        gameBoard.checkFruitTaken();
     }
 
     @Override
-    public void downArrowPressed(KeyEvent event) {
+    public void downArrowPressed() {
         if (!isGameOn) {
             return;
         }
-        player.setRot(Rotation.DOWN);
-        if (player.getYPosition() >= numOfFields - 1) {
+        gameBoard.getPlayer().setRot(Rotation.DOWN);
+        if (gameBoard.getPlayer().getYPosition() >= numOfFields - 1) {
             return;
         }
-        if (!isVisitable(player.getXPosition(), player.getYPosition() + 1)) {
+        if (!gameBoard.isVisitable(gameBoard.getPlayer().getXPosition(), gameBoard.getPlayer().getYPosition() + 1)) {
             return;
         }
-        player.moveOny(1);
+        gameBoard.getPlayer().moveOny(1);
         checkDeath();
-        checkFruitTaken();
+        gameBoard.checkFruitTaken();
     }
 
     @Override
-    public void leftArrowPressed(KeyEvent event) {
+    public void leftArrowPressed() {
         if (!isGameOn) {
             return;
         }
-        player.setRot(Rotation.LEFT);
-        if (player.getXPosition() <= 0) {
+        gameBoard.getPlayer().setRot(Rotation.LEFT);
+        if (gameBoard.getPlayer().getXPosition() <= 0) {
             return;
         }
-        if (!isVisitable(player.getXPosition() - 1, player.getYPosition())) {
+        if (!gameBoard.isVisitable(gameBoard.getPlayer().getXPosition() - 1, gameBoard.getPlayer().getYPosition())) {
             return;
         }
-        player.moveOnx(-1);
+        gameBoard.getPlayer().moveOnx(-1);
         checkDeath();
-        checkFruitTaken();
+        gameBoard.checkFruitTaken();
     }
 
     @Override
-    public void upArrowPressed(KeyEvent event) {
+    public void upArrowPressed() {
         if (!isGameOn) {
             return;
         }
-        player.setRot(Rotation.UP);
-        if (player.getYPosition() <= 0) {
+        gameBoard.getPlayer().setRot(Rotation.UP);
+        if (gameBoard.getPlayer().getYPosition() <= 0) {
             return;
         }
-        if (!isVisitable(player.getXPosition(), player.getYPosition() - 1)) {
+        if (!gameBoard.isVisitable(gameBoard.getPlayer().getXPosition(), gameBoard.getPlayer().getYPosition() - 1)) {
             return;
         }
-        player.moveOny(-1);
+        gameBoard.getPlayer().moveOny(-1);
         checkDeath();
-        checkFruitTaken();
+        gameBoard.checkFruitTaken();
     }
 
     @Override
-    public void spacePressed(KeyEvent event) {
+    public void spacePressed() {
         if (!isGameOn) {
             return;
         }
-        iceManipulator.manipulateIceAsync();
+        gameBoard.getIceManipulator().manipulateIceAsync();
     }
 
     @Override
-    public void rKeyPressed(KeyEvent event) {
+    public void rKeyPressed() {
         if (isGameOn) {
             return;
         }
@@ -222,7 +191,7 @@ public class GameController implements KeySubscriber {
     }
 
     @Override
-    public void gKeyPressed(KeyEvent event) {
+    public void gKeyPressed() {
         if (isGameOn) {
             return;
         }
@@ -231,72 +200,16 @@ public class GameController implements KeySubscriber {
         startGame();
     }
 
-    /**
-     * @param x x location on board array
-     * @param y y location on board array
-     * @return true if is visitable by player or monster
-     */
-    public boolean isVisitable(int x, int y) {
-        if (x < 0 || x >= boardArrayObject.length) {
-            return false;
-        } else if (y < 0 || y >= boardArrayObject[0].length) {
-            return false;
+    private void checkDeath() {
+        if (gameBoard.checkDeath()) {
+            gameOver();
         }
-
-        if (boardArrayObject[x][y].isPresent()) {
-            return boardArrayObject[x][y].get().getClass() != IceBlock.class && boardArrayObject[x][y].get().getClass() != SolidBlock.class;
-        }
-        return true;
     }
 
-    /**
-     * @param x x position on game board
-     * @param y y position on game board
-     * @return true if there is ice at certain location
-     */
-    public boolean isFrozenAtLoc(int x, int y) {
-        if (x < 0 || x >= boardArrayObject.length) {
-            return false;
-        } else if (y < 0 || y >= boardArrayObject[0].length) {
-            return false;
-        }
-
-        return (boardArrayObject[x][y].isPresent()
-                && boardArrayObject[x][y].get().getClass() == IceBlock.class);
-    }
-
-    /**
-     * @param xMove   movement on x axis
-     * @param yMove   movement on y axis
-     * @param monster monster that is performing the movement
-     * @return is frozen at the location the monster is moving to
-     */
-    public boolean isFrozenAtLoc(int xMove, int yMove, Monster monster) {
-        return (boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove].isPresent()
-                && boardArrayObject[monster.getXPosition() + xMove][monster.getYPosition() + yMove].get().getClass() == IceBlock.class);
-    }
-
-    /**
-     * The method will beat ice at (x, y) coordinate
-     *
-     * @param x x coordinate
-     * @param y y coordinate
-     */
-    public void beatIce(int x, int y) {
-        if (x < 0 || x >= getBoardArrayObject().length) {
-            return;
-        } else if (y < 0 || y >= getBoardArrayObject()[0].length) {
-            return;
-        }
-
-        if (getBoardArrayObject()[x][y].isPresent() && getBoardArrayObject()[x][y].get().getClass() == IceBlock.class) {
-            IceBlock iceBlock = (IceBlock) getBoardArrayObject()[x][y].get();
-            iceBlock.destabilize();
-
-            if (iceBlock.getStability() <= 0) {
-                BoardElement replacement = new BoardElement(x, y);
-                getBoardArrayObject()[x][y] = Optional.of(replacement);
-            }
+    private void checkAllFruitGone() {
+        if (gameBoard.checkAllFruitGone()) {
+            wasLevelWon = true;
+            gameOver();
         }
     }
 
@@ -307,42 +220,13 @@ public class GameController implements KeySubscriber {
     public boolean startGame() {
         logger.info("Game was started");
 
-        rewards.clear();
-        monsters.clear();
         wasLevelWon = false;
 
-        int[][] gameBoard = levelManager.getAllLevels().get(levelNum).getGAME_BOARDCopy();
+        gameBoard = GameBoardBuilder.builder()
+                .setBoardElementArray(levelManager.getAllLevels().get(levelNum).getGAME_BOARDCopy())
+                .build();
 
-        numOfFields = gameBoard.length;
-
-        boardArrayObject = createEmptyArray(gameBoard.length, gameBoard[0].length);
-
-        for (int i = 0; i < gameBoard.length; i++) {
-            for (int j = 0; j < gameBoard[i].length; j++) {
-                if (gameBoard[i][j] == -1) {
-                    player.setXPosition(i);
-                    player.setYPosition(j);
-                } else if (gameBoard[i][j] == 3) {
-                    monsters.add(new StupidMonster(i, j, Rotation.UP));
-                } else if (gameBoard[i][j] == 4) {
-                    monsters.add(new CleverMonster(i, j, Rotation.UP));
-                } else if (gameBoard[i][j] == 5) {
-                    monsters.add(new StrongMonster(i, j, Rotation.UP));
-                } else if (gameBoard[i][j] == 6) {
-                    rewards.add(new Fruit(i, j));
-                } else if (gameBoard[i][j] == 7) {
-                    rewards.add(new Chest(i, j));
-                } else if (gameBoard[i][j] == 8) {
-                    rewards.add(new Key(i, j));
-                } else if (gameBoard[i][j] == 1) {
-                    boardArrayObject[i][j] = Optional.of(new IceBlock(i, j));
-                } else if (gameBoard[i][j] == 2) {
-                    boardArrayObject[i][j] = Optional.of(new SolidBlock(i, j));
-                } else if (gameBoard[i][j] == 0) {
-                    boardArrayObject[i][j] = Optional.of(new BoardElement(i, j));
-                }
-            }
-        }
+        numOfFields = gameBoard.getBoardElementArray().length;
 
         isGameOn = true; // is game on moved so that the view fill fetch the game data later
         checkState = true;
@@ -355,49 +239,6 @@ public class GameController implements KeySubscriber {
 
         // game was started
         return true;
-    }
-
-    // private methods
-    private void checkAllFruitGone() {
-        boolean isMoreFruit = false;
-        for (Reward f : rewards) {
-            if (f.isTaken()) continue;
-            isMoreFruit = true;
-        }
-        if (!isMoreFruit) {
-            wasLevelWon = true;
-            gameOver();
-        }
-    }
-
-    private void checkDeath() {
-        for (moving m : monsters) {
-            if (Math.abs(m.getXPosition() - player.getXPosition()) <= 1 && m.getYPosition() == player.getYPosition()) {
-                gameOver();
-            } else if (Math.abs(m.getYPosition() - player.getYPosition()) <= 1 && m.getXPosition() == player.getXPosition()) {
-                gameOver();
-            }
-        }
-    }
-
-    private void checkFruitTaken() {
-        for (Reward f : rewards) {
-            if (f.getXPosition() == player.getXPosition() && f.getYPosition() == player.getYPosition()) {
-                boolean canBeOpened = true;
-                if (f instanceof Chest) {
-                    for (Reward key : rewards) {
-                        if (key instanceof Key) {
-                            if (!key.isTaken()) {
-                                canBeOpened = false;
-                            }
-                        }
-                    }
-                }
-                if (canBeOpened) {
-                    f.grab();
-                }
-            }
-        }
     }
 
     private void gameOver() {
@@ -433,10 +274,6 @@ public class GameController implements KeySubscriber {
         return isGameOn;
     }
 
-    public void setGameOn(boolean gameOn) {
-        isGameOn = gameOn;
-    }
-
     public boolean isMenuOpened() {
         return isMenuOpened;
     }
@@ -446,15 +283,15 @@ public class GameController implements KeySubscriber {
     }
 
     public List<moving> getMonsters() {
-        return monsters;
+        return gameBoard.getMonsters();
     }
 
     public List<Reward> getRewards() {
-        return new ArrayList<>(rewards);
+        return new ArrayList<>(gameBoard.getRewards());
     }
 
     public Player getPlayer() {
-        return player;
+        return gameBoard.getPlayer();
     }
 
     public int getNumOfFields() {
@@ -465,12 +302,12 @@ public class GameController implements KeySubscriber {
         this.numOfFields = numOfFields;
     }
 
-    public Optional<BoardElement>[][] getBoardArrayObject() {
-        return boardArrayObject;
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 
-    public void setBoardArrayObject(Optional<BoardElement>[][] boardArrayObject) {
-        this.boardArrayObject = boardArrayObject;
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
     }
 
     public boolean isRefreshing() {
@@ -479,10 +316,6 @@ public class GameController implements KeySubscriber {
 
     public int getMONSTER_MOVE_REFRESH() {
         return MONSTER_MOVE_REFRESH;
-    }
-
-    public int getLevelNum() {
-        return levelNum;
     }
 
     public void setLevelNum(int levelNum) {

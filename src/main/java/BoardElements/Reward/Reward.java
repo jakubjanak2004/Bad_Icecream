@@ -1,6 +1,7 @@
 package BoardElements.Reward;
 
 import BoardElements.BoardElement;
+import BoardElements.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -35,6 +36,13 @@ public abstract class Reward extends BoardElement implements Grabbable {
         int yPaddingInBlock = (step - height) / 2;
 
         g.drawImage(img, x + xPaddingInBlock, y + yPaddingInBlock, width, height, null);
+    }
+
+    @Override
+    public void tryGrabbing(Player player) {
+        if (xPosition == player.getXPosition() && yPosition == player.getYPosition()) {
+            grab();
+        }
     }
 
     public boolean isTaken() {

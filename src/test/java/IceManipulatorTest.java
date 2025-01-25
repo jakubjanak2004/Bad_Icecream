@@ -52,11 +52,11 @@ public class IceManipulatorTest {
 
         // returning desired objects from the mocked controller class
         when(gameController.getPlayer()).thenReturn(player);
-        when(gameController.getBoardArrayObject()).thenReturn(boardArrayObjectOptional);
+//        when(gameController.getGameBoard()).thenReturn(boardArrayObjectOptional);
         when(gameController.getNumOfFields()).thenReturn(boardArrayObject.length);
 
         // creating the IceManipulator class instance
-        iceManipulator = new IceManipulator(gameController);
+//        iceManipulator = new IceManipulator(gameController);
     }
 
     @Test

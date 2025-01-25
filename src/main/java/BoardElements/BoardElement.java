@@ -1,10 +1,10 @@
 package BoardElements;
 
-import BoardElements.rotationState.DownState;
-import BoardElements.rotationState.LeftState;
-import BoardElements.rotationState.RightState;
-import BoardElements.rotationState.RotationState;
-import BoardElements.rotationState.UpState;
+import BoardElements.RotationState.DownState;
+import BoardElements.RotationState.LeftState;
+import BoardElements.RotationState.RightState;
+import BoardElements.RotationState.RotationState;
+import BoardElements.RotationState.UpState;
 
 import java.awt.*;
 
@@ -84,6 +84,10 @@ public class BoardElement implements on2DBoard, paintable {
 
     protected int calcY(int step, int heightPadding) {
         return getYPosition() * step + heightPadding;
+    }
+
+    public boolean isVisitable() {
+        return true;
     }
 
     @Override

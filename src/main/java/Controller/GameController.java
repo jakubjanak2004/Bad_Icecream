@@ -85,6 +85,7 @@ public class GameController implements KeySubscriber {
         gameLoopTimer.schedule(gameLoopTimerTask, 800, GAME_LOOP_REFRESH);
     }
 
+    // TODO: set rotation using rotation state
     @Override
     public void rightArrowPressed() {
         if (!isGameOn) {

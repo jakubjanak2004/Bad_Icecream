@@ -28,12 +28,12 @@ public class IceManipulator {
      */
     public void manipulateIceAsync() {
         if (isManipulating) return;
-        Thread t1 = new Thread(() -> {
+
+        Thread.ofVirtual().start(() -> {
             isManipulating = true;
             gameBoard.getPlayer().getRotationState().manipulateIce();
             isManipulating = false;
         });
-        t1.start();
     }
 
     public static void changeArray(int x, int y, boolean freeze, GameBoard gameBoard) {

@@ -43,6 +43,7 @@ public class MonsterThread extends Thread {
         boolean canLeft = gameBoard.canLeft(monster.getXPosition(), monster.getYPosition());
 
         // handle collisions with other monsters
+        // TODO: more robust approach has to be implemented
         for (int j = 0; j < i; j++) {
             Monster loopMonster = Monsters.get(j);
             if (loopMonster.getYPosition() == monster.getYPosition() + 1 && loopMonster.getXPosition() == monster.getXPosition()) {

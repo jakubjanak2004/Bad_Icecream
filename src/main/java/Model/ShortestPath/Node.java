@@ -30,7 +30,8 @@ public class Node {
 
         this.length = previousNode.length + boardElement
                 .filter(element -> element instanceof IceBlock)
-                .map(element -> 2)
+                .map(element -> (IceBlock) element)
+                .map(element -> element.getStability() + 1)
                 .orElse(1);
 
         int xDifference = getXPosition() - previousNode.getXPosition();

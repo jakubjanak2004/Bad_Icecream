@@ -65,7 +65,7 @@ public class ShortestPath {
     private static Rotation AStarShortestPathConditional(int x1, int y1, int x2, int y2, GameBoard gameBoard, Function<Node, Boolean> boardElementConditions) {
         List<Node> visitedNodes = new ArrayList<>();
         Queue<Node> toBeVisitedNodes = new PriorityQueue<>(
-                Comparator.comparingDouble(node -> ShortestPath.finaCost(node, x2, y2))
+                Comparator.comparingDouble(node -> ShortestPath.finalCost(node, x2, y2))
         );
         toBeVisitedNodes.add(new Node(gameBoard.getBoardElementAt(x1, y1)));
 
@@ -98,16 +98,16 @@ public class ShortestPath {
         return Math.abs(xCurrent - xFinish) + Math.abs(yCurrent - yFinish);
     }
 
-    private static int finaCost(Node node, int xFinish, int yFinish) {
+    private static int finalCost(Node node, int xFinish, int yFinish) {
         return fromStartCost(node) + toFinishCost(node.getXPosition(), node.getYPosition(), xFinish, yFinish);
     }
 
     private static List<Node> getAllNeighbours(int x, int y, GameBoard gameBoard) {
         List<Node> neighbours = new ArrayList<>();
         if (x + 1 < gameBoard.getGameBoardLengthX()) neighbours.add(new Node(gameBoard.getBoardElementAt(x + 1, y)));
-        if (x - 1 >= 0) neighbours.add(new Node(gameBoard.getBoardElementAt(x - 1, y)));
+        if (x >= 1) neighbours.add(new Node(gameBoard.getBoardElementAt(x - 1, y)));
         if (y + 1 < gameBoard.getGameBoardLengthY()) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y + 1)));
-        if (y - 1 >= 0) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y - 1)));
+        if (y >= 1) neighbours.add(new Node(gameBoard.getBoardElementAt(x, y - 1)));
         return neighbours;
     }
 

@@ -77,4 +77,8 @@ public class IceBlock extends Block {
             throw new RuntimeException(e);
         }
     }
+
+    public int getStability() {
+        return stability;
+    }
 }

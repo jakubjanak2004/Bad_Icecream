@@ -147,4 +147,20 @@ public class GameBoard {
     public List<Reward> getRewards() {
         return rewards;
     }
+
+    public boolean isOutside(int playerXManipulationPosition, int playerYManipulationPosition) {
+        if (playerXManipulationPosition < 0) {
+            return true;
+        }
+        if (playerXManipulationPosition >= getGameBoardLengthX()){
+            return true;
+        }
+        if (playerYManipulationPosition < 0) {
+            return true;
+        }
+        if (playerYManipulationPosition >= getGameBoardLengthY()) {
+            return true;
+        }
+        return false;
+    }
 }

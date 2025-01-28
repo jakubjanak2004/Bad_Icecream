@@ -6,12 +6,11 @@ import Model.GameBoard.IceManipulator;
 import java.awt.*;
 
 public class UpState extends RotationState {
-    BoardElement boardElement;
+
 
     public UpState(BoardElement boardElement) {
-        this.boardElement = boardElement;
+        super(boardElement);
     }
-
 
     @Override
     public void move(boolean canUp, boolean canRight, boolean canDown, boolean canLeft, int numberOfTries) {
@@ -25,30 +24,51 @@ public class UpState extends RotationState {
     }
 
     @Override
+    public boolean canMove() {
+        if (boardElement.getYPosition() <= 0) {
+            return false;
+        }
+        return boardElement.getGameBoard().isVisitable(boardElement.getXPosition(), boardElement.getYPosition() - 1);
+    }
+
+    @Override
     public void paint(Graphics2D g, int step, int widthPadding, int heightPadding) {
         boardElement.upDirectionPaint(g, step, widthPadding, heightPadding);
     }
 
     @Override
-    public void manipulateIce() {
-        int playerXFreezingPosition = boardElement.getGameBoard().getPlayer().getXPosition();
-        int playerYFreezingPosition = boardElement.getGameBoard().getPlayer().getYPosition();
-        boolean freeze = true;
-        playerYFreezingPosition -= 1;
-        if (boardElement.getGameBoard().isFrozenAtLoc(playerXFreezingPosition, playerYFreezingPosition)) {
-            freeze = false;
-        }
-        if (playerYFreezingPosition < 0) {
-            return;
-        }
+    public boolean shouldFreeze(int playerXFreezingPosition, int playerYFreezingPosition) {
+        return !boardElement.getGameBoard().isFrozenAtLoc(playerXFreezingPosition, playerYFreezingPosition);
+    }
+
+    @Override
+    protected void freeze(int playerXFreezingPosition, int playerYFreezingPosition) {
         for (int row = playerYFreezingPosition; row >= 0; row--) {
-            if (!IceManipulator.checkIceLoop(playerXFreezingPosition, row, freeze, boardElement.getGameBoard())) {
+            if (!IceManipulator.checkIceLoop(playerXFreezingPosition, row, true, boardElement.getGameBoard())) {
                 return;
             }
 
-            IceManipulator.changeArray(playerXFreezingPosition, row, freeze, boardElement.getGameBoard());
+            IceManipulator.changeArray(playerXFreezingPosition, row, true, boardElement.getGameBoard());
 
             sleep();
         }
+    }
+
+    @Override
+    protected void melt(int playerXMeltingPosition, int playerYMeltingPosition) {
+        for (int row = playerYMeltingPosition; row >= 0; row--) {
+            if (!IceManipulator.checkIceLoop(playerXMeltingPosition, row, false, boardElement.getGameBoard())) {
+                return;
+            }
+
+            IceManipulator.changeArray(playerXMeltingPosition, row, false, boardElement.getGameBoard());
+
+            sleep();
+        }
+    }
+
+    @Override
+    protected int calculateYManipulatingPosition(int y) {
+        return y - 1;
     }
 }

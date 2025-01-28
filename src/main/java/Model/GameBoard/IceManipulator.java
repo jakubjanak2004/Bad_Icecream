@@ -5,10 +5,6 @@ import Model.Block.SolidBlock;
 import Model.BoardElement.BoardElement;
 import Model.Monster.Monster;
 import Model.Reward.Reward;
-import Model.RotationState.DownState;
-import Model.RotationState.LeftState;
-import Model.RotationState.RightState;
-import Model.RotationState.UpState;
 
 /**
  * Ice Manipulator class is used for manipulating the ice, it is used by player and monsters.
@@ -31,7 +27,7 @@ public class IceManipulator {
 
         Thread.ofVirtual().start(() -> {
             isManipulating = true;
-            gameBoard.getPlayer().getRotationState().manipulateIce();
+            gameBoard.getPlayer().getRotationState().manipulateIceTemplate();
             isManipulating = false;
         });
     }

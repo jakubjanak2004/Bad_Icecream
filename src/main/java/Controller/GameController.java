@@ -1,13 +1,12 @@
 package Controller;
 
+import Controller.KeyObserver.KeySubscriber;
 import Model.GameBoard.GameBoard;
 import Model.GameBoard.GameBoardBuilder;
+import Model.LevelManagement.LevelManager;
 import Model.Monster.Monster;
 import Model.Player.Player;
 import Model.Reward.Reward;
-import Model.Player.Rotation;
-import Model.LevelManagement.LevelManager;
-import Controller.KeyObserver.KeySubscriber;
 import View.GameView;
 
 import java.util.ArrayList;
@@ -85,20 +84,15 @@ public class GameController implements KeySubscriber {
         gameLoopTimer.schedule(gameLoopTimerTask, 800, GAME_LOOP_REFRESH);
     }
 
-    // TODO: set rotation using rotation state
     @Override
     public void rightArrowPressed() {
         if (!isGameOn) {
             return;
         }
-        gameBoard.getPlayer().setRot(Rotation.RIGHT);
-        if (gameBoard.getPlayer().getXPosition() >= numOfFields - 1) {
-            return;
+        gameBoard.getPlayer().getRotationState().rotateRight();
+        if (gameBoard.getPlayer().getRotationState().canMove()) {
+            gameBoard.getPlayer().moveOnx(1);
         }
-        if (!gameBoard.isVisitable(gameBoard.getPlayer().getXPosition() + 1, gameBoard.getPlayer().getYPosition())) {
-            return;
-        }
-        gameBoard.getPlayer().moveOnx(1);
         checkDeath();
         gameBoard.checkFruitTaken();
     }
@@ -108,14 +102,10 @@ public class GameController implements KeySubscriber {
         if (!isGameOn) {
             return;
         }
-        gameBoard.getPlayer().setRot(Rotation.DOWN);
-        if (gameBoard.getPlayer().getYPosition() >= numOfFields - 1) {
-            return;
+        gameBoard.getPlayer().getRotationState().rotateDown();
+        if (gameBoard.getPlayer().getRotationState().canMove()) {
+            gameBoard.getPlayer().moveOny(1);
         }
-        if (!gameBoard.isVisitable(gameBoard.getPlayer().getXPosition(), gameBoard.getPlayer().getYPosition() + 1)) {
-            return;
-        }
-        gameBoard.getPlayer().moveOny(1);
         checkDeath();
         gameBoard.checkFruitTaken();
     }
@@ -125,14 +115,10 @@ public class GameController implements KeySubscriber {
         if (!isGameOn) {
             return;
         }
-        gameBoard.getPlayer().setRot(Rotation.LEFT);
-        if (gameBoard.getPlayer().getXPosition() <= 0) {
-            return;
+        gameBoard.getPlayer().getRotationState().rotateLeft();
+        if (gameBoard.getPlayer().getRotationState().canMove()) {
+            gameBoard.getPlayer().moveOnx(-1);
         }
-        if (!gameBoard.isVisitable(gameBoard.getPlayer().getXPosition() - 1, gameBoard.getPlayer().getYPosition())) {
-            return;
-        }
-        gameBoard.getPlayer().moveOnx(-1);
         checkDeath();
         gameBoard.checkFruitTaken();
     }
@@ -142,14 +128,10 @@ public class GameController implements KeySubscriber {
         if (!isGameOn) {
             return;
         }
-        gameBoard.getPlayer().setRot(Rotation.UP);
-        if (gameBoard.getPlayer().getYPosition() <= 0) {
-            return;
+        gameBoard.getPlayer().getRotationState().rotateUp();
+        if (gameBoard.getPlayer().getRotationState().canMove()) {
+            gameBoard.getPlayer().moveOny(-1);
         }
-        if (!gameBoard.isVisitable(gameBoard.getPlayer().getXPosition(), gameBoard.getPlayer().getYPosition() - 1)) {
-            return;
-        }
-        gameBoard.getPlayer().moveOny(-1);
         checkDeath();
         gameBoard.checkFruitTaken();
     }

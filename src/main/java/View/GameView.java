@@ -1,11 +1,12 @@
 package View;
 
+import Controller.GameController;
+import Controller.KeyObserver.KeyPublisher;
 import Model.BoardElement.BoardElement;
 import Model.Monster.Monster;
 import Model.Monster.Movable;
 import Model.Reward.Reward;
-import Controller.GameController;
-import Controller.KeyObserver.KeyPublisher;
+import View.GameViewState.GameViewState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,18 +26,18 @@ public class GameView extends JLabel {
     // singleton variables
     private static boolean instanceExists = false;
     private static GameView instance;
-
+    private final KeyPublisher keyObserver;
     // GameView variables
     private int mousePressedX = -1;
     private int mousePressedY = -1;
     private boolean painting = false;
     private GameController gameController;
-
     // timer related fields
     private Timer refreshTimer;
     private TimerTask refreshTimerTask;
 
-    private final KeyPublisher keyObserver;
+    // state
+    private GameViewState gameViewState;
 
     private GameView(GameController gameController) {
         this.setFocusable(true);
@@ -99,8 +100,9 @@ public class GameView extends JLabel {
     @Override
     protected void paintComponent(Graphics g) {
         painting = true;
-        if (gameController.isGameOn()) paintGame((Graphics2D) g);
-        else {
+        if (gameController.isGameOn()) {
+            paintGame((Graphics2D) g);
+        } else {
             if (gameController.isMenuOpened()) {
                 menuPage((Graphics2D) g);
             } else {

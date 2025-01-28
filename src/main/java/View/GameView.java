@@ -36,7 +36,7 @@ public class GameView extends JLabel {
     private Timer refreshTimer;
     private TimerTask refreshTimerTask;
 
-    private KeyPublisher keyObserver;
+    private final KeyPublisher keyObserver;
 
     private GameView(GameController gameController) {
         this.setFocusable(true);

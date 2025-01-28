@@ -3,7 +3,7 @@ package Controller;
 import Controller.KeyObserver.KeySubscriber;
 import Model.GameBoard.GameBoard;
 import Model.GameBoard.GameBoardBuilder;
-import Model.LevelManagement.LevelManager;
+import Model.LevelManagement.levelFacade;
 import Model.Monster.Monster;
 import Model.Player.Player;
 import Model.Reward.Reward;
@@ -30,7 +30,7 @@ public class GameController implements KeySubscriber {
     private final GameView gameView;
 
     // level management classes
-    private final LevelManager levelManager;
+    private final levelFacade levelManager;
 
     // boolean fields
     private boolean isGameOn = false;
@@ -51,12 +51,12 @@ public class GameController implements KeySubscriber {
 
     // Constructor
     public GameController() {
-        this.levelManager = new LevelManager();
+        this.levelManager = new levelFacade();
         gameView = GameView.getInstance(this);
         setGameLoopTimer();
     }
 
-    public GameController(LevelManager levelManager) {
+    public GameController(levelFacade levelManager) {
         this.levelManager = levelManager;
         gameView = GameView.getInstance(this);
         setGameLoopTimer();
@@ -185,7 +185,7 @@ public class GameController implements KeySubscriber {
         wasLevelWon = false;
 
         gameBoard = GameBoardBuilder.builder()
-                .setBoardElementArray(levelManager.getAllLevels().get(levelNum).getGAME_BOARDCopy())
+                .setBoardElementArray(levelManager.getAllLevels().get(levelNum).getGameBoardClone())
                 .build();
 
         numOfFields = gameBoard.getGameBoardLengthX();
@@ -224,7 +224,7 @@ public class GameController implements KeySubscriber {
         startGame();
     }
 
-    public LevelManager getLevelManager() {
+    public levelFacade getLevelManager() {
         return levelManager;
     }
 

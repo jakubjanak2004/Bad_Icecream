@@ -23,8 +23,8 @@ public class WelcomeView extends JFrame {
 
     private int moduloCounter = 0;
 
-    private Timer refreshTimer;
-    private TimerTask refreshTimerTask;
+    private final Timer refreshTimer;
+    private final TimerTask refreshTimerTask;
 
     // singleton variables
     private static boolean instanceExists = false;

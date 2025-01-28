@@ -1,6 +1,6 @@
 import Model.Player.Player;
 import Model.LevelManagement.Level;
-import Model.LevelManagement.LevelManager;
+import Model.LevelManagement.levelFacade;
 import Controller.GameController;
 import View.GameFrame;
 import View.GameView;
@@ -24,7 +24,7 @@ public class ProcessTests {
     GameFrame gameFrame;
 
     GameController gameController;
-    LevelManager levelManager;
+    levelFacade levelManager;
     Level level;
     int[][] gameBoard = {
             {0, 0, 0, 6, 0, 0, 0},
@@ -41,13 +41,13 @@ public class ProcessTests {
     public void setUpTheProcessTest() {
         // mocking the level management backend
         // we will have our own testing level
-        levelManager = mock(LevelManager.class);
+        levelManager = mock(levelFacade.class);
         level = mock(Level.class);
         ArrayList<Level> allLevels = new ArrayList<>();
         allLevels.add(level);
 
         when(levelManager.getAllLevels()).thenReturn(allLevels);
-        when(level.getGAME_BOARDCopy()).thenReturn(gameBoard);
+        when(level.getGameBoardClone()).thenReturn(gameBoard);
     }
 
     @BeforeEach

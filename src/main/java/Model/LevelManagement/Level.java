@@ -23,7 +23,7 @@ public class Level {
         return "Order: " + this.order + System.lineSeparator() + " Game Board: " + Arrays.deepToString(this.gameBoard) + System.lineSeparator();
     }
 
-    public int[][] getGAME_BOARDCopy() {
+    public int[][] getGameBoardClone() {
         return gameBoard.clone();
     }
 }
